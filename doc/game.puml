@@ -1,0 +1,60 @@
+@startuml
+
+class GameExtension {
+    + interceptCommand(command)
+}
+
+class Game {
+    + start()
+    + onActionA(p0, p1)
+    + onActionB(p0, p1, p2)
+    + open(scene)
+}
+
+class Scene {
+    - sceneState
+    + open()
+    + close()
+    + update()
+    + render()
+}
+
+class SceneManager {
+    - scenes
+    + getInitialScene(): Scene
+    + getCurrentScene(): Scene
+    + openSceneA()
+    + openSceneB(p0, p1)
+    + openSceneC(p2)
+}
+
+class SceneSystem {
+    + update(sceneState): SceneState
+}
+
+class SceneRenderer {
+    + render(sceneState)
+}
+
+class GameLoop {
+    + open(scene)
+    + start()
+    ==
+    - loop()
+    - render()
+    - tick()
+}
+
+GameExtension --> Game
+
+Game --* "1" SceneManager
+GameLoop <.. SceneManager
+Game --> GameLoop
+Game ...> Scene
+SceneManager "1" -* "*" Scene
+Scene ...> SceneManager
+GameLoop ..> Scene
+Scene --> SceneSystem
+Scene --> SceneRenderer
+
+@enduml
