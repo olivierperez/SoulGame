@@ -8,21 +8,28 @@ class Game {
     + start()
     + onActionA(p0, p1)
     + onActionB(p0, p1, p2)
-    + open(scene)
 }
 
 class Scene {
     - sceneState
-    + open()
+    + open(keyPipeline)
     + close()
     + update()
     + render()
 }
 
+class GameLoop {
+    + start()
+    - currentScene
+    ==
+    + open(scene)
+    - loop()
+    - render()
+    - tick()
+}
+
 class SceneManager {
-    - scenes
-    + getInitialScene(): Scene
-    + getCurrentScene(): Scene
+    + start()
     + openSceneA()
     + openSceneB(p0, p1)
     + openSceneC(p2)
@@ -34,26 +41,21 @@ class SceneSystem {
 
 class SceneRenderer {
     + render(sceneState)
-}
-
-class GameLoop {
-    + open(scene)
-    + start()
-    ==
-    - loop()
-    - render()
-    - tick()
+    + open()
+    + close()
 }
 
 GameExtension --> Game
 
-Game --* "1" SceneManager
-GameLoop <.. SceneManager
-Game --> GameLoop
-Game ...> Scene
+Game -> SceneManager
+Game -> GameLoop
+
+GameLoop .> Scene
+
+SceneManager ..> GameLoop
 SceneManager "1" -* "*" Scene
+
 Scene ...> SceneManager
-GameLoop ..> Scene
 Scene --> SceneSystem
 Scene --> SceneRenderer
 
