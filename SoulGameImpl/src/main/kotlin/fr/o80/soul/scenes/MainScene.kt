@@ -1,14 +1,14 @@
 package fr.o80.soul.scenes
 
 import fr.o80.soul.Scene
-import fr.o80.soul.SceneManager
+import fr.o80.soul.SoulSceneManager
 import fr.o80.soul.dsl.draw
 import fr.o80.soul.loop.KeyPipeline
 import org.lwjgl.glfw.GLFW
 import kotlin.random.Random
 
 class MainScene(
-    private val sceneManager: SceneManager
+    private val sceneManager: SoulSceneManager
 ) : Scene {
 
     override fun open(keyPipeline: KeyPipeline) {

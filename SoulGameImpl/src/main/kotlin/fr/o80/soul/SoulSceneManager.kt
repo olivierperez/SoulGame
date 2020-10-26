@@ -4,11 +4,11 @@ import fr.o80.soul.loop.GameLoop
 import fr.o80.soul.scenes.GrayscaleScene
 import fr.o80.soul.scenes.MainScene
 
-class SceneManager(
+class SoulSceneManager(
     private val gameLoop: GameLoop
-) {
+) : SceneManager {
 
-    fun start() {
+    override fun start() {
         gameLoop.open(MainScene(this))
     }
 

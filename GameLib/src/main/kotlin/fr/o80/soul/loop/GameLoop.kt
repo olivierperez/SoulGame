@@ -18,7 +18,7 @@ import org.lwjgl.system.NativeType
 class GameLoop(
     private val width: Int,
     private val height: Int,
-    private val updatesPerSecond: Int = 60,
+    private val updatesPerSecond: Int,
     private val windowName: String
 ) {
 
