@@ -7,10 +7,12 @@ version '0.1'
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.0-M1"
 
     implementation 'org.lwjgl:lwjgl:3.2.1'
     implementation 'org.lwjgl.osgi:org.lwjgl.glfw:3.2.1.2'
