@@ -19,8 +19,8 @@ class LevelRenderer(
     private val tileSize: Float
 ) {
 
-    private lateinit var entityDrawer: EntityDrawer
     private lateinit var hud: HUD
+    private lateinit var entityDrawer: EntityDrawer
     private lateinit var levelDrawer: LevelDrawer
     private lateinit var spriteDrawer: SpriteDrawer
     private lateinit var textRenderer: TextRenderer

@@ -8,10 +8,6 @@ import fr.o80.soulgame.SoulSceneManager
 import fr.o80.soulgame.scenes.level.entity.Knight
 import fr.o80.soulgame.scenes.level.entity.Soul
 import fr.o80.soulgame.scenes.level.level.Level
-import fr.o80.soulgame.scenes.level.movement.Direction
-import fr.o80.soulgame.scenes.level.movement.GlobalMovement
-import fr.o80.soulgame.scenes.level.movement.KnightMovementCalculator
-import fr.o80.soulgame.scenes.level.movement.mob.SoulMovementCalculator
 import org.lwjgl.glfw.GLFW
 
 private const val tileSize = 64f
@@ -26,9 +22,6 @@ class LevelScene(
     private lateinit var knight: Knight
     private lateinit var mob: List<Soul>
 
-    private lateinit var knightMovementCalculator: KnightMovementCalculator
-    private lateinit var soulMovementCalculator: SoulMovementCalculator
-
     private lateinit var entitySprite: Sprite
     private lateinit var wallsSprite: Sprite
     private lateinit var extrasSprite: Sprite
@@ -41,29 +34,17 @@ class LevelScene(
 
     override fun open(keyPipeline: KeyPipeline) {
         level = LevelLoader().load(levelName)
+
         loadTextures()
         loadEntities(level)
-        initScore()
-        initMovementCalculators()
 
-        system = LevelSystem(knightMovementCalculator, soulMovementCalculator, knight, level, tileSize)
-        system.open()
+        score = Score()
+        system = LevelSystem(knight, level, tileSize)
+        system.open(keyPipeline)
         renderer = LevelRenderer(level, tileSize)
         renderer.open(wallsSprite, extrasSprite)
         levelState = LevelState(level, mob, knight, score)
 
-        listenKeys(keyPipeline)
-    }
-
-    private fun listenKeys(keyPipeline: KeyPipeline) {
-        keyPipeline.onKey(GLFW.GLFW_KEY_S, GLFW.GLFW_PRESS) { knightMovementCalculator.pressedKey(Direction.DOWN) }
-        keyPipeline.onKey(GLFW.GLFW_KEY_S, GLFW.GLFW_RELEASE) { knightMovementCalculator.releasedKey(Direction.DOWN) }
-        keyPipeline.onKey(GLFW.GLFW_KEY_W, GLFW.GLFW_PRESS) { knightMovementCalculator.pressedKey(Direction.UP) }
-        keyPipeline.onKey(GLFW.GLFW_KEY_W, GLFW.GLFW_RELEASE) { knightMovementCalculator.releasedKey(Direction.UP) }
-        keyPipeline.onKey(GLFW.GLFW_KEY_D, GLFW.GLFW_PRESS) { knightMovementCalculator.pressedKey(Direction.RIGHT) }
-        keyPipeline.onKey(GLFW.GLFW_KEY_D, GLFW.GLFW_RELEASE) { knightMovementCalculator.releasedKey(Direction.RIGHT) }
-        keyPipeline.onKey(GLFW.GLFW_KEY_A, GLFW.GLFW_PRESS) { knightMovementCalculator.pressedKey(Direction.LEFT) }
-        keyPipeline.onKey(GLFW.GLFW_KEY_A, GLFW.GLFW_RELEASE) { knightMovementCalculator.releasedKey(Direction.LEFT) }
         keyPipeline.onKey(GLFW.GLFW_KEY_ESCAPE, GLFW.GLFW_PRESS) { sceneManager.quit() }
     }
 
@@ -119,25 +100,6 @@ class LevelScene(
                 speed = 4f
             )
         }
-    }
-
-    private fun initScore() {
-        score = Score()
-    }
-
-    private fun initMovementCalculators() {
-        val globalMovement = GlobalMovement(tileSize)
-        knightMovementCalculator = KnightMovementCalculator(
-            level = level,
-            tileSize = tileSize,
-            adjustmentTolerance = 0.5f,
-            globalMovement = globalMovement
-        )
-        soulMovementCalculator = SoulMovementCalculator(
-            level = level,
-            tileSize = tileSize,
-            globalMovement = globalMovement
-        )
     }
 
 }
