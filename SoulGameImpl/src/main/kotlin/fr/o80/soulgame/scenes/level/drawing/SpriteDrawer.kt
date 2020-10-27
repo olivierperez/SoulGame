@@ -15,6 +15,7 @@ class SpriteDrawer(
     private val startTime: Long = System.currentTimeMillis()
 
     // TODO réinventer ces 2 méthodes draw...
+    // TODO En fait le SpriteDrawer pourrait être découpé en DynamicSpriteDrawer/StaticSpriteDrawer
     fun drawStatic(
         sprite: Sprite,
         tileX: Int,

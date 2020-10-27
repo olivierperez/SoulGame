@@ -1,15 +1,13 @@
 package fr.o80.soulgame.scenes.level.entity
 
-import fr.o80.gamelib.drawing.Sprite
 import fr.o80.soulgame.scenes.level.level.Point
 
 class Soul(
     x: Float,
     y: Float,
     size: Float,
-    sprite: Sprite,
     speed: Float
-) : Entity(x, y, size, sprite, speed) {
+) : Entity(x, y, size, speed) {
 
     var team: Team = Team.UNDECIDED
 

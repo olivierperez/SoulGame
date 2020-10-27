@@ -1,7 +1,6 @@
 package fr.o80.soulgame.scenes.level
 
 import fr.o80.gamelib.GG
-import fr.o80.gamelib.drawing.Sprite
 import fr.o80.gamelib.dsl.draw
 import fr.o80.gamelib.text.TextRenderer
 import fr.o80.soulgame.scenes.level.drawing.EntityDrawer
@@ -16,17 +15,24 @@ import fr.o80.soulgame.scenes.level.level.Wall
 
 class LevelRenderer(
     private val level: Level,
-    private val tileSize: Float
+    private val resources: LevelResources,
+    tileSize: Float
 ) {
 
-    private lateinit var hud: HUD
-    private lateinit var entityDrawer: EntityDrawer
-    private lateinit var levelDrawer: LevelDrawer
-    private lateinit var spriteDrawer: SpriteDrawer
-    private lateinit var textRenderer: TextRenderer
+    private val entityDrawer: EntityDrawer = EntityDrawer(SpriteDrawer(10))
+    private val levelDrawer: LevelDrawer = LevelDrawer(SpriteDrawer(10), tileSize)
+    private val textRenderer: TextRenderer = TextRenderer("./resources/fonts/LaserCutRegular.ttf")
+    private val hud: HUD= HUD(textRenderer)
 
-    fun open(wallsSprite: Sprite, extrasSprite: Sprite) {
-        loadDrawers(level, wallsSprite, extrasSprite)
+    fun open() {
+        levelDrawer
+            .register(Wall::class, resources.wallsSprite, WallTileSelector(level))
+            .register(Door::class, resources.extrasSprite, ExtraTileSelector())
+        textRenderer.init()
+    }
+
+    fun close() {
+        // TODO Release TextRenderer
     }
 
     fun render(state: LevelState) {
@@ -34,19 +40,10 @@ class LevelRenderer(
         draw {
             clear(0.2f, 0.4f, 0.2f)
             levelDrawer.render(state.level)
-            state.mob.forEach { entity -> entityDrawer.render(entity) }
-            entityDrawer.render(state.knight)
+            state.mob.forEach { entity -> entityDrawer.render(entity, resources.entitySprite) }
+            entityDrawer.render(state.knight, resources.entitySprite)
             hud.render(state.score)
         }
     }
 
-    private fun loadDrawers(level: Level, wallsSprite: Sprite, extrasSprite: Sprite) {
-        spriteDrawer = SpriteDrawer(10)
-        entityDrawer = EntityDrawer(spriteDrawer)
-        levelDrawer = LevelDrawer(spriteDrawer, tileSize)
-            .register(Wall::class, wallsSprite, WallTileSelector(level))
-            .register(Door::class, extrasSprite, ExtraTileSelector())
-        textRenderer = TextRenderer("./resources/fonts/LaserCutRegular.ttf").apply { init() }
-        hud = HUD(textRenderer)
-    }
 }

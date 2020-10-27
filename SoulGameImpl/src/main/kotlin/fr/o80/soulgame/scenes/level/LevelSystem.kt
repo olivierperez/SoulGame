@@ -20,7 +20,8 @@ import org.lwjgl.glfw.GLFW
 class LevelSystem(
     private val knight: Knight,
     private val level: Level,
-    private val tileSize: Float
+    private val tileSize: Float,
+    private val resources: LevelResources
 ) {
 
     private lateinit var playerCollisionDetector: CollisionDetector
@@ -48,7 +49,7 @@ class LevelSystem(
     }
 
     private fun initMovementCalculators() {
-        val globalMovement = GlobalMovement(tileSize)
+        val globalMovement = GlobalMovement(tileSize, resources.getEntityUnits())
         knightMovementCalculator = KnightMovementCalculator(
             level = level,
             tileSize = tileSize,

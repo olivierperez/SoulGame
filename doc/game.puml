@@ -37,12 +37,21 @@ class SceneManager {
 
 class SceneSystem {
     + update(sceneState): SceneState
+    + open(keyPipeline)
 }
 
 class SceneRenderer {
     + render(sceneState)
     + open()
     + close()
+}
+
+class SceneResources {
+    + open()
+    + close()
+    ..
+    + getEntityUnits()
+    - loadTextures()
 }
 
 GameExtension --> Game
@@ -56,7 +65,11 @@ SceneManager ..> GameLoop
 SceneManager "1" -* "*" Scene
 
 Scene ...> SceneManager
-Scene --> SceneSystem
-Scene --> SceneRenderer
+Scene ---> SceneSystem
+Scene ---> SceneRenderer
+Scene --> SceneResources
+
+SceneSystem ..> SceneResources
+SceneRenderer ..> SceneResources
 
 @enduml

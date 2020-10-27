@@ -1,11 +1,14 @@
 package fr.o80.soulgame.scenes.level.movement
 
+import fr.o80.gamelib.Angles
 import fr.o80.gamelib.Position
 import fr.o80.soulgame.scenes.level.entity.Entity
 import fr.o80.soulgame.scenes.level.level.Level
+import kotlin.math.max
 
 class GlobalMovement(
-    private val tileSize: Float
+    private val tileSize: Float,
+    private val entityUnits: Pair<Int, Int>
 ) {
 
     fun canGo(
@@ -59,6 +62,25 @@ class GlobalMovement(
                 entity.movement = Movement.STANDING
             }
         }
+    }
+
+    private fun Entity.getAngles(nextPosition: Position = Position(x, y)): Angles {
+        val unitWidth = entityUnits.first
+        val unitHeight = entityUnits.second
+        val ratio = this.size / max(unitWidth, unitHeight)
+        val width = unitWidth * ratio
+        val height = unitHeight * ratio
+
+        val topLeft = Position(
+            x = nextPosition.x - (width / 2),
+            y = nextPosition.y - (height / 2)
+        )
+        val bottomRight = Position(
+            x = nextPosition.x + (width / 2),
+            y = nextPosition.y + (height / 2)
+        )
+
+        return Angles(topLeft, bottomRight)
     }
 
 }
