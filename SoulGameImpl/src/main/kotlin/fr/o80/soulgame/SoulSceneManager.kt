@@ -2,7 +2,7 @@ package fr.o80.soulgame
 
 import fr.o80.gamelib.SceneManager
 import fr.o80.gamelib.loop.GameLoop
-import fr.o80.soulgame.scenes.GrayscaleScene
+import fr.o80.soulgame.scenes.level.LevelScene
 import fr.o80.soulgame.scenes.MainScene
 
 class SoulSceneManager(
@@ -13,8 +13,8 @@ class SoulSceneManager(
         gameLoop.open(MainScene(this))
     }
 
-    fun openGrayscaleScene(scale: Float) {
-        gameLoop.open(GrayscaleScene(this, scale))
+    fun openLevel(leveName: String) {
+        gameLoop.open(LevelScene(this, leveName))
     }
 
     fun quit() {

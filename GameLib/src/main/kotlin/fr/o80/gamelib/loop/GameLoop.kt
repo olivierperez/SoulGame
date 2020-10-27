@@ -93,6 +93,7 @@ class GameLoop(
         GG.glMatrixMode(GG.GL_PROJECTION)
 
         ortho(Ortho.TOP_LEFT, GG.GL_PROJECTION)
+        GG.glBlendFunc(GG.GL_SRC_ALPHA, GG.GL_ONE_MINUS_SRC_ALPHA)
     }
 
     private fun ortho(ortho: Ortho, @NativeType("GLenum") mode: Int = GG.GL_PROJECTION) {

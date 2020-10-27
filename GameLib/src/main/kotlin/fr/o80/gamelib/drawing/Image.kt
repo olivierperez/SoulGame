@@ -7,7 +7,8 @@ import javax.imageio.ImageIO
 
 class Image(filename: String) {
 
-    val id: Int
+    var id: Int
+        private set
     val width: Int
     val height: Int
 
@@ -36,5 +37,10 @@ class Image(filename: String) {
         GG.glTexParameteri(GG.GL_TEXTURE_2D, GG.GL_TEXTURE_MIN_FILTER, GG.GL_NEAREST)
         GG.glTexParameteri(GG.GL_TEXTURE_2D, GG.GL_TEXTURE_MAG_FILTER, GG.GL_NEAREST)
         GG.glTexImage2D(GG.GL_TEXTURE_2D, 0, GG.GL_RGBA, width, height, 0, GG.GL_RGBA, GG.GL_UNSIGNED_BYTE, pixels)
+    }
+
+    fun unload() {
+        GG.glDeleteTextures(id)
+        id = -1
     }
 }

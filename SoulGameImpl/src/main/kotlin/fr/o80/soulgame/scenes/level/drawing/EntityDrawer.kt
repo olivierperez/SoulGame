@@ -6,6 +6,7 @@ import fr.o80.soulgame.scenes.level.movement.Direction
 class EntityDrawer(
     private val spriteDrawer: SpriteDrawer
 ) {
+    // TODO Le sprite devrait être passé en params
     fun render(entity: Entity) {
         spriteDrawer.drawAnimated(
             sprite = entity.sprite,

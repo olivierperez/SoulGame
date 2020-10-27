@@ -5,11 +5,10 @@ import fr.o80.soulgame.scenes.level.level.Block
 import kotlin.math.abs
 
 class TriggerDetector(
-    private val tileSize: Float,
-    private val onTrigger: (Block, Entity) -> Unit
+    private val tileSize: Float
 ) {
 
-    fun update(blocks: List<Block>, entities: List<Entity>) {
+    fun update(blocks: List<Block>, entities: List<Entity>, onTrigger: (Block, Entity) -> Unit) {
         entities.forEach { entity ->
             blocks.forEach { block ->
                 if (isTriggeredBy(block, entity)) {

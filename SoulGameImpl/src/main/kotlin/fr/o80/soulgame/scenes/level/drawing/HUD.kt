@@ -5,11 +5,10 @@ import fr.o80.gamelib.text.TextRenderer
 import fr.o80.soulgame.scenes.level.Score
 
 class HUD(
-    private val score: Score,
     private val textRenderer: TextRenderer
 ) {
 
-    fun render() {
+    fun render(score: Score) {
         draw {
             pushed {
                 color(0f, 0f, 0f)

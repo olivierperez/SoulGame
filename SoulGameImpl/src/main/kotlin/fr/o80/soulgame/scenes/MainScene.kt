@@ -5,7 +5,6 @@ import fr.o80.gamelib.dsl.draw
 import fr.o80.gamelib.loop.KeyPipeline
 import fr.o80.soulgame.SoulSceneManager
 import org.lwjgl.glfw.GLFW
-import kotlin.random.Random
 
 class MainScene(
     private val sceneManager: SoulSceneManager
@@ -13,7 +12,7 @@ class MainScene(
 
     override fun open(keyPipeline: KeyPipeline) {
         keyPipeline.onKey(GLFW.GLFW_KEY_SPACE, GLFW.GLFW_RELEASE) {
-            sceneManager.openGrayscaleScene(Random.nextFloat() % 1f)
+            sceneManager.openLevel("level_1")
         }
         // Load resources
     }
