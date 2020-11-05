@@ -49,7 +49,7 @@ class GameOverScene(
         draw {
             clear(greenBackground)
             color(0f, 0f, 0f)
-            val text = "Score: $score"
+            val text = "SCORE: $score"
 
             pushed {
                 translate(

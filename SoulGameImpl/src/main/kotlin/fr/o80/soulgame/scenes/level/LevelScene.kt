@@ -40,7 +40,7 @@ class LevelScene(
         timing = Timing(initialMana)
         resources = LevelResources()
         resources.open()
-        renderer = LevelRenderer(level, resources, tileSize)
+        renderer = LevelRenderer(level, resources, dimension, tileSize)
         renderer.open()
         system = LevelSystem(knight, level, tileSize, resources, manaReloading, ::gameOver)
         system.open(keyPipeline)

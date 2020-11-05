@@ -2,6 +2,7 @@ package fr.o80.soulgame.scenes.level
 
 import fr.o80.gamelib.GG
 import fr.o80.gamelib.dsl.draw
+import fr.o80.gamelib.loop.Dimension
 import fr.o80.gamelib.text.TextRenderer
 import fr.o80.soulgame.scenes.greenBackground
 import fr.o80.soulgame.scenes.level.drawing.EntityDrawer
@@ -17,13 +18,14 @@ import fr.o80.soulgame.scenes.level.level.Wall
 class LevelRenderer(
     private val level: Level,
     private val resources: LevelResources,
+    dimension: Dimension,
     tileSize: Float
 ) {
 
     private val entityDrawer: EntityDrawer = EntityDrawer(SpriteDrawer(10))
     private val levelDrawer: LevelDrawer = LevelDrawer(SpriteDrawer(10), tileSize)
     private val textRenderer: TextRenderer = TextRenderer("./resources/fonts/LaserCutRegular.ttf")
-    private val hud: HUD = HUD(textRenderer)
+    private val hud: HUD = HUD(textRenderer, dimension)
 
     fun open() {
         levelDrawer
