@@ -61,6 +61,16 @@ class Draw {
     }
 
     @Drawer
+    fun quad(x1: Float, y1: Float, x2: Float, y2: Float) {
+        quad(
+            Vertex3f(x1, y1, 0f),
+            Vertex3f(x2, y1, 0f),
+            Vertex3f(x2, y2, 0f),
+            Vertex3f(x1, y2, 0f),
+        )
+    }
+
+    @Drawer
     fun translate(x: Float, y: Float, z: Float) {
         GG.glTranslatef(x, y, z)
     }

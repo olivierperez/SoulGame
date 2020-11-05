@@ -22,6 +22,7 @@ class LevelScene(
 
     private lateinit var level: Level
     private lateinit var score: Score
+    private lateinit var timing: Timing
 
     private lateinit var resources: LevelResources
     private lateinit var system: LevelSystem
@@ -33,13 +34,14 @@ class LevelScene(
         loadEntities(level)
 
         score = Score()
+        timing = Timing(2000)
         resources = LevelResources()
         resources.open()
         renderer = LevelRenderer(level, resources, tileSize)
         renderer.open()
-        system = LevelSystem(knight, level, tileSize, resources)
+        system = LevelSystem(knight, level, tileSize, resources, 500)
         system.open(keyPipeline)
-        levelState = LevelState(level, mob, knight, score)
+        levelState = LevelState(level, mob, knight, score, timing)
 
         keyPipeline.onKey(GLFW.GLFW_KEY_ESCAPE, GLFW.GLFW_PRESS) { sceneManager.quit() }
     }

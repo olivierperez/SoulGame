@@ -22,7 +22,7 @@ class LevelRenderer(
     private val entityDrawer: EntityDrawer = EntityDrawer(SpriteDrawer(10))
     private val levelDrawer: LevelDrawer = LevelDrawer(SpriteDrawer(10), tileSize)
     private val textRenderer: TextRenderer = TextRenderer("./resources/fonts/LaserCutRegular.ttf")
-    private val hud: HUD= HUD(textRenderer)
+    private val hud: HUD = HUD(textRenderer)
 
     fun open() {
         levelDrawer
@@ -42,7 +42,7 @@ class LevelRenderer(
             levelDrawer.render(state.level)
             state.mob.forEach { entity -> entityDrawer.render(entity, resources.entitySprite) }
             entityDrawer.render(state.knight, resources.entitySprite)
-            hud.render(state.score)
+            hud.render(state.score, state.timing)
         }
     }
 

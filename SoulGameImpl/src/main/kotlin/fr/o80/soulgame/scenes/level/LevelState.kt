@@ -8,5 +8,6 @@ class LevelState(
     val level: Level,
     val mob: List<Soul>,
     val knight: Knight,
-    val score: Score
+    val score: Score,
+    val timing: Timing
 )

@@ -21,7 +21,8 @@ class LevelSystem(
     private val knight: Knight,
     private val level: Level,
     private val tileSize: Float,
-    private val resources: LevelResources
+    private val resources: LevelResources,
+    private val manaReloading: Int
 ) {
 
     private lateinit var playerCollisionDetector: CollisionDetector
@@ -42,10 +43,11 @@ class LevelSystem(
         state.mob.forEach { soul ->
             soulMovementCalculator.update(soul)
             triggerDetector.update(state.level.blocks, state.mob + state.knight) { block: Block, entity: Entity ->
-                onTrigger(block, entity, state.score)
+                onTrigger(block, entity, state)
             }
         }
         playerCollisionDetector.update(state.mob)
+        state.timing.update()
     }
 
     private fun initMovementCalculators() {
@@ -74,11 +76,12 @@ class LevelSystem(
         keyPipeline.onKey(GLFW.GLFW_KEY_A, GLFW.GLFW_RELEASE) { knightMovementCalculator.releasedKey(Direction.LEFT) }
     }
 
-    private fun onTrigger(block: Block, entity: Entity, score: Score) {
+    private fun onTrigger(block: Block, entity: Entity, state: LevelState) {
         if (block is Door && entity is Soul && entity.team == Team.UPPER) {
             // TODO Particules
 
-            score.increase()
+            state.score.increase()
+            state.timing.increase(manaReloading)
 
             entity.team = Team.UNDECIDED
             entity.movement = Movement.STANDING

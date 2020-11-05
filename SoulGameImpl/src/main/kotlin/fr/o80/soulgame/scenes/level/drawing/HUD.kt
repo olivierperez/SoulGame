@@ -1,25 +1,53 @@
 package fr.o80.soulgame.scenes.level.drawing
 
+import fr.o80.gamelib.dsl.Draw
 import fr.o80.gamelib.dsl.draw
 import fr.o80.gamelib.text.TextRenderer
 import fr.o80.soulgame.scenes.level.Score
+import fr.o80.soulgame.scenes.level.Timing
 
 class HUD(
     private val textRenderer: TextRenderer
 ) {
 
-    fun render(score: Score) {
+    fun render(score: Score, timing: Timing) {
         draw {
-            pushed {
-                color(0f, 0f, 0f)
-                translate(16f, 11f, 0f)
-                textRenderer.render("SCORE ${score.value}")
-            }
-            pushed {
-                color(0.8f, 0f, 0f)
-                translate(15f, 10f, 0f)
-                textRenderer.render("SCORE ${score.value}")
-            }
+            drawScore(score)
+            drawTiming(timing)
+        }
+    }
+
+    private fun Draw.drawScore(score: Score) {
+        pushed {
+            translate(16f, 11f, 0f)
+            color(0f, 0f, 0f)
+            textRenderer.render("SCORE ${score.value}")
+        }
+        pushed {
+            translate(15f, 10f, 0f)
+            color(0.8f, 0f, 0f)
+            textRenderer.render("SCORE ${score.value}")
+        }
+    }
+
+    private fun Draw.drawTiming(timing: Timing) {
+        val totalSize = 200f
+        val height = 20f
+        val remainingSize = (totalSize * timing.remainingTicks / timing.initialTicks)
+            .coerceAtLeast(0f)
+            .coerceAtMost(totalSize)
+
+        pushed {
+            translate(150f, 20f, 0f)
+
+            color(0.404f, 0.420f, 0.467f)
+            quad(0f, 0f, totalSize, height)
+
+            color(0.8f, 0f, 0f)
+            quad(0f, 0f, remainingSize, height)
+
+            color(0f, 0f, 0f)
+            rect(0f, 0f, totalSize, height)
         }
     }
 }
