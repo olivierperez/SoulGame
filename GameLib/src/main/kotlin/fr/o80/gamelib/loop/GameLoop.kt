@@ -16,8 +16,7 @@ import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.NativeType
 
 class GameLoop(
-    private val width: Int,
-    private val height: Int,
+    private val dimension: Dimension,
     private val updatesPerSecond: Int,
     private val windowName: String
 ) {
@@ -59,7 +58,7 @@ class GameLoop(
         GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_FALSE)
         GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_TRUE)
 
-        window = GLFW.glfwCreateWindow(width, height, windowName, MemoryUtil.NULL, MemoryUtil.NULL)
+        window = GLFW.glfwCreateWindow(dimension.width, dimension.height, windowName, MemoryUtil.NULL, MemoryUtil.NULL)
         if (window == MemoryUtil.NULL) {
             throw IllegalStateException("Failed to create window")
         }
@@ -97,8 +96,8 @@ class GameLoop(
     }
 
     private fun ortho(ortho: Ortho, @NativeType("GLenum") mode: Int = GG.GL_PROJECTION) {
-        val width = width.toDouble()
-        val height = height.toDouble()
+        val width = dimension.width.toDouble()
+        val height = dimension.height.toDouble()
 
         when (ortho) {
             Ortho.TOP_LEFT -> {
@@ -155,7 +154,7 @@ class GameLoop(
     fun open(scene: Scene) {
         val oldScene = currentScene
         keyPipeline.clear()
-        scene.open(keyPipeline)
+        scene.open(keyPipeline, dimension)
         currentScene = scene
         oldScene?.close()
     }

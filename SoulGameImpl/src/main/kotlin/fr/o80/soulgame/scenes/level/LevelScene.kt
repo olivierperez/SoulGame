@@ -1,6 +1,7 @@
 package fr.o80.soulgame.scenes.level
 
 import fr.o80.gamelib.Scene
+import fr.o80.gamelib.loop.Dimension
 import fr.o80.gamelib.loop.KeyPipeline
 import fr.o80.soulgame.SoulSceneManager
 import fr.o80.soulgame.scenes.level.entity.Knight
@@ -9,6 +10,8 @@ import fr.o80.soulgame.scenes.level.level.Level
 import org.lwjgl.glfw.GLFW
 
 private const val tileSize = 64f
+private const val initialMana = 2000
+private const val manaReloading = 50
 
 class LevelScene(
     private val sceneManager: SoulSceneManager,
@@ -28,18 +31,18 @@ class LevelScene(
     private lateinit var system: LevelSystem
     private lateinit var renderer: LevelRenderer
 
-    override fun open(keyPipeline: KeyPipeline) {
+    override fun open(keyPipeline: KeyPipeline, dimension: Dimension) {
         level = LevelLoader().load(levelName)
 
         loadEntities(level)
 
         score = Score()
-        timing = Timing(2000)
+        timing = Timing(initialMana)
         resources = LevelResources()
         resources.open()
         renderer = LevelRenderer(level, resources, tileSize)
         renderer.open()
-        system = LevelSystem(knight, level, tileSize, resources, 50, ::gameOver)
+        system = LevelSystem(knight, level, tileSize, resources, manaReloading, ::gameOver)
         system.open(keyPipeline)
         levelState = LevelState(level, mob, knight, score, timing)
 

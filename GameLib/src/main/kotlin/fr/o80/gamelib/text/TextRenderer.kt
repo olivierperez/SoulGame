@@ -79,6 +79,22 @@ class TextRenderer(
         }
     }
 
+    fun getStringWidth(text: String): Float {
+        return getStringWidth(fontInfo, text, 0, text.length - 1)
+    }
+
+    fun getStringHeight(): Float {
+        MemoryStack.stackPush().use { stack ->
+            val bufAscent: IntBuffer = stack.ints(0)
+            val bufDescent: IntBuffer = stack.ints(0)
+            val bufLineGap: IntBuffer = stack.ints(0)
+
+            STBTruetype.stbtt_GetFontVMetrics(fontInfo, bufAscent, bufDescent, bufLineGap)
+            return (bufAscent.get(0) + bufDescent.get(0) + bufLineGap.get(0)) *
+                   STBTruetype.stbtt_ScaleForPixelHeight(fontInfo, fontHeight)
+        }
+    }
+
     private fun initFont(bitmap: ByteBuffer, bitmapWidth: Int, bitmapHeight: Int) {
         charData = STBTTBakedChar.malloc(96)
 
