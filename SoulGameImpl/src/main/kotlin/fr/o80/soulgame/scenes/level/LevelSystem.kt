@@ -22,7 +22,8 @@ class LevelSystem(
     private val level: Level,
     private val tileSize: Float,
     private val resources: LevelResources,
-    private val manaReloading: Int
+    private val manaReloading: Int,
+    private val gameOver: (Long) -> Unit
 ) {
 
     private lateinit var playerCollisionDetector: CollisionDetector
@@ -47,7 +48,10 @@ class LevelSystem(
             }
         }
         playerCollisionDetector.update(state.mob)
-        state.timing.update()
+        val remainingTicks = state.timing.update()
+        if (remainingTicks <= 0) {
+            gameOver(state.score.value)
+        }
     }
 
     private fun initMovementCalculators() {

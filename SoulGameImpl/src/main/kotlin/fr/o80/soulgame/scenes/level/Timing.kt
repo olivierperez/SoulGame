@@ -7,8 +7,8 @@ class Timing(val initialTicks: Int) {
     private val _remainingTicks = AtomicInteger(initialTicks)
     val remainingTicks: Int get() = _remainingTicks.get()
 
-    fun update() {
-        _remainingTicks.decrementAndGet()
+    fun update(): Int {
+        return _remainingTicks.decrementAndGet()
     }
 
     fun increase(ticks: Int) {

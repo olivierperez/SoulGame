@@ -23,6 +23,11 @@ class Draw {
     }
 
     @Drawer
+    fun clear(color: Vector3f) {
+        GG.glClearColor(color.x, color.y, color.z, 1f)
+    }
+
+    @Drawer
     fun clear(grey: Float) {
         GG.glClearColor(grey, grey, grey, 1f)
     }
@@ -166,3 +171,5 @@ data class Vector2f(val from: Vertex2f, val to: Vertex2f) {
     }
 
 }
+
+class Vector3f(val x: Float, val y: Float, val z: Float)

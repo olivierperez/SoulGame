@@ -39,7 +39,7 @@ class LevelScene(
         resources.open()
         renderer = LevelRenderer(level, resources, tileSize)
         renderer.open()
-        system = LevelSystem(knight, level, tileSize, resources, 500)
+        system = LevelSystem(knight, level, tileSize, resources, 50, ::gameOver)
         system.open(keyPipeline)
         levelState = LevelState(level, mob, knight, score, timing)
 
@@ -57,6 +57,10 @@ class LevelScene(
 
     override suspend fun render() {
         renderer.render(levelState)
+    }
+
+    private fun gameOver(score: Long) {
+        sceneManager.openGameOver(score)
     }
 
     // TODO Move to LevelSystem ?
