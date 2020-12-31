@@ -5,5 +5,6 @@ class Button(
     val centerX: Float,
     val centerY: Float,
     val width: Float,
-    val height: Float
+    val height: Float,
+    val onClick: () -> Unit
 )

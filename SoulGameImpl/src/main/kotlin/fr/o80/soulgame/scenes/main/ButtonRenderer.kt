@@ -14,8 +14,15 @@ class ButtonRenderer(buttonFontHeight: Float) {
 
     fun render(button: Button) {
         draw {
+            rect(
+                button.centerX - button.width/2,
+                button.centerY - button.height/2,
+                button.centerX + button.width/2,
+                button.centerY + button.height/2
+            )
             pushed {
-                translate(button.centerX - button.width/2, button.centerY - button.height/2, 0f)
+                color(1f, 1f, 1f)
+                translate(button.centerX - button.width / 2 + 10f, button.centerY - button.height / 2, 0f)
                 textRenderer.render(button.text)
             }
         }

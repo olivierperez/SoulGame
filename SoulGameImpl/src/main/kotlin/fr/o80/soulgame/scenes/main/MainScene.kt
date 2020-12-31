@@ -4,11 +4,13 @@ import fr.o80.gamelib.Scene
 import fr.o80.gamelib.dsl.draw
 import fr.o80.gamelib.loop.Dimension
 import fr.o80.gamelib.loop.KeyPipeline
+import fr.o80.gamelib.loop.MouseButtonPipelineImpl
 import fr.o80.gamelib.text.TextRenderer
 import fr.o80.soulgame.SoulSceneManager
 import fr.o80.soulgame.resource
 import fr.o80.soulgame.scenes.greenBackground
 import org.lwjgl.glfw.GLFW
+import kotlin.math.abs
 
 class MainScene(
     private val sceneManager: SoulSceneManager
@@ -22,11 +24,12 @@ class MainScene(
     private val quitText: String = "Quit"
     private val buttonFontHeight: Float = 50f
 
-    private var centerX: Int = -1
-    private var centerY: Int = -1
+    private var centerX: Float = -1f
+    private var centerY: Float = -1f
 
     private lateinit var startButton: Button
     private lateinit var quitButton: Button
+    private lateinit var buttons: List<Button>
 
     private val titleTextRenderer: TextRenderer = TextRenderer(
         fontPath = resource("fonts/LaserCutRegular.ttf"),
@@ -36,12 +39,9 @@ class MainScene(
 
     private val buttonRenderer = ButtonRenderer(buttonFontHeight)
 
-    override fun open(keyPipeline: KeyPipeline, dimension: Dimension) {
-        keyPipeline.onKey(GLFW.GLFW_KEY_SPACE, GLFW.GLFW_RELEASE) {
-            sceneManager.openLevel("level_1")
-        }
-        keyPipeline.onKey(GLFW.GLFW_KEY_ESCAPE, GLFW.GLFW_RELEASE) {
-            sceneManager.quit()
+    override fun open(keyPipeline: KeyPipeline, mouseButtonPipeline: MouseButtonPipelineImpl, dimension: Dimension) {
+        mouseButtonPipeline.onButton(GLFW.GLFW_MOUSE_BUTTON_LEFT, GLFW.GLFW_RELEASE) { x, y ->
+            handleClick(x, y)
         }
 
         // Load resources
@@ -49,26 +49,41 @@ class MainScene(
         buttonRenderer.init()
         titleWidth = titleTextRenderer.getStringWidth(title)
 
-        centerX = dimension.width / 2
-        centerY = dimension.height / 2
+        centerX = dimension.width / 2f
+        centerY = dimension.height / 2f
 
         val startWidth = buttonRenderer.getStringWidth(startText)
+        println("startWidth=$startWidth")
         startButton = Button(
             startText,
-            centerX = centerX - startWidth / 2,
-            centerY = centerY - buttonFontHeight - buttonFontHeight / 2,
-            width = startWidth,
-            height = buttonFontHeight
-        )
+            centerX = centerX,
+            centerY = centerY - buttonFontHeight - buttonFontHeight / 2 + titleFontHeight,
+            width = startWidth + 40f,
+            height = buttonFontHeight + 20f
+        ) {
+            sceneManager.openLevel("level_1")
+        }
 
         val quitWidth = buttonRenderer.getStringWidth(quitText)
         quitButton = Button(
             quitText,
-            centerX = centerX - quitWidth / 2,
-            centerY = centerY.toFloat() + buttonFontHeight / 2,
-            width = startWidth,
-            height = buttonFontHeight
-        )
+            centerX = centerX,
+            centerY = centerY + buttonFontHeight / 2+ titleFontHeight,
+            width = quitWidth + 40f,
+            height = buttonFontHeight + 20f
+        ) {
+            sceneManager.quit()
+        }
+
+        buttons = listOf(startButton, quitButton)
+    }
+
+    private fun handleClick(x: Float, y: Float) {
+        buttons.forEach { button ->
+            if (abs(x - button.centerX) < button.width / 2 && abs(y - button.centerY) < button.height / 2) {
+                button.onClick()
+            }
+        }
     }
 
     override fun close() {
@@ -83,6 +98,7 @@ class MainScene(
         draw {
             clear(greenBackground)
 
+            color(1f, 1f, 1f)
             pushed {
                 translate(centerX - titleWidth / 2, titleFontHeight / 2, 0f)
                 titleTextRenderer.render(title)
