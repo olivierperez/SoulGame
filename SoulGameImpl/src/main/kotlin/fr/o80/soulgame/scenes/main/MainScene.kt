@@ -14,23 +14,61 @@ class MainScene(
     private val sceneManager: SoulSceneManager
 ) : Scene {
 
-    private val fontHeight: Float = 50f
+    private val title: String = "Soul Game"
+    private val titleFontHeight: Float = 99f
+    private var titleWidth: Float = -1f
 
-    private val textRenderer: TextRenderer by lazy {
-        println("Lazy textRenderer ${Thread.currentThread().id} - ${Thread.currentThread().name}")
-        TextRenderer(
-            fontPath = resource("fonts/LaserCutRegular.ttf"),
-            margin = 0f,
-            fontHeight = fontHeight
-        )
-    }
+    private val startText: String = "Start"
+    private val quitText: String = "Quit"
+    private val buttonFontHeight: Float = 50f
+
+    private var centerX: Int = -1
+    private var centerY: Int = -1
+
+    private lateinit var startButton: Button
+    private lateinit var quitButton: Button
+
+    private val titleTextRenderer: TextRenderer = TextRenderer(
+        fontPath = resource("fonts/LaserCutRegular.ttf"),
+        margin = 0f,
+        fontHeight = titleFontHeight
+    )
+
+    private val buttonRenderer = ButtonRenderer(buttonFontHeight)
 
     override fun open(keyPipeline: KeyPipeline, dimension: Dimension) {
         keyPipeline.onKey(GLFW.GLFW_KEY_SPACE, GLFW.GLFW_RELEASE) {
             sceneManager.openLevel("level_1")
         }
+        keyPipeline.onKey(GLFW.GLFW_KEY_ESCAPE, GLFW.GLFW_RELEASE) {
+            sceneManager.quit()
+        }
+
         // Load resources
-        textRenderer.init()
+        titleTextRenderer.init()
+        buttonRenderer.init()
+        titleWidth = titleTextRenderer.getStringWidth(title)
+
+        centerX = dimension.width / 2
+        centerY = dimension.height / 2
+
+        val startWidth = buttonRenderer.getStringWidth(startText)
+        startButton = Button(
+            startText,
+            centerX = centerX - startWidth / 2,
+            centerY = centerY - buttonFontHeight - buttonFontHeight / 2,
+            width = startWidth,
+            height = buttonFontHeight
+        )
+
+        val quitWidth = buttonRenderer.getStringWidth(quitText)
+        quitButton = Button(
+            quitText,
+            centerX = centerX - quitWidth / 2,
+            centerY = centerY.toFloat() + buttonFontHeight / 2,
+            width = startWidth,
+            height = buttonFontHeight
+        )
     }
 
     override fun close() {
@@ -45,7 +83,13 @@ class MainScene(
         draw {
             clear(greenBackground)
 
-            textRenderer.render("Main screen, press \"space\" to continue!")
+            pushed {
+                translate(centerX - titleWidth / 2, titleFontHeight / 2, 0f)
+                titleTextRenderer.render(title)
+            }
+
+            buttonRenderer.render(startButton)
+            buttonRenderer.render(quitButton)
         }
     }
 }
