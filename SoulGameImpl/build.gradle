@@ -5,6 +5,15 @@ plugins {
 group 'fr.o80.game'
 version '0.1'
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'fr.o80.soulgame.MainKt'
+    }
+    from {
+        configurations.compileClasspath.collect {it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
 repositories {
     mavenCentral()
     jcenter()
