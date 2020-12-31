@@ -12,7 +12,7 @@ repositories {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.0-M1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2"
 
     implementation 'org.lwjgl:lwjgl:3.2.1'
     implementation 'org.lwjgl.osgi:org.lwjgl.glfw:3.2.1.2'

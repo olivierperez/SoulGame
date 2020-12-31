@@ -8,8 +8,8 @@ class Level(
     val knightSpawn: Point,
     val mobSpawns: List<Point>
 ) {
-    val width: Int = blocks.map { it.x + 1 }.max() ?: 0
-    val height: Int = blocks.map { it.y + 1 }.max() ?: 0
+    val width: Int = blocks.map { it.x + 1 }.maxOrNull() ?: 0
+    val height: Int = blocks.map { it.y + 1 }.maxOrNull() ?: 0
 
     val upperEnd: Door = blocks.filterIsInstance(Door::class.java).first()
 
