@@ -1,17 +1,17 @@
 package fr.o80.soulgame.scenes.level
 
+import fr.o80.soulgame.resourceFile
 import fr.o80.soulgame.scenes.level.level.Block
 import fr.o80.soulgame.scenes.level.level.Door
 import fr.o80.soulgame.scenes.level.level.Level
 import fr.o80.soulgame.scenes.level.level.Point
 import fr.o80.soulgame.scenes.level.level.Wall
-import java.io.File
 
 class LevelLoader {
 
     fun load(levelName: String): Level {
 
-        val source = File("./resources/levels/$levelName.txt").inputStream()
+        val source = resourceFile("levels/$levelName.txt").inputStream()
 
         val blocks = mutableListOf<Block>()
         val mobSpawns = mutableListOf<Point>()

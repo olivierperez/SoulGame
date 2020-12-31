@@ -6,6 +6,7 @@ import fr.o80.gamelib.loop.Dimension
 import fr.o80.gamelib.loop.KeyPipeline
 import fr.o80.gamelib.text.TextRenderer
 import fr.o80.soulgame.SoulSceneManager
+import fr.o80.soulgame.resource
 import fr.o80.soulgame.scenes.greenBackground
 import org.lwjgl.glfw.GLFW
 
@@ -17,7 +18,7 @@ class GameOverScene(
     private val fontHeight: Float = 50f
 
     private val textRenderer: TextRenderer = TextRenderer(
-        fontPath = "./resources/fonts/LaserCutRegular.ttf",
+        fontPath = resource("fonts/LaserCutRegular.ttf"),
         margin = 0f,
         fontHeight = fontHeight
     )
