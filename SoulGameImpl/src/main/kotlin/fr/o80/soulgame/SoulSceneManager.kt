@@ -1,18 +1,18 @@
 package fr.o80.soulgame
 
+import fr.o80.gamelib.Scene
 import fr.o80.gamelib.SceneManager
 import fr.o80.gamelib.loop.GameLoop
 import fr.o80.soulgame.scenes.level.LevelScene
-import fr.o80.soulgame.scenes.MainScene
+import fr.o80.soulgame.scenes.main.MainScene
 import fr.o80.soulgame.scenes.gameover.GameOverScene
 
 class SoulSceneManager(
     private val gameLoop: GameLoop
 ) : SceneManager {
 
-    override fun start() {
-        gameLoop.open(MainScene(this))
-    }
+    override val initialScene: Scene
+        get() = MainScene(this)
 
     fun openLevel(leveName: String) {
         gameLoop.open(LevelScene(this, leveName))

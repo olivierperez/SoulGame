@@ -32,11 +32,12 @@ class GameLoop(
 
     private var currentScene: Scene? = null
 
-    suspend fun start() {
+    suspend fun start(initialScene: Scene) {
         println(Version.getVersion())
 
         scope.launch {
             setup()
+            open(initialScene)
             loop()
         }.join()
 
@@ -125,6 +126,7 @@ class GameLoop(
         val limitFPS = 1f / updatesPerSecond
 
         while (!GLFW.glfwWindowShouldClose(window)) {
+            if (currentScene == null) println("Not yet any scene !!!")
             now = GLFW.glfwGetTime()
             delta += (now - lastTime) / limitFPS
 

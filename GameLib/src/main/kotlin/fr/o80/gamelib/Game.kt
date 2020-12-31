@@ -16,8 +16,7 @@ abstract class Game {
         val gameLoop = GameLoop(Dimension(width, height), updatesPerSecond, windowName)
         val sceneManager = createSceneManager(gameLoop)
 
-        sceneManager.start()
-        gameLoop.start()
+        gameLoop.start(sceneManager.initialScene)
     }
 
 }
