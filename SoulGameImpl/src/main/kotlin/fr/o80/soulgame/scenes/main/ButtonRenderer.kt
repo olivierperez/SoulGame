@@ -1,8 +1,10 @@
 package fr.o80.soulgame.scenes.main
 
+import fr.o80.gamelib.dsl.Draw
 import fr.o80.gamelib.dsl.draw
 import fr.o80.gamelib.text.TextRenderer
 import fr.o80.soulgame.resource
+import fr.o80.soulgame.scenes.lightGreenBackground
 
 class ButtonRenderer(buttonFontHeight: Float) {
 
@@ -14,18 +16,38 @@ class ButtonRenderer(buttonFontHeight: Float) {
 
     fun render(button: Button) {
         draw {
-            rect(
-                button.centerX - button.width/2,
-                button.centerY - button.height/2,
-                button.centerX + button.width/2,
-                button.centerY + button.height/2
-            )
-            pushed {
-                color(1f, 1f, 1f)
-                translate(button.centerX - button.width / 2 + 10f, button.centerY - button.height / 2, 0f)
-                textRenderer.render(button.text)
-            }
+            drawBackground(button)
+            drawText(button)
         }
+    }
+
+    private fun Draw.drawText(button: Button) {
+        val textWidth = textRenderer.getStringWidth(button.text)
+        pushed {
+            translate(button.centerX - textWidth / 2, button.centerY - button.height / 2, 0f)
+            textRenderer.render(button.text)
+        }
+    }
+
+    private fun Draw.drawBackground(button: Button) {
+        if (button.state == Button.State.HOVER) {
+            color(lightGreenBackground)
+            quad(
+                button.centerX - button.width / 2,
+                button.centerY - button.height / 2,
+                button.centerX + button.width / 2,
+                button.centerY + button.height / 2
+            )
+        }
+
+        color(1f, 1f, 1f)
+        lineWidth(2f)
+        rect(
+            button.centerX - button.width / 2,
+            button.centerY - button.height / 2,
+            button.centerX + button.width / 2,
+            button.centerY + button.height / 2
+        )
     }
 
     fun init() {

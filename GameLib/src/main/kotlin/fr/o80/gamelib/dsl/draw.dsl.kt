@@ -91,6 +91,11 @@ class Draw {
     }
 
     @Drawer
+    fun color(color: Vector3f) {
+        GG.glColor3f(color.x, color.y, color.z)
+    }
+
+    @Drawer
     fun lineWidth(width: Float) {
         GG.glLineWidth(width)
     }

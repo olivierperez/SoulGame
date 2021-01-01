@@ -28,7 +28,7 @@ class GameLoop(
 
     private val mouseButtonPipeline = MouseButtonPipelineImpl()
     private val keyPipeline = KeyPipelineImpl()
-    private val mouseMoveCallback = MouseMoveCallback(mouseButtonPipeline)
+    private val mouseMovePipeline = MouseMovePipelineImpl(mouseButtonPipeline)
 
     private var currentScene: Scene? = null
 
@@ -66,7 +66,7 @@ class GameLoop(
 
         GLFW.glfwSetKeyCallback(window, keyPipeline)
         GLFW.glfwSetMouseButtonCallback(window, mouseButtonPipeline)
-        GLFW.glfwSetCursorPosCallback(window, mouseMoveCallback)
+        GLFW.glfwSetCursorPosCallback(window, mouseMovePipeline)
 
         MemoryStack.stackPush().use { stack ->
             val widthBuffer = stack.mallocInt(1)
@@ -157,7 +157,8 @@ class GameLoop(
         val oldScene = currentScene
         keyPipeline.clear()
         mouseButtonPipeline.clear()
-        scene.open(keyPipeline, mouseButtonPipeline, dimension)
+        mouseMovePipeline.clear()
+        scene.open(keyPipeline, mouseButtonPipeline, mouseMovePipeline, dimension)
         currentScene = scene
         oldScene?.close()
     }

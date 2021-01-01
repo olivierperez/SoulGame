@@ -4,6 +4,7 @@ import fr.o80.gamelib.Scene
 import fr.o80.gamelib.loop.Dimension
 import fr.o80.gamelib.loop.KeyPipeline
 import fr.o80.gamelib.loop.MouseButtonPipelineImpl
+import fr.o80.gamelib.loop.MouseMovePipelineImpl
 import fr.o80.soulgame.SoulSceneManager
 import fr.o80.soulgame.scenes.level.entity.Knight
 import fr.o80.soulgame.scenes.level.entity.Soul
@@ -32,7 +33,12 @@ class LevelScene(
     private lateinit var system: LevelSystem
     private lateinit var renderer: LevelRenderer
 
-    override fun open(keyPipeline: KeyPipeline, mouseButtonPipeline: MouseButtonPipelineImpl, dimension: Dimension) {
+    override fun open(
+        keyPipeline: KeyPipeline,
+        mouseButtonPipeline: MouseButtonPipelineImpl,
+        mouseMovePipeline: MouseMovePipelineImpl,
+        dimension: Dimension
+    ) {
         level = LevelLoader().load(levelName)
 
         loadEntities(level)

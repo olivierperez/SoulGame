@@ -2,9 +2,9 @@ package fr.o80.gamelib.loop
 
 import org.lwjgl.glfw.GLFWCursorPosCallbackI
 
-class MouseMoveCallback(
+class MouseMovePipelineImpl(
     private val mouseButtonPipeline: MouseButtonPipelineImpl
-) : GLFWCursorPosCallbackI {
+) : MouseMovePipeline, GLFWCursorPosCallbackI {
 
     private val callbacks = mutableListOf<(Double, Double) -> Unit>()
 
@@ -13,11 +13,11 @@ class MouseMoveCallback(
         callbacks.forEach { it(xpos, ypos) }
     }
 
-    fun add(block: (Double, Double) -> Unit) {
+    override fun onMove(block: (Double, Double) -> Unit) {
         callbacks.add(block)
     }
 
-    fun reset() {
+    fun clear() {
         callbacks.clear()
     }
 

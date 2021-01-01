@@ -6,5 +6,10 @@ class Button(
     val centerY: Float,
     val width: Float,
     val height: Float,
+    var state: State = State.NORMAL,
     val onClick: () -> Unit
-)
+) {
+    enum class State {
+        NORMAL, HOVER
+    }
+}
