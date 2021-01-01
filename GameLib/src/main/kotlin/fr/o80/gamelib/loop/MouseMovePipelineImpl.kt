@@ -2,7 +2,7 @@ package fr.o80.gamelib.loop
 
 import org.lwjgl.glfw.GLFWCursorPosCallbackI
 
-class MouseMovePipelineImpl(
+internal class MouseMovePipelineImpl(
     private val mouseButtonPipeline: MouseButtonPipelineImpl
 ) : MouseMovePipeline, GLFWCursorPosCallbackI {
 

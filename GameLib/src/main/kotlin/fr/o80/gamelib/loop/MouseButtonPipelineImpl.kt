@@ -2,7 +2,7 @@ package fr.o80.gamelib.loop
 
 import org.lwjgl.glfw.GLFWMouseButtonCallbackI
 
-class MouseButtonPipelineImpl : MouseButtonPipeline, GLFWMouseButtonCallbackI {
+internal class MouseButtonPipelineImpl : MouseButtonPipeline, GLFWMouseButtonCallbackI {
 
     private val callbacks = mutableListOf<Triple<Int, Int, (Float, Float) -> Unit>>()
 

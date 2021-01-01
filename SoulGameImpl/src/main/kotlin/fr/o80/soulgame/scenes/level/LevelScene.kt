@@ -1,10 +1,11 @@
 package fr.o80.soulgame.scenes.level
 
+import fr.o80.gamelib.CursorManager
 import fr.o80.gamelib.Scene
-import fr.o80.gamelib.loop.Window
 import fr.o80.gamelib.loop.KeyPipeline
-import fr.o80.gamelib.loop.MouseButtonPipelineImpl
-import fr.o80.gamelib.loop.MouseMovePipelineImpl
+import fr.o80.gamelib.loop.MouseButtonPipeline
+import fr.o80.gamelib.loop.MouseMovePipeline
+import fr.o80.gamelib.loop.Window
 import fr.o80.soulgame.SoulSceneManager
 import fr.o80.soulgame.scenes.level.entity.Knight
 import fr.o80.soulgame.scenes.level.entity.Soul
@@ -35,9 +36,10 @@ class LevelScene(
 
     override fun open(
         window: Window,
+        cursorManager: CursorManager,
         keyPipeline: KeyPipeline,
-        mouseButtonPipeline: MouseButtonPipelineImpl,
-        mouseMovePipeline: MouseMovePipelineImpl
+        mouseButtonPipeline: MouseButtonPipeline,
+        mouseMovePipeline: MouseMovePipeline
     ) {
         level = LevelLoader().load(levelName)
 

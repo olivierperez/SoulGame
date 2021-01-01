@@ -1,16 +1,17 @@
 package fr.o80.gamelib
 
-import fr.o80.gamelib.loop.Window
 import fr.o80.gamelib.loop.KeyPipeline
-import fr.o80.gamelib.loop.MouseButtonPipelineImpl
-import fr.o80.gamelib.loop.MouseMovePipelineImpl
+import fr.o80.gamelib.loop.MouseButtonPipeline
+import fr.o80.gamelib.loop.MouseMovePipeline
+import fr.o80.gamelib.loop.Window
 
 interface Scene {
     fun open(
         window: Window,
+        cursorManager: CursorManager,
         keyPipeline: KeyPipeline,
-        mouseButtonPipeline: MouseButtonPipelineImpl,
-        mouseMovePipeline: MouseMovePipelineImpl
+        mouseButtonPipeline: MouseButtonPipeline,
+        mouseMovePipeline: MouseMovePipeline
     )
     fun close()
     suspend fun update()

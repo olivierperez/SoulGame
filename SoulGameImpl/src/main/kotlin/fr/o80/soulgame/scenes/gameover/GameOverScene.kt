@@ -1,11 +1,12 @@
 package fr.o80.soulgame.scenes.gameover
 
+import fr.o80.gamelib.CursorManager
 import fr.o80.gamelib.Scene
 import fr.o80.gamelib.dsl.draw
-import fr.o80.gamelib.loop.Window
 import fr.o80.gamelib.loop.KeyPipeline
-import fr.o80.gamelib.loop.MouseButtonPipelineImpl
-import fr.o80.gamelib.loop.MouseMovePipelineImpl
+import fr.o80.gamelib.loop.MouseButtonPipeline
+import fr.o80.gamelib.loop.MouseMovePipeline
+import fr.o80.gamelib.loop.Window
 import fr.o80.gamelib.text.TextRenderer
 import fr.o80.soulgame.SoulSceneManager
 import fr.o80.soulgame.resource
@@ -30,9 +31,10 @@ class GameOverScene(
 
     override fun open(
         window: Window,
+        cursorManager: CursorManager,
         keyPipeline: KeyPipeline,
-        mouseButtonPipeline: MouseButtonPipelineImpl,
-        mouseMovePipeline: MouseMovePipelineImpl
+        mouseButtonPipeline: MouseButtonPipeline,
+        mouseMovePipeline: MouseMovePipeline
     ) {
         keyPipeline.onKey(GLFW.GLFW_KEY_SPACE, GLFW.GLFW_RELEASE) {
             sceneManager.openLevel("level_1")

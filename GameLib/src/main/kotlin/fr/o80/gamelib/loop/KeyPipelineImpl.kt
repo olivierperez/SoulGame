@@ -2,7 +2,7 @@ package fr.o80.gamelib.loop
 
 import org.lwjgl.glfw.GLFWKeyCallbackI
 
-class KeyPipelineImpl : KeyPipeline, GLFWKeyCallbackI {
+internal class KeyPipelineImpl : KeyPipeline, GLFWKeyCallbackI {
 
     private val callbacks = mutableListOf<Triple<Int, Int, () -> Unit>>()
 

@@ -1,6 +1,8 @@
 package fr.o80.gamelib.loop
 
+import fr.o80.gamelib.CursorManager
 import fr.o80.gamelib.GG
+import fr.o80.gamelib.Game
 import fr.o80.gamelib.Scene
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,6 +18,7 @@ import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.NativeType
 
 class GameLoop(
+    private val game: Game,
     private val width: Int,
     private val height: Int,
     private val updatesPerSecond: Int,
@@ -24,7 +27,8 @@ class GameLoop(
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
-    protected lateinit var window: Window
+    private lateinit var window: Window
+    private lateinit var cursorManager: CursorManager
 
     private val mouseButtonPipeline = MouseButtonPipelineImpl()
     private val keyPipeline = KeyPipelineImpl()
@@ -67,6 +71,8 @@ class GameLoop(
         if (window.id == MemoryUtil.NULL) {
             throw IllegalStateException("Failed to create window")
         }
+
+        cursorManager = game.createCursorManager(window)
 
         GLFW.glfwSetKeyCallback(window.id, keyPipeline)
         GLFW.glfwSetMouseButtonCallback(window.id, mouseButtonPipeline)
@@ -162,7 +168,7 @@ class GameLoop(
         keyPipeline.clear()
         mouseButtonPipeline.clear()
         mouseMovePipeline.clear()
-        scene.open(window, keyPipeline, mouseButtonPipeline, mouseMovePipeline)
+        scene.open(window, cursorManager, keyPipeline, mouseButtonPipeline, mouseMovePipeline)
         currentScene = scene
         oldScene?.close()
     }

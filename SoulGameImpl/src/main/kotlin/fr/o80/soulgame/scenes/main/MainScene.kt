@@ -1,12 +1,14 @@
 package fr.o80.soulgame.scenes.main
 
+import fr.o80.gamelib.CursorManager
 import fr.o80.gamelib.Scene
 import fr.o80.gamelib.dsl.draw
-import fr.o80.gamelib.loop.Window
 import fr.o80.gamelib.loop.KeyPipeline
-import fr.o80.gamelib.loop.MouseButtonPipelineImpl
-import fr.o80.gamelib.loop.MouseMovePipelineImpl
+import fr.o80.gamelib.loop.MouseButtonPipeline
+import fr.o80.gamelib.loop.MouseMovePipeline
+import fr.o80.gamelib.loop.Window
 import fr.o80.gamelib.text.TextRenderer
+import fr.o80.soulgame.SoulCursorManager
 import fr.o80.soulgame.SoulSceneManager
 import fr.o80.soulgame.resource
 import fr.o80.soulgame.scenes.greenBackground
@@ -40,16 +42,14 @@ class MainScene(
 
     private val buttonRenderer = ButtonRenderer(buttonFontHeight)
 
-    private lateinit var resources: MainResources
-
     override fun open(
         window: Window,
+        cursorManager: CursorManager,
         keyPipeline: KeyPipeline,
-        mouseButtonPipeline: MouseButtonPipelineImpl,
-        mouseMovePipeline: MouseMovePipelineImpl
+        mouseButtonPipeline: MouseButtonPipeline,
+        mouseMovePipeline: MouseMovePipeline
     ) {
-        resources = MainResources(window.id)
-        resources.open()
+        cursorManager.setCursor(SoulCursorManager.POINTER)
 
         mouseButtonPipeline.onButton(GLFW.GLFW_MOUSE_BUTTON_LEFT, GLFW.GLFW_RELEASE) { x, y ->
             handleClick(x, y)
