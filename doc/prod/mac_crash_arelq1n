@@ -1,0 +1,32 @@
+main 1 - main
+3.2.1 SNAPSHOT
+Exception in thread "DefaultDispatcher-worker-1" java.lang.ExceptionInInitializerError
+	at org.lwjgl.glfw.GLFW.glfwCreateWindow(GLFW.java:1842)
+	at fr.o80.gamelib.loop.GameLoop.setup(GameLoop.kt:61)
+	at fr.o80.gamelib.loop.GameLoop.access$setup(GameLoop.kt:18)
+	at fr.o80.gamelib.loop.GameLoop$start$2.invokeSuspend(GameLoop.kt:39)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:106)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:571)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:750)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:678)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:665)
+Caused by: java.lang.IllegalStateException: GLFW windows may only be created on the main thread and that thread must be the first thread in the process. Please run the JVM with -XstartOnFirstThread. For offscreen rendering, make sure another window toolkit (e.g. AWT or JavaFX) is initialized before GLFW.
+	at org.lwjgl.glfw.EventLoop$OffScreen.<clinit>(EventLoop.java:39)
+	... 10 more
+Exception in thread "main" java.lang.NullPointerException
+	at org.lwjgl.system.Checks.check(Checks.java:100)
+	at org.lwjgl.glfw.Callbacks.glfwFreeCallbacks(Callbacks.java:25)
+	at fr.o80.gamelib.loop.GameLoop.start(GameLoop.kt:43)
+	at fr.o80.gamelib.loop.GameLoop$start$1.invokeSuspend(GameLoop.kt)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:106)
+	at kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:274)
+	at kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:84)
+	at kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:59)
+	at kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source)
+	at kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:38)
+	at kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source)
+	at fr.o80.gamelib.Game.start(Game.kt:15)
+	at fr.o80.soulgame.MainKt.main(main.kt:6)
+	at fr.o80.soulgame.MainKt.main(main.kt)
