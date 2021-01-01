@@ -1,7 +1,7 @@
 package fr.o80.soulgame.scenes.level
 
 import fr.o80.gamelib.Scene
-import fr.o80.gamelib.loop.Dimension
+import fr.o80.gamelib.loop.Window
 import fr.o80.gamelib.loop.KeyPipeline
 import fr.o80.gamelib.loop.MouseButtonPipelineImpl
 import fr.o80.gamelib.loop.MouseMovePipelineImpl
@@ -34,10 +34,10 @@ class LevelScene(
     private lateinit var renderer: LevelRenderer
 
     override fun open(
+        window: Window,
         keyPipeline: KeyPipeline,
         mouseButtonPipeline: MouseButtonPipelineImpl,
-        mouseMovePipeline: MouseMovePipelineImpl,
-        dimension: Dimension
+        mouseMovePipeline: MouseMovePipelineImpl
     ) {
         level = LevelLoader().load(levelName)
 
@@ -47,7 +47,7 @@ class LevelScene(
         timing = Timing(initialMana)
         resources = LevelResources()
         resources.open()
-        renderer = LevelRenderer(level, resources, dimension, tileSize)
+        renderer = LevelRenderer(level, resources, window, tileSize)
         renderer.open()
         system = LevelSystem(knight, level, tileSize, resources, manaReloading, ::gameOver)
         system.open(keyPipeline)

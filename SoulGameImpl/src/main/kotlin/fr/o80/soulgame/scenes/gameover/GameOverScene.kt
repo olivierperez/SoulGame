@@ -2,7 +2,7 @@ package fr.o80.soulgame.scenes.gameover
 
 import fr.o80.gamelib.Scene
 import fr.o80.gamelib.dsl.draw
-import fr.o80.gamelib.loop.Dimension
+import fr.o80.gamelib.loop.Window
 import fr.o80.gamelib.loop.KeyPipeline
 import fr.o80.gamelib.loop.MouseButtonPipelineImpl
 import fr.o80.gamelib.loop.MouseMovePipelineImpl
@@ -29,10 +29,10 @@ class GameOverScene(
     private var centerY: Int = -1
 
     override fun open(
+        window: Window,
         keyPipeline: KeyPipeline,
         mouseButtonPipeline: MouseButtonPipelineImpl,
-        mouseMovePipeline: MouseMovePipelineImpl,
-        dimension: Dimension
+        mouseMovePipeline: MouseMovePipelineImpl
     ) {
         keyPipeline.onKey(GLFW.GLFW_KEY_SPACE, GLFW.GLFW_RELEASE) {
             sceneManager.openLevel("level_1")
@@ -41,8 +41,8 @@ class GameOverScene(
             sceneManager.quit()
         }
 
-        centerX = dimension.width / 2
-        centerY = dimension.height / 2
+        centerX = window.width / 2
+        centerY = window.height / 2
 
         textRenderer.init()
     }

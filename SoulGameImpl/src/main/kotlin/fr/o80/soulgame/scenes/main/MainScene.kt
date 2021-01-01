@@ -2,7 +2,7 @@ package fr.o80.soulgame.scenes.main
 
 import fr.o80.gamelib.Scene
 import fr.o80.gamelib.dsl.draw
-import fr.o80.gamelib.loop.Dimension
+import fr.o80.gamelib.loop.Window
 import fr.o80.gamelib.loop.KeyPipeline
 import fr.o80.gamelib.loop.MouseButtonPipelineImpl
 import fr.o80.gamelib.loop.MouseMovePipelineImpl
@@ -40,15 +40,17 @@ class MainScene(
 
     private val buttonRenderer = ButtonRenderer(buttonFontHeight)
 
-    // TODO Mouse cursor http://forum.lwjgl.org/index.php?topic=5757.0
-    // TODO Ou https://gamedev.stackexchange.com/a/124395
+    private lateinit var resources: MainResources
 
     override fun open(
+        window: Window,
         keyPipeline: KeyPipeline,
         mouseButtonPipeline: MouseButtonPipelineImpl,
-        mouseMovePipeline: MouseMovePipelineImpl,
-        dimension: Dimension
+        mouseMovePipeline: MouseMovePipelineImpl
     ) {
+        resources = MainResources(window.id)
+        resources.open()
+
         mouseButtonPipeline.onButton(GLFW.GLFW_MOUSE_BUTTON_LEFT, GLFW.GLFW_RELEASE) { x, y ->
             handleClick(x, y)
         }
@@ -61,8 +63,8 @@ class MainScene(
         buttonRenderer.init()
         titleWidth = titleTextRenderer.getStringWidth(title)
 
-        centerX = dimension.width / 2f
-        centerY = dimension.height / 2f
+        centerX = window.width / 2f
+        centerY = window.height / 2f
 
         val startWidth = buttonRenderer.getStringWidth(startText)
         startButton = Button(

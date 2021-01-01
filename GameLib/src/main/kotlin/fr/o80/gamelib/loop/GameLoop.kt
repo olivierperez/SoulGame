@@ -16,15 +16,15 @@ import org.lwjgl.system.MemoryUtil
 import org.lwjgl.system.NativeType
 
 class GameLoop(
-    private val dimension: Dimension,
+    private val width: Int,
+    private val height: Int,
     private val updatesPerSecond: Int,
     private val windowName: String
 ) {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
-    protected var window: Long = 0
-        private set
+    protected lateinit var window: Window
 
     private val mouseButtonPipeline = MouseButtonPipelineImpl()
     private val keyPipeline = KeyPipelineImpl()
@@ -41,8 +41,8 @@ class GameLoop(
             loop()
         }.join()
 
-        Callbacks.glfwFreeCallbacks(window)
-        GLFW.glfwDestroyWindow(window)
+        Callbacks.glfwFreeCallbacks(window.id)
+        GLFW.glfwDestroyWindow(window.id)
 
         GLFW.glfwTerminate()
         GLFW.glfwSetErrorCallback(null)!!.free()
@@ -59,34 +59,38 @@ class GameLoop(
         GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_FALSE)
         GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_TRUE)
 
-        window = GLFW.glfwCreateWindow(dimension.width, dimension.height, windowName, MemoryUtil.NULL, MemoryUtil.NULL)
-        if (window == MemoryUtil.NULL) {
+        window = Window(
+            GLFW.glfwCreateWindow(width, height, windowName, MemoryUtil.NULL, MemoryUtil.NULL),
+            width,
+            height
+        )
+        if (window.id == MemoryUtil.NULL) {
             throw IllegalStateException("Failed to create window")
         }
 
-        GLFW.glfwSetKeyCallback(window, keyPipeline)
-        GLFW.glfwSetMouseButtonCallback(window, mouseButtonPipeline)
-        GLFW.glfwSetCursorPosCallback(window, mouseMovePipeline)
+        GLFW.glfwSetKeyCallback(window.id, keyPipeline)
+        GLFW.glfwSetMouseButtonCallback(window.id, mouseButtonPipeline)
+        GLFW.glfwSetCursorPosCallback(window.id, mouseMovePipeline)
 
         MemoryStack.stackPush().use { stack ->
             val widthBuffer = stack.mallocInt(1)
             val heightBuffer = stack.mallocInt(1)
 
-            GLFW.glfwGetWindowSize(window, widthBuffer, heightBuffer)
+            GLFW.glfwGetWindowSize(window.id, widthBuffer, heightBuffer)
 
             val videoMode = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor())!!
 
             GLFW.glfwSetWindowPos(
-                window,
+                window.id,
                 (videoMode.width() - widthBuffer.get(0)) / 2,
                 (videoMode.height() - heightBuffer.get(0)) / 2
             )
         }
 
-        GLFW.glfwMakeContextCurrent(window)
+        GLFW.glfwMakeContextCurrent(window.id)
         GLFW.glfwSwapInterval(1)
 
-        GLFW.glfwShowWindow(window)
+        GLFW.glfwShowWindow(window.id)
 
         GL.createCapabilities()
 
@@ -97,8 +101,8 @@ class GameLoop(
     }
 
     private fun ortho(ortho: Ortho, @NativeType("GLenum") mode: Int = GG.GL_PROJECTION) {
-        val width = dimension.width.toDouble()
-        val height = dimension.height.toDouble()
+        val width = width.toDouble()
+        val height = height.toDouble()
 
         when (ortho) {
             Ortho.TOP_LEFT -> {
@@ -125,7 +129,7 @@ class GameLoop(
         var updates = 0
         val limitFPS = 1f / updatesPerSecond
 
-        while (!GLFW.glfwWindowShouldClose(window)) {
+        while (!GLFW.glfwWindowShouldClose(window.id)) {
             if (currentScene == null) println("Not yet any scene !!!")
             now = GLFW.glfwGetTime()
             delta += (now - lastTime) / limitFPS
@@ -141,7 +145,7 @@ class GameLoop(
             GG.glClear(GG.GL_COLOR_BUFFER_BIT or GG.GL_DEPTH_BUFFER_BIT)
             currentScene?.render()
             GLFW.glfwPollEvents()
-            GLFW.glfwSwapBuffers(window)
+            GLFW.glfwSwapBuffers(window.id)
             frames++
 
             if (GLFW.glfwGetTime() - timer > 1) {
@@ -158,13 +162,13 @@ class GameLoop(
         keyPipeline.clear()
         mouseButtonPipeline.clear()
         mouseMovePipeline.clear()
-        scene.open(keyPipeline, mouseButtonPipeline, mouseMovePipeline, dimension)
+        scene.open(window, keyPipeline, mouseButtonPipeline, mouseMovePipeline)
         currentScene = scene
         oldScene?.close()
     }
 
     fun stop() {
-        GLFW.glfwSetWindowShouldClose(window, true)
+        GLFW.glfwSetWindowShouldClose(window.id, true)
     }
 
 }

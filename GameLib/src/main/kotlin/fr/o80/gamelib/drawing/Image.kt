@@ -5,7 +5,7 @@ import org.lwjgl.BufferUtils
 import java.io.File
 import javax.imageio.ImageIO
 
-class Image(filename: File) {
+class Image(file: File) {
 
     var id: Int
         private set
@@ -13,7 +13,7 @@ class Image(filename: File) {
     val height: Int
 
     init {
-        val bufferedImage = ImageIO.read(filename)
+        val bufferedImage = ImageIO.read(file)
         width = bufferedImage.width
         height = bufferedImage.height
 

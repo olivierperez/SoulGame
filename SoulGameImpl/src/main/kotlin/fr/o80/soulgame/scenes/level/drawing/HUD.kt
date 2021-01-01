@@ -2,14 +2,14 @@ package fr.o80.soulgame.scenes.level.drawing
 
 import fr.o80.gamelib.dsl.Draw
 import fr.o80.gamelib.dsl.draw
-import fr.o80.gamelib.loop.Dimension
+import fr.o80.gamelib.loop.Window
 import fr.o80.gamelib.text.TextRenderer
 import fr.o80.soulgame.scenes.level.Score
 import fr.o80.soulgame.scenes.level.Timing
 
 class HUD(
     private val textRenderer: TextRenderer,
-    private val dimension: Dimension
+    private val window: Window
 ) {
 
     fun render(score: Score, timing: Timing) {
@@ -40,7 +40,7 @@ class HUD(
             .coerceAtMost(totalSize)
 
         pushed {
-            translate(dimension.width - totalSize - 64f, 20f, 0f)
+            translate(window.width - totalSize - 64f, 20f, 0f)
 
             color(0.404f, 0.420f, 0.467f)
             quad(0f, 0f, totalSize, height)
