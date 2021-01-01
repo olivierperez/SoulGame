@@ -37,10 +37,10 @@ class GameLoop(
     private var currentScene: Scene? = null
 
     suspend fun start(initialScene: Scene) {
-        println(Version.getVersion())
-
+        println("Starting game...")
         scope.launch {
             setup()
+            debug()
             open(initialScene)
             loop()
         }.join()
@@ -50,6 +50,14 @@ class GameLoop(
 
         GLFW.glfwTerminate()
         GLFW.glfwSetErrorCallback(null)!!.free()
+    }
+
+    private fun debug() {
+        if (game.debug) {
+            println("LWJGL version: " + Version.getVersion())
+            println("OpenGL version: " + GG.glGetString(GG.GL_VERSION))
+            println("Device: " + GG.glGetString(GG.GL_RENDERER))
+        }
     }
 
     private fun setup() {
@@ -136,7 +144,7 @@ class GameLoop(
         val limitFPS = 1f / updatesPerSecond
 
         while (!GLFW.glfwWindowShouldClose(window.id)) {
-            if (currentScene == null) println("Not yet any scene !!!")
+            if (currentScene == null && game.debug) println("Not yet any scene !!!")
             now = GLFW.glfwGetTime()
             delta += (now - lastTime) / limitFPS
 
@@ -156,7 +164,9 @@ class GameLoop(
 
             if (GLFW.glfwGetTime() - timer > 1) {
                 timer++
-                println("FPS: $frames Updates: $updates")
+                if (game.debug) {
+                    println("FPS: $frames Updates: $updates")
+                }
                 frames = 0
                 updates = 0
             }

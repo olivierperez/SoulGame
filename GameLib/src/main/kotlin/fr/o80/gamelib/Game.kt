@@ -10,6 +10,7 @@ abstract class Game {
     abstract val updatesPerSecond: Int
     abstract val width: Int
     abstract val height: Int
+    abstract val debug: Boolean
 
     abstract fun createSceneManager(gameLoop: GameLoop): SceneManager
     abstract fun createCursorManager(window: Window): CursorManager

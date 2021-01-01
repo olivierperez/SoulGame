@@ -12,6 +12,7 @@ class SoulGame : Game() {
     override val updatesPerSecond: Int = 30
     override val width: Int = 1024
     override val height: Int = 768
+    override val debug: Boolean = false
 
     override fun createSceneManager(gameLoop: GameLoop): SceneManager = SoulSceneManager(gameLoop)
     override fun createCursorManager(window: Window): CursorManager = SoulCursorManager(window)
