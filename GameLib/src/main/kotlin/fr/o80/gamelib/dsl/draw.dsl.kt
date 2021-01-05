@@ -23,7 +23,7 @@ class Draw {
     }
 
     @Drawer
-    fun clear(color: Vector3f) {
+    fun clear(color: Vertex3f) {
         GG.glClearColor(color.x, color.y, color.z, 1f)
     }
 
@@ -66,6 +66,16 @@ class Draw {
     }
 
     @Drawer
+    fun quad(a: Vertex3d, b: Vertex3d, c: Vertex3d, d: Vertex3d) {
+        GG.glBegin(GG.GL_QUADS)
+        GG.glVertex3d(a.x, a.y, a.z)
+        GG.glVertex3d(b.x, b.y, b.z)
+        GG.glVertex3d(c.x, c.y, c.z)
+        GG.glVertex3d(d.x, d.y, d.z)
+        GG.glEnd()
+    }
+
+    @Drawer
     fun quad(x1: Float, y1: Float, x2: Float, y2: Float) {
         quad(
             Vertex3f(x1, y1, 0f),
@@ -76,8 +86,23 @@ class Draw {
     }
 
     @Drawer
+    fun quad(x1: Double, y1: Double, x2: Double, y2: Double) {
+        quad(
+            Vertex3d(x1, y1, .0),
+            Vertex3d(x2, y1, .0),
+            Vertex3d(x2, y2, .0),
+            Vertex3d(x1, y2, .0),
+        )
+    }
+
+    @Drawer
     fun translate(x: Float, y: Float, z: Float) {
         GG.glTranslatef(x, y, z)
+    }
+
+    @Drawer
+    fun translate(x: Double, y: Double, z: Double) {
+        GG.glTranslated(x, y, z)
     }
 
     @Drawer
@@ -91,7 +116,12 @@ class Draw {
     }
 
     @Drawer
-    fun color(color: Vector3f) {
+    fun color(red: Float, green: Float, blue: Float, alpha: Float) {
+        GG.glColor4f(red, green, blue, alpha)
+    }
+
+    @Drawer
+    fun color(color: Vertex3f) {
         GG.glColor3f(color.x, color.y, color.z)
     }
 
@@ -122,6 +152,20 @@ class Draw {
     }
 
     @Drawer
+    fun rect(x1: Double, y1: Double, x2: Double, y2: Double) {
+        GG.glBegin(GG.GL_LINES)
+        GG.glVertex2d(x1, y1)
+        GG.glVertex2d(x2, y1)
+        GG.glVertex2d(x2, y1)
+        GG.glVertex2d(x2, y2)
+        GG.glVertex2d(x2, y2)
+        GG.glVertex2d(x1, y2)
+        GG.glVertex2d(x1, y2)
+        GG.glVertex2d(x1, y1)
+        GG.glEnd()
+    }
+
+    @Drawer
     inline fun texture2d(block: () -> Unit) {
         GG.glEnable(GG.GL_TEXTURE_2D)
         GG.glEnable(GG.GL_BLEND)
@@ -133,11 +177,15 @@ class Draw {
 }
 
 // Vertex 3
+
 data class Vertex3f(val x: Float, val y: Float, val z: Float) {
     constructor(vertex2f: Vertex2f) : this(vertex2f.x, vertex2f.y, 0f)
 }
 
+data class Vertex3d(val x: Double, val y: Double, val z: Double)
+
 // Vertex 2
+
 data class Vertex2f(val x: Float, val y: Float) {
     fun addAngle(angle: Float, distance: Float): Vertex2f = Vertex2f(
         x = x + distance * cos(angle),
@@ -177,4 +225,18 @@ data class Vector2f(val from: Vertex2f, val to: Vertex2f) {
 
 }
 
-class Vector3f(val x: Float, val y: Float, val z: Float)
+// Rectangle
+
+class RectangleD(val top: Double, val right: Double, val bottom: Double, val left: Double) {
+
+    fun center(): Vertex2d {
+        val x = left + (right - left) / 2
+        val y = top + (bottom - top) / 2
+        return Vertex2d(x, y)
+    }
+
+    operator fun contains(point: Vertex2d): Boolean {
+        return top <= point.y && right >= point.x && bottom >= point.y && left <= point.x
+    }
+
+}

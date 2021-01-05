@@ -9,7 +9,7 @@ internal class MouseMovePipelineImpl(
     private val callbacks = mutableListOf<(Double, Double) -> Unit>()
 
     override fun invoke(window: Long, xpos: Double, ypos: Double) {
-        mouseButtonPipeline.onMouseMove(xpos.toFloat(), ypos.toFloat())
+        mouseButtonPipeline.onMouseMove(xpos, ypos)
         callbacks.forEach { it(xpos, ypos) }
     }
 

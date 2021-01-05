@@ -245,4 +245,8 @@ class TextRenderer(
         cpOut.put(0, c1.toInt())
         return 1
     }
+
+    fun close() {
+        GG.glDeleteTextures(textureId)
+    }
 }

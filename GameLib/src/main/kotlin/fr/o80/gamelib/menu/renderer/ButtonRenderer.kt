@@ -1,0 +1,84 @@
+package fr.o80.gamelib.menu.renderer
+
+import fr.o80.gamelib.GG
+import fr.o80.gamelib.dsl.Draw
+import fr.o80.gamelib.dsl.draw
+import fr.o80.gamelib.menu.view.Button
+import fr.o80.gamelib.menu.view.MenuView
+import fr.o80.gamelib.menu.TextResources
+import fr.o80.gamelib.menu.view.ViewState
+import fr.o80.gamelib.text.TextRenderer
+
+class ButtonRenderer(
+    private val resources: TextResources,
+    private val horizontalPadding: Double,
+    private val verticalPadding: Double
+) : ViewRenderer {
+
+    private val textRenderer: TextRenderer = TextRenderer(
+        fontPath = resources.font,
+        margin = 0f,
+        fontHeight = resources.fontHeight
+    )
+
+    override fun canRender(view: MenuView): Boolean {
+        return view is Button
+    }
+
+    override fun render(view: MenuView) {
+        view as? Button ?: throw IllegalStateException("The given view must be checked with \"canRender()\" method")
+        draw {
+            drawBackground(view)
+            drawText(view)
+        }
+    }
+
+    override fun getHeight(): Double {
+        return resources.fontHeight + 2 * verticalPadding
+    }
+
+    override fun getWidth(view: MenuView): Double {
+        view as? Button ?: throw IllegalStateException("The given view must be checked with \"canRender()\" method")
+        return textRenderer.getStringWidth(view.text) + 2 * horizontalPadding
+    }
+
+    override fun init() {
+        textRenderer.init()
+    }
+
+    override fun close() {
+        textRenderer.close()
+    }
+
+    private fun Draw.drawText(button: Button) {
+        pushed {
+            translate(button.bounds.left + horizontalPadding, button.bounds.top, .0)
+            textRenderer.render(button.text)
+        }
+    }
+
+    private fun Draw.drawBackground(button: Button) {
+        if (button.state == ViewState.HOVER) {
+            GG.glEnable(GG.GL_BLEND)
+            GG.glBlendFunc(GG.GL_SRC_ALPHA, GG.GL_ONE_MINUS_SRC_ALPHA)
+            color(1f, 1f, 1f, 0.1f)
+            quad(
+                button.bounds.left,
+                button.bounds.top,
+                button.bounds.right,
+                button.bounds.bottom
+            )
+            GG.glDisable(GG.GL_BLEND)
+        }
+
+        color(1f, 1f, 1f)
+        lineWidth(2f)
+        rect(
+            button.bounds.left,
+            button.bounds.top,
+            button.bounds.right,
+            button.bounds.bottom
+        )
+    }
+
+}
