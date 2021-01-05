@@ -78,6 +78,14 @@ class LevelSystem(
         keyPipeline.onKey(GLFW.GLFW_KEY_D, GLFW.GLFW_RELEASE) { knightMovementCalculator.releasedKey(Direction.RIGHT) }
         keyPipeline.onKey(GLFW.GLFW_KEY_A, GLFW.GLFW_PRESS) { knightMovementCalculator.pressedKey(Direction.LEFT) }
         keyPipeline.onKey(GLFW.GLFW_KEY_A, GLFW.GLFW_RELEASE) { knightMovementCalculator.releasedKey(Direction.LEFT) }
+        keyPipeline.onKey(GLFW.GLFW_KEY_DOWN, GLFW.GLFW_PRESS) { knightMovementCalculator.pressedKey(Direction.DOWN) }
+        keyPipeline.onKey(GLFW.GLFW_KEY_DOWN, GLFW.GLFW_RELEASE) { knightMovementCalculator.releasedKey(Direction.DOWN) }
+        keyPipeline.onKey(GLFW.GLFW_KEY_UP, GLFW.GLFW_PRESS) { knightMovementCalculator.pressedKey(Direction.UP) }
+        keyPipeline.onKey(GLFW.GLFW_KEY_UP, GLFW.GLFW_RELEASE) { knightMovementCalculator.releasedKey(Direction.UP) }
+        keyPipeline.onKey(GLFW.GLFW_KEY_RIGHT, GLFW.GLFW_PRESS) { knightMovementCalculator.pressedKey(Direction.RIGHT) }
+        keyPipeline.onKey(GLFW.GLFW_KEY_RIGHT, GLFW.GLFW_RELEASE) { knightMovementCalculator.releasedKey(Direction.RIGHT) }
+        keyPipeline.onKey(GLFW.GLFW_KEY_LEFT, GLFW.GLFW_PRESS) { knightMovementCalculator.pressedKey(Direction.LEFT) }
+        keyPipeline.onKey(GLFW.GLFW_KEY_LEFT, GLFW.GLFW_RELEASE) { knightMovementCalculator.releasedKey(Direction.LEFT) }
     }
 
     private fun onTrigger(block: Block, entity: Entity, state: LevelState) {
