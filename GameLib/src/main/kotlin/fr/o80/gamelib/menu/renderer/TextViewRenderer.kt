@@ -30,30 +30,6 @@ class TextViewRenderer(
         }
     }
 
-    private fun Draw.drawDebug(view: Text) {
-        color(.8f, 0f, 0f)
-        rect(
-            view.bounds.left,
-            view.bounds.top,
-            view.bounds.right,
-            view.bounds.bottom
-        )
-        color(0f, 0f, .8f)
-        rect(
-            view.bounds.left + view.horizontalMargin,
-            view.bounds.top + view.verticalMargin,
-            view.bounds.right - view.horizontalMargin,
-            view.bounds.bottom - view.verticalMargin
-        )
-        color(0f, 0f, 0f)
-        rect(
-            view.bounds.left + view.horizontalMargin + view.horizontalPadding,
-            view.bounds.top + view.verticalMargin + view.verticalPadding,
-            view.bounds.right - view.horizontalMargin - +view.horizontalPadding,
-            view.bounds.bottom - view.verticalMargin - view.verticalPadding
-        )
-    }
-
     private fun Draw.drawText(view: Text) {
         pushed {
             translate(

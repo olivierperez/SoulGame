@@ -50,30 +50,6 @@ class ButtonViewRenderer(
         textRenderer.close()
     }
 
-    private fun Draw.drawDebug(button: Button) {
-        color(.8f, 0f, 0f)
-        rect(
-            button.bounds.left,
-            button.bounds.top,
-            button.bounds.right,
-            button.bounds.bottom
-        )
-        color(0f, 0f, .8f)
-        rect(
-            button.bounds.left + button.horizontalMargin,
-            button.bounds.top + button.verticalMargin,
-            button.bounds.right - button.horizontalMargin,
-            button.bounds.bottom - button.verticalMargin
-        )
-        color(0f, 0f, 0f)
-        rect(
-            button.bounds.left + button.horizontalMargin + button.horizontalPadding,
-            button.bounds.top + button.verticalMargin + button.verticalPadding,
-            button.bounds.right - button.horizontalMargin - +button.horizontalPadding,
-            button.bounds.bottom - button.verticalMargin - button.verticalPadding
-        )
-    }
-
     private fun Draw.drawText(button: Button) {
         pushed {
             translate(

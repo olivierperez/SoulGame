@@ -47,30 +47,6 @@ class TitleViewRenderer(
         textRenderer.close()
     }
 
-    private fun Draw.drawDebug(title: Title) {
-        color(.8f, 0f, 0f)
-        rect(
-            title.bounds.left,
-            title.bounds.top,
-            title.bounds.right,
-            title.bounds.bottom
-        )
-        color(0f, 0f, .8f)
-        rect(
-            title.bounds.left + title.horizontalMargin,
-            title.bounds.top + title.verticalMargin,
-            title.bounds.right - title.horizontalMargin,
-            title.bounds.bottom - title.verticalMargin
-        )
-        color(0f, 0f, 0f)
-        rect(
-            title.bounds.left + title.horizontalMargin + title.horizontalPadding,
-            title.bounds.top + title.verticalMargin + title.verticalPadding,
-            title.bounds.right - title.horizontalMargin - title.horizontalPadding,
-            title.bounds.bottom - title.verticalMargin - title.verticalPadding
-        )
-    }
-
     private fun Draw.drawText(title: Title) {
         pushed {
             color(1f, 1f, 1f)
