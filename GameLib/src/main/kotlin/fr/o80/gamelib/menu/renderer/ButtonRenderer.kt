@@ -10,7 +10,7 @@ import fr.o80.gamelib.menu.view.ViewState
 import fr.o80.gamelib.text.TextRenderer
 
 class ButtonRenderer(
-    private val resources: TextResources,
+    resources: TextResources,
     private val drawDebug: Boolean = false
 ) : ViewRenderer {
 
@@ -34,7 +34,7 @@ class ButtonRenderer(
     }
 
     override fun getHeight(view: MenuView): Double {
-        return resources.fontHeight + 2 * (view.verticalMargin + view.verticalPadding)
+        return textRenderer.getStringHeight() + 2 * (view.verticalMargin + view.verticalPadding)
     }
 
     override fun getWidth(view: MenuView): Double {

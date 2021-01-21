@@ -8,7 +8,7 @@ import fr.o80.gamelib.menu.view.Title
 import fr.o80.gamelib.text.TextRenderer
 
 class TitleRenderer(
-    private val resources: TextResources,
+    resources: TextResources,
     private val drawDebug: Boolean = false
 ) : ViewRenderer {
 
@@ -31,7 +31,7 @@ class TitleRenderer(
     }
 
     override fun getHeight(view: MenuView): Double {
-        return resources.fontHeight.toDouble() + 2 * (view.verticalMargin + view.verticalPadding)
+        return textRenderer.getStringHeight() + 2 * (view.verticalMargin + view.verticalPadding)
     }
 
     override fun getWidth(view: MenuView): Double {

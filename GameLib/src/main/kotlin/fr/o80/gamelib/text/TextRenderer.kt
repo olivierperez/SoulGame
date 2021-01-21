@@ -90,8 +90,8 @@ class TextRenderer(
             val bufLineGap: IntBuffer = stack.ints(0)
 
             STBTruetype.stbtt_GetFontVMetrics(fontInfo, bufAscent, bufDescent, bufLineGap)
-            return (bufAscent.get(0) + bufDescent.get(0) + bufLineGap.get(0)) *
-                   STBTruetype.stbtt_ScaleForPixelHeight(fontInfo, fontHeight)
+            val scaleEm = STBTruetype.stbtt_ScaleForMappingEmToPixels(fontInfo, fontHeight)
+            return (bufAscent.get(0) - bufDescent.get(0) + bufLineGap.get(0)) * scaleEm
         }
     }
 
