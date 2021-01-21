@@ -50,7 +50,7 @@ class MainScene(
                 mouseMovePipeline
             )
             .andLayout {
-                title("Soul Game")
+                title("Soul Game", verticalMargin = 50.0)
                 button("Start") {
                     sceneManager.openLevel("level_1")
                 }

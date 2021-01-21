@@ -9,7 +9,7 @@ import fr.o80.gamelib.menu.view.MenuView
 import fr.o80.gamelib.menu.view.ViewState
 import fr.o80.gamelib.text.TextRenderer
 
-class ButtonRenderer(
+class ButtonViewRenderer(
     resources: TextResources,
     private val drawDebug: Boolean = false
 ) : ViewRenderer {

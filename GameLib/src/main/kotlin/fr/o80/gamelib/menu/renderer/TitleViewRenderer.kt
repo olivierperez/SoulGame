@@ -7,7 +7,7 @@ import fr.o80.gamelib.menu.view.MenuView
 import fr.o80.gamelib.menu.view.Title
 import fr.o80.gamelib.text.TextRenderer
 
-class TitleRenderer(
+class TitleViewRenderer(
     resources: TextResources,
     private val drawDebug: Boolean = false
 ) : ViewRenderer {

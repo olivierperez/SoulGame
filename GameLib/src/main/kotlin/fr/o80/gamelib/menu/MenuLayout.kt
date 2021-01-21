@@ -5,6 +5,7 @@ import fr.o80.gamelib.dsl.Vertex2d
 import fr.o80.gamelib.menu.renderer.ViewRenderer
 import fr.o80.gamelib.menu.view.Button
 import fr.o80.gamelib.menu.view.MenuView
+import fr.o80.gamelib.menu.view.Text
 import fr.o80.gamelib.menu.view.Title
 
 class MenuLayout(
@@ -13,19 +14,24 @@ class MenuLayout(
 
     val views: MutableList<MenuView> = mutableListOf()
 
-    fun title(text: String) {
-        views += Title(text)
-    }
-
     fun button(text: String, onClick: () -> Unit) {
         views += Button(text, onClick)
+    }
+
+    fun text(text: String) {
+        views += Text(text)
+    }
+
+    fun title(text: String, verticalMargin: Double = .0, horizontalMargin: Double = .0) {
+        views += Title(text, verticalMargin = verticalMargin, horizontalMargin = horizontalMargin)
     }
 
     fun computeBounds(bounds: RectangleD, renderers: List<ViewRenderer>) {
         val (centerX, centerY) = bounds.center()
 
         val dimensions = views.map { view ->
-            val renderer = renderers.first { it.canRender(view) }
+            val renderer = renderers.firstOrNull { it.canRender(view) }
+                           ?: throw IllegalStateException("No ViewRenderer was configured for ${view::class.java.simpleName}")
             Vertex2d(
                 x = renderer.getWidth(view),
                 y = renderer.getHeight(view)

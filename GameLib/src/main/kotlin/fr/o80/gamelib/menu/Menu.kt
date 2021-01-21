@@ -6,8 +6,9 @@ import fr.o80.gamelib.dsl.Vertex3f
 import fr.o80.gamelib.dsl.draw
 import fr.o80.gamelib.loop.MouseButtonPipeline
 import fr.o80.gamelib.loop.MouseMovePipeline
-import fr.o80.gamelib.menu.renderer.ButtonRenderer
-import fr.o80.gamelib.menu.renderer.TitleRenderer
+import fr.o80.gamelib.menu.renderer.ButtonViewRenderer
+import fr.o80.gamelib.menu.renderer.TextViewRenderer
+import fr.o80.gamelib.menu.renderer.TitleViewRenderer
 import fr.o80.gamelib.menu.renderer.ViewRenderer
 import fr.o80.gamelib.menu.view.Clickable
 import fr.o80.gamelib.menu.view.MenuView
@@ -104,14 +105,18 @@ class Menu private constructor(
             val renderers = mutableListOf<ViewRenderer>()
 
             textResources?.let { resources ->
-                ButtonRenderer(resources).also {
+                ButtonViewRenderer(resources).also {
+                    it.init()
+                    renderers.add(it)
+                }
+                TextViewRenderer(resources).also {
                     it.init()
                     renderers.add(it)
                 }
             }
 
             titleResources?.let { resources ->
-                TitleRenderer(resources).also {
+                TitleViewRenderer(resources).also {
                     it.init()
                     renderers.add(it)
                 }
