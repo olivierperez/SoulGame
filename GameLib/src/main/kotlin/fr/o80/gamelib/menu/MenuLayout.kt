@@ -28,9 +28,8 @@ class MenuLayout(
             val renderer = renderers.first { it.canRender(view) }
             Vertex2d(
                 x = renderer.getWidth(view),
-                y = renderer.getHeight()
+                y = renderer.getHeight(view)
             )
-
         }
         val totalHeight = dimensions.map { it.y }.sum() + verticalSpacing * (views.size - 1)
 

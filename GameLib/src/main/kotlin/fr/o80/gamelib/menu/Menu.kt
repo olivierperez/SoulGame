@@ -104,7 +104,7 @@ class Menu private constructor(
             val renderers = mutableListOf<ViewRenderer>()
 
             textResources?.let { resources ->
-                ButtonRenderer(resources, verticalPadding = 10.0, horizontalPadding = 40.0).also {
+                ButtonRenderer(resources).also {
                     it.init()
                     renderers.add(it)
                 }

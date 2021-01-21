@@ -7,6 +7,6 @@ interface ViewRenderer {
     fun render(view: MenuView)
     fun init()
     fun close()
-    fun getHeight(): Double
+    fun getHeight(view: MenuView): Double
     fun getWidth(view: MenuView): Double
 }
