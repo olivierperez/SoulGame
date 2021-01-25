@@ -3,6 +3,7 @@ package fr.o80.gamelib.text
 import fr.o80.gamelib.GG
 import fr.o80.gamelib.dsl.draw
 import org.lwjgl.BufferUtils
+import org.lwjgl.opengl.GL46
 import org.lwjgl.stb.STBTTAlignedQuad
 import org.lwjgl.stb.STBTTBakedChar
 import org.lwjgl.stb.STBTTFontinfo
@@ -15,15 +16,15 @@ import kotlin.math.round
 
 class TextRenderer(
     private val fontPath: String,
-    private val margin: Float = 10f,
+    private val margin: Float = 0f,
     private val fontHeight: Float = 20f
 ) {
 
     private val kerningEnabled = true
     private val drawBoxBorder = false
 
-    lateinit var ttf: ByteBuffer
-    lateinit var fontInfo: STBTTFontinfo
+    private lateinit var ttf: ByteBuffer
+    private lateinit var fontInfo: STBTTFontinfo
 
     private var ascent = 0
     private var descent = 0
@@ -31,10 +32,12 @@ class TextRenderer(
 
     private var bitmapWidth: Int = 0
     private var bitmapHeight: Int = 0
-    lateinit var charData: STBTTBakedChar.Buffer
+    private lateinit var charData: STBTTBakedChar.Buffer
 
     private val contentScaleX: Float = 1.0f
     private val contentScaleY: Float = 1.0f
+
+    private val charBufferSize = 224
 
     private var textureId: Int = 0
 
@@ -96,7 +99,7 @@ class TextRenderer(
     }
 
     private fun initFont(bitmap: ByteBuffer, bitmapWidth: Int, bitmapHeight: Int) {
-        charData = STBTTBakedChar.malloc(96)
+        charData = STBTTBakedChar.malloc(charBufferSize)
 
         STBTruetype.stbtt_BakeFontBitmap(
             ttf,
@@ -158,17 +161,30 @@ class TextRenderer(
                     x.put(0, 0.0f)
                     lineStart = i
                     continue
-                } else if (codePoint < 32 || 128 <= codePoint) {
+                } else if (codePoint < 32 || 32 + charBufferSize <= codePoint) {
                     continue
                 }
                 val cpX = x[0]
-                STBTruetype.stbtt_GetBakedQuad(charData, bitmapWidth, bitmapHeight, codePoint - 32, x, y, q, true)
+                STBTruetype.stbtt_GetBakedQuad(
+                    charData,
+                    bitmapWidth,
+                    bitmapHeight,
+                    codePoint - 32,
+                    x,
+                    y,
+                    q,
+                    true
+                )
                 x.put(0, scale(cpX, x[0], factorX))
                 if (kerningEnabled && i < to) {
                     getCodePoint(text, to, i, pCodePoints)
                     x.put(
                         0,
-                        x[0] + STBTruetype.stbtt_GetCodepointKernAdvance(fontInfo, codePoint, pCodePoints[0]) * scale
+                        x[0] + STBTruetype.stbtt_GetCodepointKernAdvance(
+                            fontInfo,
+                            codePoint,
+                            pCodePoints[0]
+                        ) * scale
                     )
                 }
                 val x0: Float = scale(cpX, q.x0(), factorX)
