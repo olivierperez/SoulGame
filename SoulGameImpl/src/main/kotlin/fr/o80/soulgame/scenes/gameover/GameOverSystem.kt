@@ -1,32 +1,22 @@
 package fr.o80.soulgame.scenes.gameover
 
-import fr.o80.gamelib.service.storage.InFileStorage
-import fr.o80.soulgame.SoulGameData
+import fr.o80.soulgame.data.ScoreRepository
 import kotlin.math.min
 
 class GameOverSystem(
-    private val info: GameOverInfo
+    private val info: GameOverInfo,
+    private val repository: ScoreRepository
 ) {
 
-    private val storage = InFileStorage(SoulGameData.serializer())
-
     init {
-        val gameData = storage.get() ?: SoulGameData()
-        val bestScore = gameData.bestScores[info.levelName]
-
-        if (bestScore == null || bestScore < info.score) {
-            gameData.bestScores[info.levelName] = info.score
-            storage.store(gameData)
+        val bestScore = repository.getBestScore(info.levelName)
+        if (bestScore < info.score) {
+            repository.updateBestScore(info.levelName, info.score)
         }
     }
 
     fun update(state: GameOverState) {
-        storage.get()
-            ?.bestScores?.get(info.levelName)
-            ?.let { bestScore ->
-                state.bestScore = bestScore
-            }
-
+        state.bestScore = repository.getBestScore(info.levelName)
         state.score = min(state.score + 1, info.score)
     }
 }
