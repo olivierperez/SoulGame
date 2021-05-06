@@ -1,6 +1,5 @@
 package fr.o80.soulgame.scenes.gameover
 
-import fr.o80.gamelib.CursorManager
 import fr.o80.gamelib.Scene
 import fr.o80.gamelib.loop.KeyPipeline
 import fr.o80.gamelib.loop.MouseButtonPipeline
@@ -8,6 +7,7 @@ import fr.o80.gamelib.loop.MouseMovePipeline
 import fr.o80.gamelib.loop.Window
 import fr.o80.gamelib.menu.Menu
 import fr.o80.gamelib.menu.TextResources
+import fr.o80.gamelib.service.Services
 import fr.o80.soulgame.SoulSceneManager
 import fr.o80.soulgame.resource
 import fr.o80.soulgame.scenes.greenBackground
@@ -15,24 +15,29 @@ import org.lwjgl.glfw.GLFW
 
 class GameOverScene(
     private val sceneManager: SoulSceneManager,
-    private val score: Long
+    private val info: GameOverInfo
 ) : Scene {
 
+    private lateinit var system: GameOverSystem
+    private lateinit var state: GameOverState
     private lateinit var menu: Menu
 
     override fun open(
         window: Window,
-        cursorManager: CursorManager,
+        services: Services,
         keyPipeline: KeyPipeline,
         mouseButtonPipeline: MouseButtonPipeline,
         mouseMovePipeline: MouseMovePipeline
     ) {
         keyPipeline.onKey(GLFW.GLFW_KEY_SPACE, GLFW.GLFW_RELEASE) {
-            sceneManager.openLevel("level_1")
+            sceneManager.openLevel(info.levelName)
         }
         keyPipeline.onKey(GLFW.GLFW_KEY_ESCAPE, GLFW.GLFW_RELEASE) {
             sceneManager.quit()
         }
+
+        system = GameOverSystem(services.storage, info)
+        state = GameOverState()
 
         menu = Menu.MenuBuilder()
             .of(
@@ -45,7 +50,7 @@ class GameOverScene(
                 background = greenBackground,
                 textResources = TextResources(
                     font = resource("fonts/LaserCutRegular.ttf"),
-                    fontHeight = 50f
+                    fontHeight = 30f
                 ),
                 titleResources = TextResources(
                     font = resource("fonts/LaserCutRegular.ttf"),
@@ -58,7 +63,9 @@ class GameOverScene(
             )
             .andLayout {
                 title("Game Over")
-                text("SCORE: $score")
+                text("Level: ${info.levelName}")
+                text { "SCORE: ${state.score}" }
+                text { "Best: ${state.bestScore}" }
                 button("Restart") {
                     sceneManager.openLevel("level_1")
                 }
@@ -74,6 +81,7 @@ class GameOverScene(
     }
 
     override suspend fun update() {
+        system.update(state)
         menu.update()
     }
 

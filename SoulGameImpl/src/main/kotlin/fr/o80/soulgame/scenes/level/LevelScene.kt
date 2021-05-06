@@ -1,11 +1,11 @@
 package fr.o80.soulgame.scenes.level
 
-import fr.o80.gamelib.CursorManager
 import fr.o80.gamelib.Scene
 import fr.o80.gamelib.loop.KeyPipeline
 import fr.o80.gamelib.loop.MouseButtonPipeline
 import fr.o80.gamelib.loop.MouseMovePipeline
 import fr.o80.gamelib.loop.Window
+import fr.o80.gamelib.service.Services
 import fr.o80.soulgame.SoulSceneManager
 import fr.o80.soulgame.scenes.level.entity.Knight
 import fr.o80.soulgame.scenes.level.entity.Soul
@@ -36,7 +36,7 @@ class LevelScene(
 
     override fun open(
         window: Window,
-        cursorManager: CursorManager,
+        services: Services,
         keyPipeline: KeyPipeline,
         mouseButtonPipeline: MouseButtonPipeline,
         mouseMovePipeline: MouseMovePipeline
@@ -72,7 +72,7 @@ class LevelScene(
     }
 
     private fun gameOver(score: Long) {
-        sceneManager.openGameOver(score)
+        sceneManager.openGameOver(levelName, score)
     }
 
     // TODO Move to LevelSystem ?

@@ -1,6 +1,5 @@
 package fr.o80.soulgame.scenes.main
 
-import fr.o80.gamelib.CursorManager
 import fr.o80.gamelib.Scene
 import fr.o80.gamelib.loop.KeyPipeline
 import fr.o80.gamelib.loop.MouseButtonPipeline
@@ -8,6 +7,7 @@ import fr.o80.gamelib.loop.MouseMovePipeline
 import fr.o80.gamelib.loop.Window
 import fr.o80.gamelib.menu.Menu
 import fr.o80.gamelib.menu.TextResources
+import fr.o80.gamelib.service.Services
 import fr.o80.soulgame.SoulCursorManager
 import fr.o80.soulgame.SoulSceneManager
 import fr.o80.soulgame.resource
@@ -20,12 +20,12 @@ class MainScene(
 
     override fun open(
         window: Window,
-        cursorManager: CursorManager,
+        services: Services,
         keyPipeline: KeyPipeline,
         mouseButtonPipeline: MouseButtonPipeline,
         mouseMovePipeline: MouseMovePipeline
     ) {
-        cursorManager.setCursor(SoulCursorManager.POINTER)
+        services.cursorManager.setCursor(SoulCursorManager.POINTER)
 
         menu = Menu.MenuBuilder()
             .of(

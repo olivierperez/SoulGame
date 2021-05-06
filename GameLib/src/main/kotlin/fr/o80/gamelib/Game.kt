@@ -2,6 +2,7 @@ package fr.o80.gamelib
 
 import fr.o80.gamelib.loop.GameLoop
 import fr.o80.gamelib.loop.Window
+import fr.o80.gamelib.service.cursor.CursorManager
 import kotlinx.coroutines.runBlocking
 
 abstract class Game {

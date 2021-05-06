@@ -19,6 +19,10 @@ class MenuLayout(
     }
 
     fun text(text: String) {
+        views += Text { text }
+    }
+
+    fun text(text: () -> String) {
         views += Text(text)
     }
 

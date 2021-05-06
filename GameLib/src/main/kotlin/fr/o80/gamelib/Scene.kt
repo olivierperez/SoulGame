@@ -4,11 +4,12 @@ import fr.o80.gamelib.loop.KeyPipeline
 import fr.o80.gamelib.loop.MouseButtonPipeline
 import fr.o80.gamelib.loop.MouseMovePipeline
 import fr.o80.gamelib.loop.Window
+import fr.o80.gamelib.service.Services
 
 interface Scene {
     fun open(
         window: Window,
-        cursorManager: CursorManager,
+        services: Services,
         keyPipeline: KeyPipeline,
         mouseButtonPipeline: MouseButtonPipeline,
         mouseMovePipeline: MouseMovePipeline

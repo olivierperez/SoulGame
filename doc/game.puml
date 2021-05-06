@@ -10,9 +10,9 @@ class Game {
     + onActionB(p0, p1, p2)
 }
 
-class Scene {
+interface Scene {
     - sceneState
-    + open(keyPipeline)
+    + open(window, inputPipelines, services)
     + close()
     + update()
     + render()

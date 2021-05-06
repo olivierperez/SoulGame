@@ -37,7 +37,7 @@ class TextViewRenderer(
                 view.bounds.top + view.verticalMargin + view.verticalPadding,
                 .0
             )
-            textRenderer.render(view.text)
+            textRenderer.render(view.text())
         }
     }
 
@@ -56,7 +56,7 @@ class TextViewRenderer(
     // TODO Ekaliroots - Abstraire ça dans un abstract, façon method-template
     override fun getWidth(view: MenuView): Double {
         view as? Text ?: throw IllegalStateException("The given view must be checked with \"canRender()\" method")
-        return textRenderer.getStringWidth(view.text) + 2 * (view.horizontalMargin + view.horizontalPadding)
+        return textRenderer.getStringWidth(view.text()) + 2 * (view.horizontalMargin + view.horizontalPadding)
     }
 
 }

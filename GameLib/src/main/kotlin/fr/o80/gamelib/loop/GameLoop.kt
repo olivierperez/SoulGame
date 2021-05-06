@@ -1,9 +1,10 @@
 package fr.o80.gamelib.loop
 
-import fr.o80.gamelib.CursorManager
 import fr.o80.gamelib.GG
 import fr.o80.gamelib.Game
 import fr.o80.gamelib.Scene
+import fr.o80.gamelib.service.Services
+import fr.o80.gamelib.service.storage.InMemoryStorage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -28,7 +29,7 @@ class GameLoop(
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
     private lateinit var window: Window
-    private lateinit var cursorManager: CursorManager
+    private lateinit var services: Services
 
     private val mouseButtonPipeline = MouseButtonPipelineImpl()
     private val keyPipeline = KeyPipelineImpl()
@@ -80,7 +81,10 @@ class GameLoop(
             throw IllegalStateException("Failed to create window")
         }
 
-        cursorManager = game.createCursorManager(window)
+        services = Services(
+            game.createCursorManager(window),
+            InMemoryStorage()
+        )
 
         GLFW.glfwSetKeyCallback(window.id, keyPipeline)
         GLFW.glfwSetMouseButtonCallback(window.id, mouseButtonPipeline)
@@ -178,7 +182,7 @@ class GameLoop(
         keyPipeline.clear()
         mouseButtonPipeline.clear()
         mouseMovePipeline.clear()
-        scene.open(window, cursorManager, keyPipeline, mouseButtonPipeline, mouseMovePipeline)
+        scene.open(window, services, keyPipeline, mouseButtonPipeline, mouseMovePipeline)
         currentScene = scene
         oldScene?.close()
     }

@@ -1,6 +1,6 @@
 package fr.o80.soulgame
 
-import fr.o80.gamelib.CursorManager
+import fr.o80.gamelib.service.cursor.CursorManager
 import fr.o80.gamelib.drawing.Cursor
 import fr.o80.gamelib.loop.Window
 import org.lwjgl.glfw.GLFW
