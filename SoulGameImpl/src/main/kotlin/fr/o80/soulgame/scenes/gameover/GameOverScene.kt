@@ -8,6 +8,8 @@ import fr.o80.gamelib.loop.Window
 import fr.o80.gamelib.menu.Menu
 import fr.o80.gamelib.menu.TextResources
 import fr.o80.gamelib.service.Services
+import fr.o80.gamelib.service.storage.Storage
+import fr.o80.soulgame.SoulGameData
 import fr.o80.soulgame.SoulSceneManager
 import fr.o80.soulgame.resource
 import fr.o80.soulgame.scenes.greenBackground
@@ -36,7 +38,7 @@ class GameOverScene(
             sceneManager.quit()
         }
 
-        system = GameOverSystem(services.storage, info)
+        system = GameOverSystem(info)
         state = GameOverState()
 
         menu = Menu.MenuBuilder()

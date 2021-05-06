@@ -1,14 +1,16 @@
 package fr.o80.gamelib.service.storage
 
-class InMemoryStorage : Storage {
+import java.util.concurrent.atomic.AtomicReference
 
-    private val storage: MutableMap<String, String> = mutableMapOf()
+class InMemoryStorage<T> : Storage<T> {
 
-    override fun store(key: String, value: String) {
-        storage[key] = value
+    private val storage = AtomicReference<T?>(null)
+
+    override fun store(value: T) {
+        storage.set(value)
     }
 
-    override fun get(key: String): String? {
-        return storage[key]
+    override fun get(): T? {
+        return storage.get()
     }
 }

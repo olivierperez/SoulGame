@@ -4,7 +4,6 @@ import fr.o80.gamelib.GG
 import fr.o80.gamelib.Game
 import fr.o80.gamelib.Scene
 import fr.o80.gamelib.service.Services
-import fr.o80.gamelib.service.storage.InMemoryStorage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -82,8 +81,7 @@ class GameLoop(
         }
 
         services = Services(
-            game.createCursorManager(window),
-            InMemoryStorage()
+            game.createCursorManager(window)
         )
 
         GLFW.glfwSetKeyCallback(window.id, keyPipeline)

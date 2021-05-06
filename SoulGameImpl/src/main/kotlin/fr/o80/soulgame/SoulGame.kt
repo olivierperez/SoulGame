@@ -1,10 +1,10 @@
 package fr.o80.soulgame
 
-import fr.o80.gamelib.service.cursor.CursorManager
 import fr.o80.gamelib.Game
 import fr.o80.gamelib.SceneManager
 import fr.o80.gamelib.loop.GameLoop
 import fr.o80.gamelib.loop.Window
+import fr.o80.gamelib.service.cursor.CursorManager
 
 class SoulGame : Game() {
 

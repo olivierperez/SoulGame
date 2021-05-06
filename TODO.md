@@ -1,6 +1,8 @@
 - [x] Corriger la hauteur du text renvoyée par TextRender
 - [x] Afficher un menu de game-over pour relancer
 
+- [ ] Kotlin 1.5
+
 - [ ] Se souvenir du best score
 
 - [ ] Laisser le choix du niveau au joueur
