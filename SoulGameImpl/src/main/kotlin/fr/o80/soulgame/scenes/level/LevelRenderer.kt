@@ -23,10 +23,11 @@ class LevelRenderer(
     tileSize: Float
 ) {
 
-    private val entityDrawer: EntityDrawer = EntityDrawer(SpriteDrawer(10))
-    private val levelDrawer: LevelDrawer = LevelDrawer(SpriteDrawer(10), tileSize)
+    private val entityDrawer: EntityDrawer = EntityDrawer(SpriteDrawer(4))
+    private val levelDrawer: LevelDrawer = LevelDrawer(SpriteDrawer(4), tileSize)
     private val textRenderer: TextRenderer = TextRenderer(resource("fonts/LaserCutRegular.ttf"))
     private val hud: HUD = HUD(textRenderer, window)
+    private var ticks: Long = 0
 
     fun open() {
         levelDrawer
@@ -39,13 +40,16 @@ class LevelRenderer(
         // TODO Release TextRenderer
     }
 
+    fun update() {
+        ticks ++
+    }
+
     fun render(state: LevelState) {
-        GG.glBlendFunc(GG.GL_SRC_ALPHA, GG.GL_ONE_MINUS_SRC_ALPHA)
         draw {
             clear(greenBackground)
             levelDrawer.render(state.level)
-            state.mob.forEach { entity -> entityDrawer.render(entity, resources.entitySprite) }
-            entityDrawer.render(state.knight, resources.entitySprite)
+            state.mob.forEach { entity -> entityDrawer.render(entity, resources.entitySprite, ticks) }
+            entityDrawer.render(state.knight, resources.entitySprite, ticks)
             hud.render(state.score, state.timing)
         }
     }

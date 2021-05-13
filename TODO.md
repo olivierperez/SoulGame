@@ -7,13 +7,17 @@
 
 - [x] Laisser le choix du niveau au joueur
 
-- [ ] i18n-er le jeu
+- [x] Mettre le jeu en pause quand on appuie sur escape
 
 - [ ] Au moment où la scène de jeu s'affiche
     - Décompte "3... 2... 1..." (le jeu est en freeze)
     - "Capturez-les tous !" (le jeu démarre)
-    
-- [ ] Mettre le jeu en pause quand on appuie sur espace
+
+- [ ] i18n-er le jeu
+
+- [ ] Avoir des niveaux de dimension différentes (pas que 16 x 12)
+
+- [ ] Pouvoir varier les paramètres en fonction du niveau (plus ou moins de mana par exemple)
 
 - [ ] Quand on convertit une âme
     - Jouer un petit son

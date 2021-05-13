@@ -5,8 +5,12 @@ import fr.o80.gamelib.loop.KeyPipeline
 import fr.o80.gamelib.loop.MouseButtonPipeline
 import fr.o80.gamelib.loop.MouseMovePipeline
 import fr.o80.gamelib.loop.Window
+import fr.o80.gamelib.menu.Menu
+import fr.o80.gamelib.menu.TextResources
 import fr.o80.gamelib.service.Services
 import fr.o80.soulgame.SoulSceneManager
+import fr.o80.soulgame.resource
+import fr.o80.soulgame.scenes.greenBackground
 import fr.o80.soulgame.scenes.level.entity.Knight
 import fr.o80.soulgame.scenes.level.entity.Soul
 import fr.o80.soulgame.scenes.level.level.Level
@@ -34,6 +38,11 @@ class LevelScene(
     private lateinit var system: LevelSystem
     private lateinit var renderer: LevelRenderer
 
+    private lateinit var pauseMenu: Menu
+    private lateinit var pauseOverlay: PauseOverlay
+
+    private var isPaused: Boolean = false
+
     override fun open(
         window: Window,
         services: Services,
@@ -55,20 +64,67 @@ class LevelScene(
         system.open(keyPipeline)
         levelState = LevelState(level, mob, knight, score, timing)
 
-        keyPipeline.onKey(GLFW.GLFW_KEY_ESCAPE, GLFW.GLFW_PRESS) { sceneManager.openMain() }
+        keyPipeline.onKey(GLFW.GLFW_KEY_ESCAPE, GLFW.GLFW_PRESS) { isPaused = !isPaused }
+
+        pauseMenu = Menu.MenuBuilder()
+            .of(
+                top = .0,
+                left = .0,
+                right = window.width.toDouble(),
+                bottom = window.height.toDouble()
+            )
+            .andResources(
+                background = greenBackground,
+                textResources = TextResources(
+                    font = resource("fonts/LaserCutRegular.ttf"),
+                    fontHeight = 50f
+                ),
+                titleResources = TextResources(
+                    font = resource("fonts/LaserCutRegular.ttf"),
+                    fontHeight = 99f
+                )
+            )
+            .withPipelines(
+                mouseButtonPipeline,
+                mouseMovePipeline
+            )
+            .andLayout {
+                title("Pause", verticalMargin = 50.0)
+                button("Resume") {
+                    isPaused = !isPaused
+                }
+                button("Select level") {
+                    sceneManager.openLevelSelector()
+                }
+                button("Quit") {
+                    sceneManager.quit()
+                }
+            }
+            .build()
+        pauseOverlay = PauseOverlay(window)
     }
 
     override fun close() {
         resources.close()
         renderer.close()
+        pauseMenu.close()
     }
 
     override suspend fun update() {
-        system.update(levelState)
+        if (isPaused) {
+            pauseMenu.update()
+        } else {
+            renderer.update()
+            system.update(levelState)
+        }
     }
 
     override suspend fun render() {
         renderer.render(levelState)
+        if (isPaused) {
+            pauseOverlay.render()
+            pauseMenu.render()
+        }
     }
 
     private fun gameOver(score: Long) {

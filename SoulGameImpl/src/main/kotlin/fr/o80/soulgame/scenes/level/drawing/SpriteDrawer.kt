@@ -8,11 +8,9 @@ import fr.o80.soulgame.scenes.level.movement.Direction
 import fr.o80.soulgame.scenes.level.movement.Movement
 
 class SpriteDrawer(
-    private val imagesPerSeconds: Int = 2,
+    private val ticksPerFrame: Int = 4,
     private val drawOutline: Boolean = false
 ) {
-
-    private val startTime: Long = System.currentTimeMillis()
 
     // TODO réinventer ces 2 méthodes draw...
     // TODO En fait le SpriteDrawer pourrait être découpé en DynamicSpriteDrawer/StaticSpriteDrawer
@@ -39,10 +37,11 @@ class SpriteDrawer(
         x: Float,
         y: Float,
         drawingZoneWidth: Float,
-        drawingZoneHeight: Float
+        drawingZoneHeight: Float,
+        ticks: Long
     ) {
         val (unitTopLeft, unitBottomRight) = sprite.computeUnitSprite(
-            x = characterIndex * 3 + movement.computeIndex(System.currentTimeMillis()),
+            x = characterIndex * 3 + movement.computeIndex(ticks),
             y = direction.index
         )
         val (outWidth, outHeight) = computeRatio(sprite, drawingZoneWidth, drawingZoneHeight)
@@ -93,8 +92,8 @@ class SpriteDrawer(
         }
     }
 
-    private fun Movement.computeIndex(millis: Long): Int {
-        val delta = (millis - startTime) * imagesPerSeconds / 1000
+    private fun Movement.computeIndex(ticks: Long): Int {
+        val delta = ticks / ticksPerFrame
         return this.indices[(delta % this.indices.size).toInt()]
     }
 

@@ -7,7 +7,7 @@ import fr.o80.soulgame.scenes.level.movement.Direction
 class EntityDrawer(
     private val spriteDrawer: SpriteDrawer
 ) {
-    fun render(entity: Entity, sprite: Sprite) {
+    fun render(entity: Entity, sprite: Sprite, ticks: Long) {
         spriteDrawer.drawAnimated(
             sprite = sprite,
             characterIndex = entity.characterIndex,
@@ -16,7 +16,8 @@ class EntityDrawer(
             x = entity.x,
             y = entity.y,
             drawingZoneWidth = entity.size,
-            drawingZoneHeight = entity.size
+            drawingZoneHeight = entity.size,
+            ticks = ticks
         )
     }
 }

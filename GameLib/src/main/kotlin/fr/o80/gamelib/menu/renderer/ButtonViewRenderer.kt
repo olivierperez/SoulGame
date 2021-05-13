@@ -1,7 +1,7 @@
 package fr.o80.gamelib.menu.renderer
 
-import fr.o80.gamelib.GG
 import fr.o80.gamelib.dsl.Draw
+import fr.o80.gamelib.dsl.alpha
 import fr.o80.gamelib.dsl.draw
 import fr.o80.gamelib.menu.TextResources
 import fr.o80.gamelib.menu.view.Button
@@ -63,16 +63,15 @@ class ButtonViewRenderer(
 
     private fun Draw.drawBackground(button: Button) {
         if (button.state == ViewState.HOVER) {
-            GG.glEnable(GG.GL_BLEND)
-            GG.glBlendFunc(GG.GL_SRC_ALPHA, GG.GL_ONE_MINUS_SRC_ALPHA)
-            color(1f, 1f, 1f, 0.1f)
-            quad(
-                button.bounds.left + button.horizontalMargin,
-                button.bounds.top + button.verticalMargin,
-                button.bounds.right - button.horizontalMargin,
-                button.bounds.bottom - button.verticalMargin
-            )
-            GG.glDisable(GG.GL_BLEND)
+            alpha {
+                color(1f, 1f, 1f, 0.1f)
+                quad(
+                    button.bounds.left + button.horizontalMargin,
+                    button.bounds.top + button.verticalMargin,
+                    button.bounds.right - button.horizontalMargin,
+                    button.bounds.bottom - button.verticalMargin
+                )
+            }
         }
 
         color(1f, 1f, 1f)
