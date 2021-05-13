@@ -20,7 +20,7 @@ task prepareResources(type: Copy) {
     into file("$buildDir/libs")
 }
 
-task delivery(type: Zip) {
+task release(type: Zip) {
     dependsOn "build", "prepareResources"
 
     from "$buildDir/libs"
