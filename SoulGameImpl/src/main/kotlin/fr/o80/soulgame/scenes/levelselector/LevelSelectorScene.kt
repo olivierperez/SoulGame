@@ -1,4 +1,4 @@
-package fr.o80.soulgame.scenes.gameover
+package fr.o80.soulgame.scenes.levelselector
 
 import fr.o80.gamelib.Scene
 import fr.o80.gamelib.loop.KeyPipeline
@@ -9,19 +9,16 @@ import fr.o80.gamelib.menu.Menu
 import fr.o80.gamelib.menu.TextResources
 import fr.o80.gamelib.service.Services
 import fr.o80.soulgame.SoulSceneManager
-import fr.o80.soulgame.data.InFileScoreRepository
 import fr.o80.soulgame.resource
 import fr.o80.soulgame.scenes.greenBackground
-import org.lwjgl.glfw.GLFW
 
-class GameOverScene(
-    private val sceneManager: SoulSceneManager,
-    private val info: GameOverInfo
+class LevelSelectorScene(
+    private val sceneManager: SoulSceneManager
 ) : Scene {
 
-    private lateinit var system: GameOverSystem
-    private lateinit var state: GameOverState
     private lateinit var menu: Menu
+
+    private val system = LevelSelectorSystem()
 
     override fun open(
         window: Window,
@@ -30,16 +27,6 @@ class GameOverScene(
         mouseButtonPipeline: MouseButtonPipeline,
         mouseMovePipeline: MouseMovePipeline
     ) {
-        keyPipeline.onKey(GLFW.GLFW_KEY_SPACE, GLFW.GLFW_RELEASE) {
-            sceneManager.openLevel(info.levelName)
-        }
-        keyPipeline.onKey(GLFW.GLFW_KEY_ESCAPE, GLFW.GLFW_RELEASE) {
-            sceneManager.quit()
-        }
-
-        system = GameOverSystem(info, InFileScoreRepository())
-        state = GameOverState()
-
         menu = Menu.MenuBuilder()
             .of(
                 top = .0,
@@ -51,11 +38,11 @@ class GameOverScene(
                 background = greenBackground,
                 textResources = TextResources(
                     font = resource("fonts/LaserCutRegular.ttf"),
-                    fontHeight = 30f
+                    fontHeight = 50f
                 ),
                 titleResources = TextResources(
                     font = resource("fonts/LaserCutRegular.ttf"),
-                    fontHeight = 80f
+                    fontHeight = 99f
                 )
             )
             .withPipelines(
@@ -63,15 +50,13 @@ class GameOverScene(
                 mouseMovePipeline
             )
             .andLayout {
-                title("Game Over")
-                text("Level: ${info.levelName}")
-                text { "SCORE: ${state.score}" }
-                text { "Best: ${state.bestScore}" }
-                button("Restart") {
-                    sceneManager.openLevel(info.levelName)
+                system.forEachLevel { levelName ->
+                    button(levelName) {
+                        sceneManager.openLevel(levelName)
+                    }
                 }
-                button("Quit") {
-                    sceneManager.quit()
+                button("Back") {
+                    sceneManager.openMain()
                 }
             }
             .build()
@@ -82,12 +67,10 @@ class GameOverScene(
     }
 
     override suspend fun update() {
-        system.update(state)
         menu.update()
     }
 
     override suspend fun render() {
         menu.render()
     }
-
 }

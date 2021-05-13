@@ -55,7 +55,7 @@ class LevelScene(
         system.open(keyPipeline)
         levelState = LevelState(level, mob, knight, score, timing)
 
-        keyPipeline.onKey(GLFW.GLFW_KEY_ESCAPE, GLFW.GLFW_PRESS) { sceneManager.quit() }
+        keyPipeline.onKey(GLFW.GLFW_KEY_ESCAPE, GLFW.GLFW_PRESS) { sceneManager.openMain() }
     }
 
     override fun close() {

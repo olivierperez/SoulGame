@@ -16,6 +16,7 @@ import fr.o80.soulgame.scenes.greenBackground
 class MainScene(
     private val sceneManager: SoulSceneManager
 ) : Scene {
+
     private lateinit var menu: Menu
 
     override fun open(
@@ -53,6 +54,9 @@ class MainScene(
                 title("Soul Game", verticalMargin = 50.0)
                 button("Start") {
                     sceneManager.openLevel("level_1")
+                }
+                button("Select level") {
+                    sceneManager.openLevelSelector()
                 }
                 button("Quit") {
                     sceneManager.quit()

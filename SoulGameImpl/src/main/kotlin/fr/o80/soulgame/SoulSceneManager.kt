@@ -6,6 +6,7 @@ import fr.o80.gamelib.loop.GameLoop
 import fr.o80.soulgame.scenes.gameover.GameOverInfo
 import fr.o80.soulgame.scenes.gameover.GameOverScene
 import fr.o80.soulgame.scenes.level.LevelScene
+import fr.o80.soulgame.scenes.levelselector.LevelSelectorScene
 import fr.o80.soulgame.scenes.main.MainScene
 
 class SoulSceneManager(
@@ -15,12 +16,14 @@ class SoulSceneManager(
     override val initialScene: Scene
         get() = MainScene(this)
 
-    fun openLevel(leveName: String) {
-        gameLoop.open(LevelScene(this, leveName))
+    fun openMain() {
+        gameLoop.open(MainScene(this))
     }
 
-    fun quit() {
-        gameLoop.stop()
+    fun openLevel(leveName: String) {
+        gameLoop.open(
+            LevelScene(this, leveName)
+        )
     }
 
     fun openGameOver(levelName: String, score: Long) {
@@ -30,6 +33,16 @@ class SoulSceneManager(
                 GameOverInfo(levelName, score)
             )
         )
+    }
+
+    fun openLevelSelector() {
+        gameLoop.open(
+            LevelSelectorScene(this)
+        )
+    }
+
+    fun quit() {
+        gameLoop.stop()
     }
 
 }
