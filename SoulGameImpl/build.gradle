@@ -31,7 +31,6 @@ task release(type: Zip) {
 
 repositories {
     mavenCentral()
-    jcenter()
 }
 
 dependencies {
