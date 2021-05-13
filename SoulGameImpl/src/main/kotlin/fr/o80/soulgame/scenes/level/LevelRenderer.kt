@@ -1,6 +1,5 @@
 package fr.o80.soulgame.scenes.level
 
-import fr.o80.gamelib.GG
 import fr.o80.gamelib.dsl.draw
 import fr.o80.gamelib.loop.Window
 import fr.o80.gamelib.text.TextRenderer
@@ -37,7 +36,7 @@ class LevelRenderer(
     }
 
     fun close() {
-        // TODO Release TextRenderer
+        textRenderer.close()
     }
 
     fun update() {

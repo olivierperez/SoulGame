@@ -1,8 +1,8 @@
 package fr.o80.soulgame
 
-import fr.o80.gamelib.service.cursor.CursorManager
 import fr.o80.gamelib.drawing.Cursor
 import fr.o80.gamelib.loop.Window
+import fr.o80.gamelib.service.cursor.CursorManager
 import org.lwjgl.glfw.GLFW
 
 class SoulCursorManager(private val window: Window) : CursorManager {

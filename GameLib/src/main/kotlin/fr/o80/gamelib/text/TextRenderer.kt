@@ -3,7 +3,6 @@ package fr.o80.gamelib.text
 import fr.o80.gamelib.GG
 import fr.o80.gamelib.dsl.draw
 import org.lwjgl.BufferUtils
-import org.lwjgl.opengl.GL46
 import org.lwjgl.stb.STBTTAlignedQuad
 import org.lwjgl.stb.STBTTBakedChar
 import org.lwjgl.stb.STBTTFontinfo
