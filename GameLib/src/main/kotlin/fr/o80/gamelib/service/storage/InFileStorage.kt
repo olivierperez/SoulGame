@@ -4,20 +4,19 @@ import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 import java.io.File
 
-private const val FILENAME = "GameLib.save"
-
 class InFileStorage<T>(
-    private val serializer: KSerializer<T>
+    private val serializer: KSerializer<T>,
+    private val filename: String
 ) : Storage<T> {
 
     override fun store(value: T) {
-        File(FILENAME).writer().use { writer ->
+        File(filename).writer().use { writer ->
             writer.write(Json.encodeToString(serializer, value))
         }
     }
 
     override fun get(): T? {
-        return File(FILENAME)
+        return File(filename)
             .takeIf { it.isFile }
             ?.reader()
             ?.use { reader ->

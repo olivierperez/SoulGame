@@ -4,8 +4,10 @@ import fr.o80.gamelib.service.storage.InFileStorage
 import fr.o80.gamelib.service.storage.Storage
 import fr.o80.soulgame.data.model.BestScores
 
+private const val FILENAME = "SoulGame.save"
+
 class InFileScoreRepository(
-    private val storage: Storage<BestScores> = InFileStorage(BestScores.serializer())
+    private val storage: Storage<BestScores> = InFileStorage(BestScores.serializer(), FILENAME)
 ) : ScoreRepository {
 
     override fun updateBestScore(levelName: String, score: Long) {
