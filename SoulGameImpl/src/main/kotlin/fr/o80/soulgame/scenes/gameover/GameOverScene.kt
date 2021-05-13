@@ -70,6 +70,9 @@ class GameOverScene(
                 button("Restart") {
                     sceneManager.openLevel(info.levelName)
                 }
+                button("Select level") {
+                    sceneManager.openLevelSelector()
+                }
                 button("Quit") {
                     sceneManager.quit()
                 }
