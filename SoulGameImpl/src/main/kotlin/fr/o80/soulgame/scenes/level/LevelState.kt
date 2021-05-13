@@ -9,5 +9,12 @@ class LevelState(
     val mob: List<Soul>,
     val knight: Knight,
     val score: Score,
-    val timing: Timing
+    val timing: Timing,
+    var playingState: PlayingState
 )
+
+enum class PlayingState {
+    PAUSE,
+    PLAYING,
+    COUNTDOWN
+}

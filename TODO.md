@@ -9,7 +9,7 @@
 
 - [x] Mettre le jeu en pause quand on appuie sur escape
 
-- [ ] Au moment où la scène de jeu s'affiche
+- [x] Au moment où la scène de jeu s'affiche
     - Décompte "3... 2... 1..." (le jeu est en freeze)
     - "Capturez-les tous !" (le jeu démarre)
 

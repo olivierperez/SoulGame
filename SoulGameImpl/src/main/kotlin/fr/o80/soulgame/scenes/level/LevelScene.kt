@@ -1,5 +1,6 @@
 package fr.o80.soulgame.scenes.level
 
+import fr.o80.gamelib.Be
 import fr.o80.gamelib.Scene
 import fr.o80.gamelib.loop.KeyPipeline
 import fr.o80.gamelib.loop.MouseButtonPipeline
@@ -11,6 +12,9 @@ import fr.o80.gamelib.service.Services
 import fr.o80.soulgame.SoulSceneManager
 import fr.o80.soulgame.resource
 import fr.o80.soulgame.scenes.greenBackground
+import fr.o80.soulgame.scenes.level.PlayingState.COUNTDOWN
+import fr.o80.soulgame.scenes.level.PlayingState.PAUSE
+import fr.o80.soulgame.scenes.level.PlayingState.PLAYING
 import fr.o80.soulgame.scenes.level.entity.Knight
 import fr.o80.soulgame.scenes.level.entity.Soul
 import fr.o80.soulgame.scenes.level.level.Level
@@ -39,9 +43,8 @@ class LevelScene(
     private lateinit var renderer: LevelRenderer
 
     private lateinit var pauseMenu: Menu
-    private lateinit var pauseOverlay: PauseOverlay
-
-    private var isPaused: Boolean = false
+    private lateinit var darkOverlay: PauseOverlayRenderer
+    private lateinit var countDownRenderer: CountDownRenderer
 
     override fun open(
         window: Window,
@@ -62,9 +65,15 @@ class LevelScene(
         renderer.open()
         system = LevelSystem(knight, level, tileSize, resources, manaReloading, ::gameOver)
         system.open(keyPipeline)
-        levelState = LevelState(level, mob, knight, score, timing)
+        levelState = LevelState(level, mob, knight, score, timing, COUNTDOWN)
 
-        keyPipeline.onKey(GLFW.GLFW_KEY_ESCAPE, GLFW.GLFW_PRESS) { isPaused = !isPaused }
+        keyPipeline.onKey(GLFW.GLFW_KEY_ESCAPE, GLFW.GLFW_PRESS) {
+            levelState.playingState = when (levelState.playingState) {
+                PLAYING -> PAUSE
+                PAUSE -> PLAYING
+                COUNTDOWN -> levelState.playingState
+            }
+        }
 
         pauseMenu = Menu.MenuBuilder()
             .of(
@@ -91,7 +100,7 @@ class LevelScene(
             .andLayout {
                 title("Pause", verticalMargin = 50.0)
                 button("Resume") {
-                    isPaused = !isPaused
+                    levelState.playingState = PLAYING
                 }
                 button("Select level") {
                     sceneManager.openLevelSelector()
@@ -101,29 +110,48 @@ class LevelScene(
                 }
             }
             .build()
-        pauseOverlay = PauseOverlay(window)
+        darkOverlay = PauseOverlayRenderer(window)
+        countDownRenderer = CountDownRenderer(window)
+        countDownRenderer.open()
     }
 
     override fun close() {
         resources.close()
         renderer.close()
         pauseMenu.close()
+        countDownRenderer.close()
     }
 
     override suspend fun update() {
-        if (isPaused) {
-            pauseMenu.update()
-        } else {
-            renderer.update()
-            system.update(levelState)
+        Be exhaustive when (levelState.playingState) {
+            PAUSE -> {
+                pauseMenu.update()
+            }
+            PLAYING -> {
+                renderer.update()
+                system.update(levelState)
+            }
+            COUNTDOWN -> {
+                countDownRenderer.update(levelState)
+            }
         }
     }
 
     override suspend fun render() {
-        renderer.render(levelState)
-        if (isPaused) {
-            pauseOverlay.render()
-            pauseMenu.render()
+        Be exhaustive when (levelState.playingState) {
+            PAUSE -> {
+                renderer.render(levelState)
+                darkOverlay.render()
+                pauseMenu.render()
+            }
+            PLAYING -> {
+                renderer.render(levelState)
+            }
+            COUNTDOWN -> {
+                renderer.render(levelState)
+                darkOverlay.render()
+                countDownRenderer.render()
+            }
         }
     }
 

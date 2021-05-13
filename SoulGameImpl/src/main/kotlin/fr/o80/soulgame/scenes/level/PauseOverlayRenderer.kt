@@ -4,7 +4,7 @@ import fr.o80.gamelib.dsl.alpha
 import fr.o80.gamelib.dsl.draw
 import fr.o80.gamelib.loop.Window
 
-class PauseOverlay(
+class PauseOverlayRenderer(
     private val window: Window
 ) {
 
