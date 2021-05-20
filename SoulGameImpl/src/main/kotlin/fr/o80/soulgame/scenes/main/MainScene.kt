@@ -52,13 +52,13 @@ class MainScene(
             )
             .andLayout {
                 title("Soul Game", verticalMargin = 50.0)
-                button("Start") {
+                button(services.messages["main.start"]) {
                     sceneManager.openLevel("level_1")
                 }
-                button("Select level") {
+                button(services.messages["main.select_level"]) {
                     sceneManager.openLevelSelector()
                 }
-                button("Quit") {
+                button(services.messages["main.quit"]) {
                     sceneManager.quit()
                 }
             }

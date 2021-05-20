@@ -2,11 +2,13 @@ package fr.o80.soulgame.scenes.level
 
 import fr.o80.gamelib.dsl.draw
 import fr.o80.gamelib.loop.Window
+import fr.o80.gamelib.service.i18n.Messages
 import fr.o80.gamelib.text.TextRenderer
 import fr.o80.soulgame.resource
 
 class CountDownRenderer(
-    private val window: Window
+    private val window: Window,
+    private val messages: Messages
 ) {
 
     private val initialTicks: Long = 80
@@ -35,7 +37,7 @@ class CountDownRenderer(
     }
 
     fun render() {
-        val text = "Wait for it $remainingCount"
+        val text = messages["level.wait_for_it", remainingCount]
         val translateX = (window.width - textRenderer.getStringWidth(text)) / 2.0
         val translateY = (window.height - textRenderer.getStringHeight()) / 2.0
 

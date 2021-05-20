@@ -63,17 +63,17 @@ class GameOverScene(
                 mouseMovePipeline
             )
             .andLayout {
-                title("Game Over")
-                text("Level: ${info.levelName}")
-                text { "SCORE: ${state.score}" }
-                text { "Best: ${state.bestScore}" }
-                button("Restart") {
+                title(services.messages["gameover.title"])
+                text(services.messages["gameover.level", info.levelName])
+                text { services.messages["gameover.score", state.score] }
+                text { services.messages["gameover.best", state.bestScore] }
+                button(services.messages["gameover.restart"]) {
                     sceneManager.openLevel(info.levelName)
                 }
-                button("Select level") {
+                button(services.messages["gameover.select_level"]) {
                     sceneManager.openLevelSelector()
                 }
-                button("Quit") {
+                button(services.messages["gameover.quit"]) {
                     sceneManager.quit()
                 }
             }

@@ -55,7 +55,7 @@ class LevelSelectorScene(
                         sceneManager.openLevel(levelName)
                     }
                 }
-                button("Back") {
+                button(services.messages["level_selector.back"]) {
                     sceneManager.openMain()
                 }
             }

@@ -13,7 +13,7 @@
     - Décompte "3... 2... 1..." (le jeu est en freeze)
     - "Capturez-les tous !" (le jeu démarre)
 
-- [ ] i18n-er le jeu
+- [x] i18n-er le jeu
 
 - [ ] Avoir des niveaux de dimension différentes (pas que 16 x 12)
 
@@ -27,3 +27,6 @@
     - Jouer un petit son
     - Afficher des particules !
     
+- [ ] Corriger l'alignement des éléments des menus
+
+- [ ] Attention au "level_1" codé en dur dans MainScene -> sceneManager.openLevel("level_1")
