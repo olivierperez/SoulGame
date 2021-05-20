@@ -45,9 +45,9 @@ dependencies {
     implementation 'org.lwjgl.osgi:org.lwjgl.opengl:3.2.1.2'
     implementation 'org.lwjgl.osgi:org.lwjgl.stb:3.2.1.2'
 
-    testImplementation('org.junit.jupiter:junit-jupiter-api:5.4.2')
-    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.4.2'
-    testRuntime('org.junit.jupiter:junit-jupiter-engine:5.4.2')
+    testImplementation('org.junit.jupiter:junit-jupiter-api:5.7.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.7.0'
+    testRuntime('org.junit.jupiter:junit-jupiter-engine:5.7.0')
 }
 
 compileKotlin {
