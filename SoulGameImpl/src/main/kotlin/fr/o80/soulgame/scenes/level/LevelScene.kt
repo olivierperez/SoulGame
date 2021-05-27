@@ -71,13 +71,21 @@ class LevelScene(
 
         keyPipeline.onKey(GLFW.GLFW_KEY_ESCAPE, GLFW.GLFW_PRESS) {
             levelState.playingState = when (levelState.playingState) {
-                PLAYING -> PAUSE
-                PAUSE -> PLAYING
-                COUNTDOWN -> levelState.playingState
+                PLAYING -> {
+                    pauseMenu.enable()
+                    PAUSE
+                }
+                PAUSE -> {
+                    pauseMenu.disabled()
+                    PLAYING
+                }
+                COUNTDOWN -> {
+                    levelState.playingState
+                }
             }
         }
 
-        pauseMenu = Menu.MenuBuilder()
+        pauseMenu = Menu.MenuBuilder(false)
             .of(
                 top = .0,
                 left = .0,

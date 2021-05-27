@@ -18,7 +18,8 @@ import org.lwjgl.glfw.GLFW
 class Menu private constructor(
     private val views: List<MenuView>,
     private val background: Vertex3f,
-    private val renderers: List<ViewRenderer>
+    private val renderers: List<ViewRenderer>,
+    private var enabled: Boolean
 ) {
 
     fun update() {
@@ -39,6 +40,7 @@ class Menu private constructor(
     }
 
     private fun handleClick(x: Double, y: Double) {
+        enabled || return
         views.at(x, y)
             ?.let { it as? Clickable }
             ?.onClick()
@@ -62,7 +64,15 @@ class Menu private constructor(
         renderers.forEach { renderer -> renderer.close() }
     }
 
-    class MenuBuilder {
+    fun enable() {
+        enabled = true
+    }
+
+    fun disabled() {
+        enabled = false
+    }
+
+    class MenuBuilder(private val enabled: Boolean = true) {
 
         private lateinit var mouseButtonPipeline: MouseButtonPipeline
         private lateinit var mouseMovePipeline: MouseMovePipeline
@@ -127,7 +137,8 @@ class Menu private constructor(
             val menu = Menu(
                 views = layout.views,
                 background = background,
-                renderers = renderers
+                renderers = renderers,
+                enabled = enabled
             )
 
             mouseButtonPipeline.onButton(GLFW.GLFW_MOUSE_BUTTON_LEFT, GLFW.GLFW_RELEASE) { x, y ->
