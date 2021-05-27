@@ -40,7 +40,7 @@ class CountDownRenderer(
     fun render() {
         val text = messages["level.wait_for_it", remainingCount]
         val translateX = (window.width - textRenderer.getStringWidth(text)) / 2.0
-        val translateY = (window.height - textRenderer.getStringHeight()) / 2.0
+        val translateY = (window.height - textRenderer.getStringHeight(text)) / 2.0
 
         draw {
             pushed {

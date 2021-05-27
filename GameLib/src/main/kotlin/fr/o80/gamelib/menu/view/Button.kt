@@ -6,7 +6,7 @@ class Button(
     val text: String,
     private val click: () -> Unit,
     override val horizontalPadding: Double = 40.0,
-    override val verticalPadding: Double = 10.0
+    override val verticalPadding: Double = 15.0
 ) : Clickable, MenuView {
 
     override var state: ViewState = ViewState.NORMAL

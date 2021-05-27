@@ -34,7 +34,8 @@ class ButtonViewRenderer(
     }
 
     override fun getHeight(view: MenuView): Double {
-        return textRenderer.getStringHeight() + 2 * (view.verticalMargin + view.verticalPadding)
+        view as? Button ?: throw IllegalStateException("The given view must be checked with \"canRender()\" method")
+        return textRenderer.getStringHeight(view.text) + 2 * (view.verticalMargin + view.verticalPadding)
     }
 
     override fun getWidth(view: MenuView): Double {
@@ -57,6 +58,7 @@ class ButtonViewRenderer(
                 button.bounds.top + button.verticalMargin + button.verticalPadding,
                 .0
             )
+            color(1f, 1f, 1f)
             textRenderer.render(button.text)
         }
     }

@@ -21,7 +21,7 @@ fun Draw.drawDebug(view: MenuView) {
         view.bounds.right - view.horizontalMargin,
         view.bounds.bottom - view.verticalMargin
     )
-    color(.4f, 0f, 0f)
+    color(0f, 0f, .4f)
     rect(
         view.bounds.left + view.horizontalMargin + view.horizontalPadding,
         view.bounds.top + view.verticalMargin + view.verticalPadding,

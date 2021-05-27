@@ -50,7 +50,8 @@ class TextViewRenderer(
     }
 
     override fun getHeight(view: MenuView): Double {
-        return textRenderer.getStringHeight() + 2 * (view.verticalMargin + view.verticalPadding)
+        view as? Text ?: throw IllegalStateException("The given view must be checked with \"canRender()\" method")
+        return textRenderer.getStringHeight(view.text()) + 2 * (view.verticalMargin + view.verticalPadding)
     }
 
     // TODO Ekaliroots - Abstraire ça dans un abstract, façon method-template

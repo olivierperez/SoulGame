@@ -72,11 +72,9 @@ class TextRenderer(
 
     fun render(text: String) {
         draw {
-            texture2d {
-                pushed {
-                    translate(margin, margin + fontHeight, 0f)
-                    renderText(text)
-                }
+            pushed {
+                translate(margin, margin + getStringHeight(text), 0f)
+                texture2d { renderText(text) }
             }
         }
     }
@@ -85,16 +83,20 @@ class TextRenderer(
         return getStringWidth(fontInfo, text, 0, text.length)
     }
 
-    fun getStringHeight(): Float {
-        MemoryStack.stackPush().use { stack ->
-            val bufAscent: IntBuffer = stack.ints(0)
-            val bufDescent: IntBuffer = stack.ints(0)
-            val bufLineGap: IntBuffer = stack.ints(0)
-
-            STBTruetype.stbtt_GetFontVMetrics(fontInfo, bufAscent, bufDescent, bufLineGap)
-            val scaleEm = STBTruetype.stbtt_ScaleForMappingEmToPixels(fontInfo, fontHeight)
-            return (bufAscent.get(0) - bufDescent.get(0) + bufLineGap.get(0)) * scaleEm
+    fun getStringHeight(text: String): Float {
+        val scaleEm = STBTruetype.stbtt_ScaleForMappingEmToPixels(fontInfo, fontHeight)
+        val biggerGlyphHeight = MemoryStack.stackPush().use { stack ->
+            text.map { char ->
+                val x0: IntBuffer = stack.ints(0)
+                val y0: IntBuffer = stack.ints(0)
+                val x1: IntBuffer = stack.ints(0)
+                val y1: IntBuffer = stack.ints(0)
+                STBTruetype.stbtt_GetCodepointBox(fontInfo, char.code, x0, y0, x1, y1)
+                y1[0]
+            }.maxOrNull() ?: 0
         }
+
+        return biggerGlyphHeight * scaleEm
     }
 
     private fun initFont(bitmap: ByteBuffer, bitmapWidth: Int, bitmapHeight: Int) {
@@ -150,7 +152,7 @@ class TextRenderer(
             while (i < to) {
                 i += getCodePoint(text, to, i, pCodePoints)
                 val codePoint = pCodePoints[0]
-                if (codePoint == '\n'.toInt()) {
+                if (codePoint == '\n'.code) {
                     if (drawBoxBorder) {
                         GG.glEnd()
                         renderLineBB(lineStart, i - 1, y[0], scale, text)
@@ -257,7 +259,7 @@ class TextRenderer(
                 return 2
             }
         }
-        cpOut.put(0, c1.toInt())
+        cpOut.put(0, c1.code)
         return 1
     }
 
