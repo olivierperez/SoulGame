@@ -4,6 +4,7 @@ import fr.o80.gamelib.dsl.draw
 import fr.o80.gamelib.loop.Window
 import fr.o80.gamelib.service.i18n.Messages
 import fr.o80.gamelib.text.TextRenderer
+import fr.o80.soulgame.TEXT_FONT
 import fr.o80.soulgame.resource
 
 class CountDownRenderer(
@@ -16,8 +17,8 @@ class CountDownRenderer(
     private var remainingCount: Long = 3
 
     private val textRenderer: TextRenderer = TextRenderer(
-        resource("fonts/LaserCutRegular.ttf"),
-        fontHeight = 60f
+        resource(TEXT_FONT),
+        fontHeight = 40f
     )
 
     fun open() {

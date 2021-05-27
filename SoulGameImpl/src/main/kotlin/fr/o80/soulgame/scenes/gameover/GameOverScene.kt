@@ -8,6 +8,10 @@ import fr.o80.gamelib.loop.Window
 import fr.o80.gamelib.menu.Menu
 import fr.o80.gamelib.menu.TextResources
 import fr.o80.gamelib.service.Services
+import fr.o80.soulgame.MENU_TEXT_FONT
+import fr.o80.soulgame.MENU_TEXT_SIZE
+import fr.o80.soulgame.MENU_TITLE_FONT
+import fr.o80.soulgame.MENU_TITLE_SIZE
 import fr.o80.soulgame.SoulSceneManager
 import fr.o80.soulgame.data.InFileScoreRepository
 import fr.o80.soulgame.resource
@@ -50,12 +54,12 @@ class GameOverScene(
             .andResources(
                 background = greenBackground,
                 textResources = TextResources(
-                    font = resource("fonts/LaserCutRegular.ttf"),
-                    fontHeight = 30f
+                    font = resource(MENU_TEXT_FONT),
+                    fontHeight = MENU_TEXT_SIZE
                 ),
                 titleResources = TextResources(
-                    font = resource("fonts/LaserCutRegular.ttf"),
-                    fontHeight = 80f
+                    font = resource(MENU_TITLE_FONT),
+                    fontHeight = MENU_TITLE_SIZE
                 )
             )
             .withPipelines(

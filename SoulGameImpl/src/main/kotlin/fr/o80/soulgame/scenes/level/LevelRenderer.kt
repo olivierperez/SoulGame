@@ -4,6 +4,7 @@ import fr.o80.gamelib.dsl.draw
 import fr.o80.gamelib.loop.Window
 import fr.o80.gamelib.service.i18n.Messages
 import fr.o80.gamelib.text.TextRenderer
+import fr.o80.soulgame.TEXT_FONT
 import fr.o80.soulgame.resource
 import fr.o80.soulgame.scenes.greenBackground
 import fr.o80.soulgame.scenes.level.drawing.EntityDrawer
@@ -26,7 +27,7 @@ class LevelRenderer(
 
     private val entityDrawer: EntityDrawer = EntityDrawer(SpriteDrawer(4))
     private val levelDrawer: LevelDrawer = LevelDrawer(SpriteDrawer(4), tileSize)
-    private val textRenderer: TextRenderer = TextRenderer(resource("fonts/LaserCutRegular.ttf"))
+    private val textRenderer: TextRenderer = TextRenderer(resource(TEXT_FONT))
     private val hud: HUD = HUD(textRenderer, window, messages)
     private var ticks: Long = 0
 

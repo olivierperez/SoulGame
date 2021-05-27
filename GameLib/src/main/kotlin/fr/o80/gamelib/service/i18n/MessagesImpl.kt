@@ -4,7 +4,7 @@ import java.util.*
 
 class MessagesImpl : Messages {
 
-    private val bundle = ResourceBundle.getBundle("i18n")
+    private val bundle = ResourceBundle.getBundle("i18n", Utf8Control())
 
     override fun get(key: String): String {
         return bundle.getString(key)

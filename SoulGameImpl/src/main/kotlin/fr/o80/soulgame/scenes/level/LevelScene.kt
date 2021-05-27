@@ -9,6 +9,8 @@ import fr.o80.gamelib.loop.Window
 import fr.o80.gamelib.menu.Menu
 import fr.o80.gamelib.menu.TextResources
 import fr.o80.gamelib.service.Services
+import fr.o80.soulgame.MENU_TEXT_FONT
+import fr.o80.soulgame.MENU_TITLE_FONT
 import fr.o80.soulgame.SoulSceneManager
 import fr.o80.soulgame.resource
 import fr.o80.soulgame.scenes.greenBackground
@@ -85,11 +87,11 @@ class LevelScene(
             .andResources(
                 background = greenBackground,
                 textResources = TextResources(
-                    font = resource("fonts/LaserCutRegular.ttf"),
+                    font = resource(MENU_TEXT_FONT),
                     fontHeight = 50f
                 ),
                 titleResources = TextResources(
-                    font = resource("fonts/LaserCutRegular.ttf"),
+                    font = resource(MENU_TITLE_FONT),
                     fontHeight = 99f
                 )
             )
