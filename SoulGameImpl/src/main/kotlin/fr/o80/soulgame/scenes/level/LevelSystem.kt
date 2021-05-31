@@ -43,7 +43,7 @@ class LevelSystem(
         knightMovementCalculator.update(state.knight)
         state.mob.forEach { soul ->
             soulMovementCalculator.update(soul)
-            triggerDetector.update(state.level.blocks, state.mob + state.knight) { block: Block, entity: Entity ->
+            triggerDetector.update(state.level.terrain.blocks, state.mob + state.knight) { block: Block, entity: Entity ->
                 onTrigger(block, entity, state)
             }
         }
@@ -57,13 +57,13 @@ class LevelSystem(
     private fun initMovementCalculators() {
         val globalMovement = GlobalMovement(tileSize, resources.getEntityUnits())
         knightMovementCalculator = KnightMovementCalculator(
-            level = level,
+            terrain = level.terrain,
             tileSize = tileSize,
             adjustmentTolerance = 0.5f,
             globalMovement = globalMovement
         )
         soulMovementCalculator = SoulMovementCalculator(
-            level = level,
+            terrain = level.terrain,
             tileSize = tileSize,
             globalMovement = globalMovement
         )
@@ -98,7 +98,7 @@ class LevelSystem(
             entity.team = Team.UNDECIDED
             entity.movement = Movement.STANDING
             entity.direction = null
-            entity.respawn(level.mobSpawns.random().toPosition(tileSize))
+            entity.respawn(level.terrain.mobSpawns.random().toPosition(tileSize))
         }
     }
 }

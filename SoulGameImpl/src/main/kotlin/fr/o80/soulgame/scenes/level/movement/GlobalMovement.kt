@@ -3,7 +3,7 @@ package fr.o80.soulgame.scenes.level.movement
 import fr.o80.gamelib.Angles
 import fr.o80.gamelib.Position
 import fr.o80.soulgame.scenes.level.entity.Entity
-import fr.o80.soulgame.scenes.level.level.Level
+import fr.o80.soulgame.scenes.level.level.Terrain
 import kotlin.math.max
 
 class GlobalMovement(
@@ -13,7 +13,7 @@ class GlobalMovement(
 
     fun canGo(
         entity: Entity,
-        level: Level,
+        terrain: Terrain,
         direction: Direction,
         speed: Float,
         adjustX: Float = 0f,
@@ -30,10 +30,10 @@ class GlobalMovement(
 
         val (topLeft, bottomRight) = entity.getAngles(nextPosition)
 
-        return level.canGo(entity, (topLeft.x / tileSize).toInt(), (topLeft.y / tileSize).toInt()) &&
-               level.canGo(entity, (bottomRight.x / tileSize).toInt(), (topLeft.y / tileSize).toInt()) &&
-               level.canGo(entity, (bottomRight.x / tileSize).toInt(), (bottomRight.y / tileSize).toInt()) &&
-               level.canGo(entity, (topLeft.x / tileSize).toInt(), (bottomRight.y / tileSize).toInt())
+        return terrain.canGo(entity, (topLeft.x / tileSize).toInt(), (topLeft.y / tileSize).toInt()) &&
+               terrain.canGo(entity, (bottomRight.x / tileSize).toInt(), (topLeft.y / tileSize).toInt()) &&
+               terrain.canGo(entity, (bottomRight.x / tileSize).toInt(), (bottomRight.y / tileSize).toInt()) &&
+               terrain.canGo(entity, (topLeft.x / tileSize).toInt(), (bottomRight.y / tileSize).toInt())
     }
 
     fun goIn(entity: Entity, direction: Direction?, speed: Float) {

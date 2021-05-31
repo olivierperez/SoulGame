@@ -13,6 +13,7 @@ import fr.o80.soulgame.MENU_TEXT_FONT
 import fr.o80.soulgame.MENU_TITLE_FONT
 import fr.o80.soulgame.SoulSceneManager
 import fr.o80.soulgame.resource
+import fr.o80.soulgame.resourceFile
 import fr.o80.soulgame.scenes.greenBackground
 import fr.o80.soulgame.scenes.level.PlayingState.COUNTDOWN
 import fr.o80.soulgame.scenes.level.PlayingState.PAUSE
@@ -20,6 +21,7 @@ import fr.o80.soulgame.scenes.level.PlayingState.PLAYING
 import fr.o80.soulgame.scenes.level.entity.Knight
 import fr.o80.soulgame.scenes.level.entity.Soul
 import fr.o80.soulgame.scenes.level.level.Level
+import fr.o80.soulgame.scenes.level.loading.LevelLoader
 import org.lwjgl.glfw.GLFW
 
 private const val tileSize = 64f
@@ -55,7 +57,7 @@ class LevelScene(
         mouseButtonPipeline: MouseButtonPipeline,
         mouseMovePipeline: MouseMovePipeline
     ) {
-        level = LevelLoader().load(levelName)
+        level = LevelLoader().load(resourceFile("levels/$levelName.txt").inputStream())
 
         loadEntities(level)
 
@@ -171,7 +173,7 @@ class LevelScene(
 
     // TODO Move to LevelSystem ?
     private fun loadEntities(level: Level) {
-        val knightSpawn = level.knightSpawn.toPosition(tileSize)
+        val knightSpawn = level.terrain.knightSpawn.toPosition(tileSize)
         knight = Knight(
             x = knightSpawn.x,
             y = knightSpawn.y,
@@ -179,7 +181,7 @@ class LevelScene(
             speed = 6f
         )
 
-        mob = level.mobSpawns.map { spawn ->
+        mob = level.terrain.mobSpawns.map { spawn ->
             val position = spawn.toPosition(tileSize)
             Soul(
                 x = position.x,

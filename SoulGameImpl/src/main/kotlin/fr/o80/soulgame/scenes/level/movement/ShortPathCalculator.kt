@@ -1,12 +1,12 @@
 package fr.o80.soulgame.scenes.level.movement
 
 import fr.o80.soulgame.scenes.level.entity.Entity
-import fr.o80.soulgame.scenes.level.level.Level
 import fr.o80.soulgame.scenes.level.level.Point
+import fr.o80.soulgame.scenes.level.level.Terrain
 import java.util.*
 
 class ShortPathCalculator(
-    private val level: Level
+    private val terrain: Terrain
 ) {
     fun shortPath(entity: Entity, origin: Point, destination: Point): List<PathNode> {
         val start = PathNode(origin.x, origin.y, 0, 0, null)
@@ -23,7 +23,7 @@ class ShortPathCalculator(
             for (i in arrayOf(-1, 1)) {
                 val nextX = currentNode.x + i
                 val nextY = currentNode.y
-                if (level.canGo(entity, nextX, nextY)) {
+                if (terrain.canGo(entity, nextX, nextY)) {
                     if (done.doesntContain(nextX, nextY)) {
                         val nextNodeFromTodo = todo.get(nextX, nextY)
 
@@ -42,7 +42,7 @@ class ShortPathCalculator(
             for (i in arrayOf(-1, 1)) {
                 val nextX = currentNode.x
                 val nextY = currentNode.y + i
-                if (level.canGo(entity, nextX, nextY)) {
+                if (terrain.canGo(entity, nextX, nextY)) {
                     if (done.doesntContain(nextX, nextY)) {
                         val nextNodeFromTodo = todo.get(nextX, nextY)
 

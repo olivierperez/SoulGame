@@ -1,3 +1,13 @@
+Level.Name=Level 4
+Mana.GainAtPortal=50
+Mana.GainAtConversion=0
+Mana.Initial=2000
+Mana.Loss=1
+Font.Path=Reglo-Bold.otf
+Sprite.Characters=default/characters.png
+Sprite.Doors=default/doors.png
+Sprite.Walls=default/walls.png
+
 #######A########
 #             :#
 # # # #  # # # #

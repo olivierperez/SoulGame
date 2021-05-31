@@ -1,10 +1,10 @@
 package fr.o80.soulgame.scenes.level.movement
 
 import fr.o80.soulgame.scenes.level.entity.Knight
-import fr.o80.soulgame.scenes.level.level.Level
+import fr.o80.soulgame.scenes.level.level.Terrain
 
 class KnightMovementCalculator(
-    private val level: Level,
+    private val terrain: Terrain,
     private val tileSize: Float,
     private val adjustmentTolerance: Float,
     private val globalMovement: GlobalMovement
@@ -16,7 +16,7 @@ class KnightMovementCalculator(
 
         knight.movement = Movement.STANDING
         for (direction in directions) {
-            if (globalMovement.canGo(knight, level, direction, knight.speed)) {
+            if (globalMovement.canGo(knight, terrain, direction, knight.speed)) {
                 globalMovement.goIn(knight, direction, knight.speed)
                 return
             }
@@ -35,7 +35,7 @@ class KnightMovementCalculator(
                 when {
                     globalMovement.canGo(
                         knight,
-                        level,
+                        terrain,
                         direction,
                         knight.speed,
                         adjustY = -tileSize * tolerance / 100f
@@ -43,7 +43,7 @@ class KnightMovementCalculator(
                         Direction.UP
                     globalMovement.canGo(
                         knight,
-                        level,
+                        terrain,
                         direction,
                         knight.speed,
                         adjustY = tileSize * tolerance / 100f
@@ -58,7 +58,7 @@ class KnightMovementCalculator(
                 when {
                     globalMovement.canGo(
                         knight,
-                        level,
+                        terrain,
                         direction,
                         knight.speed,
                         adjustX = -tileSize * tolerance / 100f
@@ -66,7 +66,7 @@ class KnightMovementCalculator(
                         Direction.LEFT
                     globalMovement.canGo(
                         knight,
-                        level,
+                        terrain,
                         direction,
                         knight.speed,
                         adjustX = tileSize * tolerance / 100f

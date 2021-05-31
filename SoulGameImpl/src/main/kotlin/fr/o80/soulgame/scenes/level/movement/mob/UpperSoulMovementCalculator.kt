@@ -1,8 +1,8 @@
 package fr.o80.soulgame.scenes.level.movement.mob
 
 import fr.o80.soulgame.scenes.level.entity.Soul
-import fr.o80.soulgame.scenes.level.level.Level
 import fr.o80.soulgame.scenes.level.level.Point
+import fr.o80.soulgame.scenes.level.level.Terrain
 import fr.o80.soulgame.scenes.level.movement.Direction
 import fr.o80.soulgame.scenes.level.movement.EntityMovementCalculator
 import fr.o80.soulgame.scenes.level.movement.GlobalMovement
@@ -10,13 +10,13 @@ import fr.o80.soulgame.scenes.level.movement.Movement
 import fr.o80.soulgame.scenes.level.movement.ShortPathCalculator
 
 class UpperSoulMovementCalculator(
-    level: Level,
+    private val terrain: Terrain,
     private val tileSize: Float,
     private val globalMovement: GlobalMovement
 ) : EntityMovementCalculator<Soul> {
 
-    private val shortPathCalculator = ShortPathCalculator(level)
-    private val destination: Point = level.upperEnd.let { Point(it.x, it.y) }
+    private val shortPathCalculator = ShortPathCalculator(terrain)
+    private val destination: Point = terrain.upperEnd.let { Point(it.x, it.y) }
 
     override fun update(soul: Soul) {
         if (awayFromTileCenter(soul, tileSize)) {

@@ -4,6 +4,31 @@ import fr.o80.soulgame.scenes.level.entity.Entity
 import kotlin.math.abs
 
 class Level(
+    val settings: LevelSettings,
+    val terrain: Terrain,
+)
+
+class LevelSettings(
+    val name: String,
+    val mana: ManaConfig,
+    val font: String,
+    val sprite: SpritesConfig,
+)
+
+class ManaConfig(
+    val gainAtPortal: Int,
+    val gainAtConversion: Int,
+    val initial: Int,
+    val loss: Int,
+)
+
+class SpritesConfig(
+    val characters: String,
+    val doors: String,
+    val walls: String,
+)
+
+class Terrain(
     val blocks: List<Block>,
     val knightSpawn: Point,
     val mobSpawns: List<Point>

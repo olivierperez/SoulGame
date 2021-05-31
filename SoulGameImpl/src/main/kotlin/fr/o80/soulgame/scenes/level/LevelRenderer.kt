@@ -10,8 +10,8 @@ import fr.o80.soulgame.scenes.greenBackground
 import fr.o80.soulgame.scenes.level.drawing.EntityDrawer
 import fr.o80.soulgame.scenes.level.drawing.ExtraTileSelector
 import fr.o80.soulgame.scenes.level.drawing.HUD
-import fr.o80.soulgame.scenes.level.drawing.LevelDrawer
 import fr.o80.soulgame.scenes.level.drawing.SpriteDrawer
+import fr.o80.soulgame.scenes.level.drawing.TerrainDrawer
 import fr.o80.soulgame.scenes.level.drawing.selector.WallTileSelector
 import fr.o80.soulgame.scenes.level.level.Door
 import fr.o80.soulgame.scenes.level.level.Level
@@ -26,14 +26,14 @@ class LevelRenderer(
 ) {
 
     private val entityDrawer: EntityDrawer = EntityDrawer(SpriteDrawer(4))
-    private val levelDrawer: LevelDrawer = LevelDrawer(SpriteDrawer(4), tileSize)
+    private val terrainDrawer: TerrainDrawer = TerrainDrawer(SpriteDrawer(4), tileSize)
     private val textRenderer: TextRenderer = TextRenderer(resource(TEXT_FONT))
     private val hud: HUD = HUD(textRenderer, window, messages)
     private var ticks: Long = 0
 
     fun open() {
-        levelDrawer
-            .register(Wall::class, resources.wallsSprite, WallTileSelector(level))
+        terrainDrawer
+            .register(Wall::class, resources.wallsSprite, WallTileSelector(level.terrain))
             .register(Door::class, resources.extrasSprite, ExtraTileSelector())
         textRenderer.init()
     }
@@ -49,7 +49,7 @@ class LevelRenderer(
     fun render(state: LevelState) {
         draw {
             clear(greenBackground)
-            levelDrawer.render(state.level)
+            terrainDrawer.render(state.level.terrain)
             state.mob.forEach { entity -> entityDrawer.render(entity, resources.entitySprite, ticks) }
             entityDrawer.render(state.knight, resources.entitySprite, ticks)
             hud.render(state.score, state.timing)

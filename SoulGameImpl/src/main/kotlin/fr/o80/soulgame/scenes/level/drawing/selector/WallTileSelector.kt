@@ -1,10 +1,10 @@
 package fr.o80.soulgame.scenes.level.drawing.selector
 
 import fr.o80.soulgame.scenes.level.level.Block
-import fr.o80.soulgame.scenes.level.level.Level
+import fr.o80.soulgame.scenes.level.level.Terrain
 
 class WallTileSelector(
-    private val level: Level
+    private val terrain: Terrain
 ) : TileSelector {
 
     override fun get(block: Block, x: Int, y: Int): Pair<Int, Int> {
@@ -13,10 +13,10 @@ class WallTileSelector(
     }
 
     private fun computeTile(block: Block, x: Int, y: Int): TilePosition {
-        val wallUp = level.hasSameBlock(block, x, y - 1)
-        val wallRight = level.hasSameBlock(block, x + 1, y)
-        val wallDown = level.hasSameBlock(block, x, y + 1)
-        val wallLeft = level.hasSameBlock(block, x - 1, y)
+        val wallUp = terrain.hasSameBlock(block, x, y - 1)
+        val wallRight = terrain.hasSameBlock(block, x + 1, y)
+        val wallDown = terrain.hasSameBlock(block, x, y + 1)
+        val wallLeft = terrain.hasSameBlock(block, x - 1, y)
 
         return withWallsArround(wallUp, wallRight, wallDown, wallLeft)
     }

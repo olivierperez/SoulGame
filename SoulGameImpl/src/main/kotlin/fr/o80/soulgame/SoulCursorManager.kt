@@ -7,7 +7,7 @@ import org.lwjgl.glfw.GLFW
 
 class SoulCursorManager(private val window: Window) : CursorManager {
 
-    private var pointer: Cursor = Cursor(resourceFile("sprites/pointer.png"), 16, 16)
+    private var pointer: Cursor = Cursor(resourceFile("pointer.png"), 16, 16)
 
     override fun setCursor(type: Int) {
         when (type) {

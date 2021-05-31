@@ -24,7 +24,7 @@ class LevelResources {
 
     private fun loadTextures() {
         entitySprite = Sprite(
-            image = Image(resourceFile("sprites/knights.png")),
+            image = Image(resourceFile("default/sprites/characters.png")),
             unitWidth = 57,
             unitHeight = 87,
             marginTop = 4,
@@ -32,12 +32,12 @@ class LevelResources {
             verticalPadding = 21
         )
         wallsSprite = Sprite(
-            image = Image(resourceFile("sprites/walls.png")),
+            image = Image(resourceFile("default/sprites/walls.png")),
             unitWidth = 70,
             unitHeight = 70
         )
         extrasSprite = Sprite(
-            image = Image(resourceFile("sprites/extras.png")),
+            image = Image(resourceFile("default/sprites/doors.png")),
             unitWidth = 16,
             unitHeight = 16
         )

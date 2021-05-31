@@ -1,20 +1,20 @@
 package fr.o80.soulgame.scenes.level.movement.mob
 
 import fr.o80.soulgame.scenes.level.entity.Soul
-import fr.o80.soulgame.scenes.level.level.Level
 import fr.o80.soulgame.scenes.level.level.Point
+import fr.o80.soulgame.scenes.level.level.Terrain
 import fr.o80.soulgame.scenes.level.movement.Direction
 import fr.o80.soulgame.scenes.level.movement.EntityMovementCalculator
 import fr.o80.soulgame.scenes.level.movement.GlobalMovement
 
 class UndecidedSoulMovementCalculator(
-    private val level: Level,
+    private val terrain: Terrain,
     private val tileSize: Float,
     private val globalMovement: GlobalMovement
 ) : EntityMovementCalculator<Soul> {
 
     override fun update(soul: Soul) {
-        val canContinue = soul.direction != null && globalMovement.canGo(soul, level, soul.direction!!, soul.speed)
+        val canContinue = soul.direction != null && globalMovement.canGo(soul, terrain, soul.direction!!, soul.speed)
 
         if (isOnLastDecisionTile(soul) && canContinue) {
             globalMovement.goIn(soul, soul.direction, soul.speed)
@@ -32,7 +32,7 @@ class UndecidedSoulMovementCalculator(
     private fun maybeChangeDirection(soul: Soul) {
         val lastDirection = soul.direction
         val availableDirections = Direction.values()
-            .filter { direction -> globalMovement.canGo(soul, level, direction, tileSize) }
+            .filter { direction -> globalMovement.canGo(soul, terrain, direction, tileSize) }
             .toMutableList()
 
         val direction = when {
@@ -43,7 +43,7 @@ class UndecidedSoulMovementCalculator(
                 val randomDirection = availableDirections.random()
                 randomDirection
             }
-            lastDirection != null && globalMovement.canGo(soul, level, lastDirection, soul.speed) -> {
+            lastDirection != null && globalMovement.canGo(soul, terrain, lastDirection, soul.speed) -> {
                 soul.direction
             }
             availableDirections.size == 1 -> {

@@ -15,9 +15,24 @@
 
 - [x] i18n-er le jeu
 
-- [ ] Avoir des niveaux de dimension différentes (pas que 16 x 12)
+- [ ] Pouvoir varier les paramètres en fonction du niveau
+  - mana de départ / vitesse de consomation de mana
+  - regain/perte de mana par convertion jusqu'au portail
+  - regain/perte de mana par convertion au moment du contact
+  - thème
+      - sprites: characters / doors / walls
+      - font
+    
+- [ ] Retravailler l'écran de sélection de niveau sous forme de grille
 
-- [ ] Pouvoir varier les paramètres en fonction du niveau (plus ou moins de mana par exemple)
+- [ ] Débloquer un niveau uniquement quand les objectifs du niveau précédent sont validés
+    - objectifs
+        - plus de X convertis
+        - moins de Y convertis
+        - jouer au moins X minutes
+        - jouer au plus X minutes
+
+- [ ] Avoir des niveaux de dimension différentes (pas que 16 x 12)
 
 - [ ] Quand on convertit une âme
     - Jouer un petit son
