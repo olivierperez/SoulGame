@@ -9,6 +9,7 @@ class Level(
 )
 
 class LevelSettings(
+    val code: String,
     val name: String,
     val mana: ManaConfig,
     val font: String,

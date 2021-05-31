@@ -9,14 +9,14 @@ class GameOverSystem(
 ) {
 
     init {
-        val bestScore = repository.getBestScore(info.levelName)
+        val bestScore = repository.getBestScore(info.levelSettings.code)
         if (bestScore < info.score) {
-            repository.updateBestScore(info.levelName, info.score)
+            repository.updateBestScore(info.levelSettings.code, info.score)
         }
     }
 
     fun update(state: GameOverState) {
-        state.bestScore = repository.getBestScore(info.levelName)
+        state.bestScore = repository.getBestScore(info.levelSettings.code)
         state.score = min(state.score + 1, info.score)
     }
 }

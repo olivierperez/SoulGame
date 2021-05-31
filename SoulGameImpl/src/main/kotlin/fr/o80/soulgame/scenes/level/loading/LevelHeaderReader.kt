@@ -4,7 +4,7 @@ import fr.o80.soulgame.scenes.level.level.LevelSettings
 import fr.o80.soulgame.scenes.level.level.ManaConfig
 import fr.o80.soulgame.scenes.level.level.SpritesConfig
 
-class LevelHeaderReader {
+class LevelHeaderReader(private val code: String) {
 
     private var levelName: String? = null
     private var manaGainAtPortal: Int? = null
@@ -36,6 +36,7 @@ class LevelHeaderReader {
 
     fun build(): LevelSettings {
         return LevelSettings(
+            code = code,
             name = levelName ?: throw MalformedLevelFile("Level.Name is not set!"),
             mana = ManaConfig(
                 gainAtPortal = manaGainAtPortal ?: throw MalformedLevelFile("Mana.GainAtPortal is not set!"),

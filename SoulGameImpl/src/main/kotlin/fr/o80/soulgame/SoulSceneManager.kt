@@ -6,6 +6,7 @@ import fr.o80.gamelib.loop.GameLoop
 import fr.o80.soulgame.scenes.gameover.GameOverInfo
 import fr.o80.soulgame.scenes.gameover.GameOverScene
 import fr.o80.soulgame.scenes.level.LevelScene
+import fr.o80.soulgame.scenes.level.level.LevelSettings
 import fr.o80.soulgame.scenes.levelselector.LevelSelectorScene
 import fr.o80.soulgame.scenes.main.MainScene
 
@@ -26,11 +27,11 @@ class SoulSceneManager(
         )
     }
 
-    fun openGameOver(levelName: String, score: Long) {
+    fun openGameOver(levelSettings: LevelSettings, score: Long) {
         gameLoop.open(
             GameOverScene(
                 this,
-                GameOverInfo(levelName, score)
+                GameOverInfo(levelSettings, score)
             )
         )
     }

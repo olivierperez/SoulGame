@@ -33,7 +33,7 @@ internal class LevelLoaderTest {
         """.trimMargin()
 
         // When
-        val level = levelLoader.load(content.byteInputStream())
+        val level = levelLoader.load("level code", content.byteInputStream())
 
         // Then
         expect(level.settings.name).toBe("Testing")

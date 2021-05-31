@@ -16,7 +16,6 @@ import fr.o80.soulgame.SoulSceneManager
 import fr.o80.soulgame.data.InFileScoreRepository
 import fr.o80.soulgame.resource
 import fr.o80.soulgame.scenes.greenBackground
-import org.lwjgl.glfw.GLFW
 
 class GameOverScene(
     private val sceneManager: SoulSceneManager,
@@ -34,13 +33,6 @@ class GameOverScene(
         mouseButtonPipeline: MouseButtonPipeline,
         mouseMovePipeline: MouseMovePipeline
     ) {
-        keyPipeline.onKey(GLFW.GLFW_KEY_SPACE, GLFW.GLFW_RELEASE) {
-            sceneManager.openLevel(info.levelName)
-        }
-        keyPipeline.onKey(GLFW.GLFW_KEY_ESCAPE, GLFW.GLFW_RELEASE) {
-            sceneManager.quit()
-        }
-
         system = GameOverSystem(info, InFileScoreRepository())
         state = GameOverState()
 
@@ -68,11 +60,11 @@ class GameOverScene(
             )
             .andLayout {
                 title(services.messages["gameover.title"])
-                text(services.messages["gameover.level", info.levelName])
+                text(services.messages["gameover.level", info.levelSettings.name])
                 text { services.messages["gameover.score", state.score] }
                 text { services.messages["gameover.best", state.bestScore] }
                 button(services.messages["gameover.restart"]) {
-                    sceneManager.openLevel(info.levelName)
+                    sceneManager.openLevel(info.levelSettings.code)
                 }
                 button(services.messages["gameover.select_level"]) {
                     sceneManager.openLevelSelector()

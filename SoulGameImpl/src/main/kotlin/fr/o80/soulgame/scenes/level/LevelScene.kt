@@ -28,7 +28,7 @@ private const val tileSize = 64f
 
 class LevelScene(
     private val sceneManager: SoulSceneManager,
-    private val levelName: String
+    private val levelCode: String
 ) : Scene {
 
     private lateinit var levelState: LevelState
@@ -55,7 +55,7 @@ class LevelScene(
         mouseButtonPipeline: MouseButtonPipeline,
         mouseMovePipeline: MouseMovePipeline
     ) {
-        level = LevelLoader().load(resourceFile("levels/$levelName.txt").inputStream())
+        level = LevelLoader().load(levelCode, resourceFile("levels/$levelCode").inputStream())
 
         loadEntities(level)
 
@@ -170,7 +170,7 @@ class LevelScene(
     }
 
     private fun gameOver(score: Long) {
-        sceneManager.openGameOver(levelName, score)
+        sceneManager.openGameOver(level.settings, score)
     }
 
     // TODO Move to LevelSystem ?
