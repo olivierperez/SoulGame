@@ -6,7 +6,7 @@ import fr.o80.gamelib.loop.Window
 import fr.o80.gamelib.service.i18n.Messages
 import fr.o80.gamelib.text.TextRenderer
 import fr.o80.soulgame.scenes.level.Score
-import fr.o80.soulgame.scenes.level.Timing
+import fr.o80.soulgame.scenes.level.Mana
 
 class HUD(
     private val textRenderer: TextRenderer,
@@ -14,10 +14,10 @@ class HUD(
     private val messages: Messages
 ) {
 
-    fun render(score: Score, timing: Timing) {
+    fun render(score: Score, mana: Mana) {
         draw {
             drawScore(score)
-            drawTiming(timing)
+            drawTiming(mana)
         }
     }
 
@@ -34,10 +34,10 @@ class HUD(
         }
     }
 
-    private fun Draw.drawTiming(timing: Timing) {
+    private fun Draw.drawTiming(mana: Mana) {
         val totalSize = 200f
         val height = 20f
-        val remainingSize = (totalSize * timing.remainingTicks / timing.initialTicks)
+        val remainingSize = (totalSize * mana.remaining / mana.max)
             .coerceAtLeast(0f)
             .coerceAtMost(totalSize)
 

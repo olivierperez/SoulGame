@@ -3,6 +3,7 @@ Mana.GainAtPortal=50
 Mana.GainAtConversion=0
 Mana.Initial=2000
 Mana.Loss=1
+Mana.Max=2000
 Font.Path=Reglo-Bold.otf
 Sprite.Characters=default/characters.png
 Sprite.Doors=default/doors.png

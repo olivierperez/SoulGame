@@ -25,8 +25,6 @@ import fr.o80.soulgame.scenes.level.loading.LevelLoader
 import org.lwjgl.glfw.GLFW
 
 private const val tileSize = 64f
-private const val initialMana = 2000
-private const val manaReloading = 50
 
 class LevelScene(
     private val sceneManager: SoulSceneManager,
@@ -40,7 +38,7 @@ class LevelScene(
 
     private lateinit var level: Level
     private lateinit var score: Score
-    private lateinit var timing: Timing
+    private lateinit var mana: Mana
 
     private lateinit var resources: LevelResources
     private lateinit var system: LevelSystem
@@ -62,14 +60,18 @@ class LevelScene(
         loadEntities(level)
 
         score = Score()
-        timing = Timing(initialMana)
+        mana = Mana(
+            initial = level.settings.mana.initial,
+            loss = level.settings.mana.loss,
+            max = level.settings.mana.max
+        )
         resources = LevelResources()
         resources.open()
         renderer = LevelRenderer(level, resources, window, services.messages, tileSize)
         renderer.open()
-        system = LevelSystem(knight, level, tileSize, resources, manaReloading, ::gameOver)
+        system = LevelSystem(knight, level, tileSize, resources, ::gameOver)
         system.open(keyPipeline)
-        levelState = LevelState(level, mob, knight, score, timing, COUNTDOWN)
+        levelState = LevelState(level, mob, knight, score, mana, COUNTDOWN)
 
         keyPipeline.onKey(GLFW.GLFW_KEY_ESCAPE, GLFW.GLFW_PRESS) {
             levelState.playingState = when (levelState.playingState) {

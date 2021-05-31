@@ -1,18 +1,19 @@
 package fr.o80.soulgame.scenes.level.collision
 
+import fr.o80.soulgame.scenes.level.LevelState
 import fr.o80.soulgame.scenes.level.entity.Entity
 import kotlin.math.abs
 
 class CollisionDetector(
     private val entity: Entity,
-    private val onCollision: (Entity) -> Unit
+    private val onCollision: (Entity, LevelState) -> Unit
 ) {
 
     private val collisionDistance: Float = 20f
 
-    fun update(mob: List<Entity>) {
+    fun update(mob: List<Entity>, state: LevelState) {
         mob.filter(::collisionWithEntity)
-            .forEach(onCollision)
+            .forEach { entity -> onCollision(entity, state) }
     }
 
     private fun collisionWithEntity(other: Entity): Boolean {

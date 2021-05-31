@@ -11,6 +11,7 @@ class LevelHeaderReader {
     private var manaGainAtConversion: Int? = null
     private var manaInitial: Int? = null
     private var manaLoss: Int? = null
+    private var manaMax: Int? = null
     private var font: String? = null
     private var spriteCharacters: String? = null
     private var spriteDoors: String? = null
@@ -24,6 +25,7 @@ class LevelHeaderReader {
             "Mana.GainAtConversion" -> manaGainAtConversion = parts[1].toInt()
             "Mana.Initial" -> manaInitial = parts[1].toInt()
             "Mana.Loss" -> manaLoss = parts[1].toInt()
+            "Mana.Max" -> manaMax = parts[1].toInt()
             "Font.Path" -> font = parts[1]
             "Sprite.Characters" -> spriteCharacters = parts[1]
             "Sprite.Doors" -> spriteDoors = parts[1]
@@ -40,6 +42,7 @@ class LevelHeaderReader {
                 gainAtConversion = manaGainAtConversion ?: throw MalformedLevelFile("Mana.GainAtConversion is not set!"),
                 initial = manaInitial ?: throw MalformedLevelFile("Mana.Initial is not set!"),
                 loss = manaLoss ?: throw MalformedLevelFile("Mana.Loss is not set!"),
+                max = manaMax ?: throw MalformedLevelFile("Mana.Max is not set!"),
             ),
             font = font ?: throw MalformedLevelFile("Font.Path is not set!"),
             sprite = SpritesConfig(

@@ -20,6 +20,7 @@ class ManaConfig(
     val gainAtConversion: Int,
     val initial: Int,
     val loss: Int,
+    val max: Int,
 )
 
 class SpritesConfig(

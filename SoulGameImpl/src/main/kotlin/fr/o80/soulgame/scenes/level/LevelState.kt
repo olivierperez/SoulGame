@@ -9,7 +9,7 @@ class LevelState(
     val mob: List<Soul>,
     val knight: Knight,
     val score: Score,
-    val timing: Timing,
+    val mana: Mana,
     var playingState: PlayingState
 )
 

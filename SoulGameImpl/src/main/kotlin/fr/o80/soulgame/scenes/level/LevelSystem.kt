@@ -22,7 +22,6 @@ class LevelSystem(
     private val level: Level,
     private val tileSize: Float,
     private val resources: LevelResources,
-    private val manaReloading: Int,
     private val gameOver: (Long) -> Unit
 ) {
 
@@ -33,7 +32,12 @@ class LevelSystem(
     private lateinit var soulMovementCalculator: SoulMovementCalculator
 
     fun open(keyPipeline: KeyPipeline) {
-        playerCollisionDetector = CollisionDetector(knight) { entity -> (entity as? Soul)?.team = Team.UPPER }
+        playerCollisionDetector = CollisionDetector(knight) { entity, state ->
+            if (entity is Soul && entity.team != Team.UPPER) {
+                entity.team = Team.UPPER
+                state.mana.increase(level.settings.mana.gainAtConversion)
+            }
+        }
         triggerDetector = TriggerDetector(tileSize)
         initMovementCalculators()
         listenKeys(keyPipeline)
@@ -47,9 +51,9 @@ class LevelSystem(
                 onTrigger(block, entity, state)
             }
         }
-        playerCollisionDetector.update(state.mob)
-        val remainingTicks = state.timing.update()
-        if (remainingTicks <= 0) {
+        playerCollisionDetector.update(state.mob, state)
+        val remainingMana = state.mana.update()
+        if (remainingMana <= 0) {
             gameOver(state.score.value)
         }
     }
@@ -93,7 +97,7 @@ class LevelSystem(
             // TODO Particules
 
             state.score.increase()
-            state.timing.increase(manaReloading)
+            state.mana.increase(level.settings.mana.gainAtPortal)
 
             entity.team = Team.UNDECIDED
             entity.movement = Movement.STANDING

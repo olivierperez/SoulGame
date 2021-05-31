@@ -52,7 +52,7 @@ class LevelRenderer(
             terrainDrawer.render(state.level.terrain)
             state.mob.forEach { entity -> entityDrawer.render(entity, resources.entitySprite, ticks) }
             entityDrawer.render(state.knight, resources.entitySprite, ticks)
-            hud.render(state.score, state.timing)
+            hud.render(state.score, state.mana)
         }
     }
 
