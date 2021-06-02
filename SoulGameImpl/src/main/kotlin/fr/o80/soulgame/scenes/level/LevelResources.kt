@@ -3,8 +3,11 @@ package fr.o80.soulgame.scenes.level
 import fr.o80.gamelib.drawing.Image
 import fr.o80.gamelib.drawing.Sprite
 import fr.o80.soulgame.resourceFile
+import fr.o80.soulgame.scenes.level.level.SpritesConfig
 
-class LevelResources {
+class LevelResources(
+    private val spritesConfig: SpritesConfig
+) {
 
     lateinit var entitySprite: Sprite
         private set
@@ -24,7 +27,7 @@ class LevelResources {
 
     private fun loadTextures() {
         entitySprite = Sprite(
-            image = Image(resourceFile("default/sprites/characters.png")),
+            image = Image(resourceFile(spritesConfig.characters)),
             unitWidth = 57,
             unitHeight = 87,
             marginTop = 4,
@@ -32,12 +35,12 @@ class LevelResources {
             verticalPadding = 21
         )
         wallsSprite = Sprite(
-            image = Image(resourceFile("default/sprites/walls.png")),
+            image = Image(resourceFile(spritesConfig.walls)),
             unitWidth = 70,
             unitHeight = 70
         )
         extrasSprite = Sprite(
-            image = Image(resourceFile("default/sprites/doors.png")),
+            image = Image(resourceFile(spritesConfig.doors)),
             unitWidth = 16,
             unitHeight = 16
         )

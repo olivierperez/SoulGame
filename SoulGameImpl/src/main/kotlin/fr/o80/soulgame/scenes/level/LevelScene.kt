@@ -65,7 +65,7 @@ class LevelScene(
             loss = level.settings.mana.loss,
             max = level.settings.mana.max
         )
-        resources = LevelResources()
+        resources = LevelResources(level.settings.sprite)
         resources.open()
         renderer = LevelRenderer(level, resources, window, services.messages, tileSize)
         renderer.open()

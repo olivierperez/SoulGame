@@ -5,9 +5,9 @@ Mana.Initial=2000
 Mana.Loss=1
 Mana.Max=2000
 Font.Path=default/fonts/Reglo-Bold.otf
-Sprite.Characters=default/characters.png
-Sprite.Doors=default/doors.png
-Sprite.Walls=default/walls.png
+Sprite.Characters=default/sprites/characters.png
+Sprite.Doors=default/sprites/doors.png
+Sprite.Walls=default/sprites/walls.png
 
 #######A########
 #  #: # +      #
