@@ -12,7 +12,7 @@ class LevelLoader {
         var readingHeader = true
 
         source.bufferedReader().use { reader ->
-            reader.readLines().forEachIndexed { y, line ->
+            reader.readLines().forEachIndexed { _, line ->
                 if (line.isBlank()) {
                     println("Fin des headers")
                     readingHeader = false

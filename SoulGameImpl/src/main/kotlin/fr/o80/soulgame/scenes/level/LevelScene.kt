@@ -125,7 +125,7 @@ class LevelScene(
             }
             .build()
         darkOverlay = PauseOverlayRenderer(window)
-        countDownRenderer = CountDownRenderer(window, services.messages)
+        countDownRenderer = CountDownRenderer(window, services.messages, level.settings.font)
         countDownRenderer.open()
     }
 

@@ -4,12 +4,12 @@ import fr.o80.gamelib.dsl.draw
 import fr.o80.gamelib.loop.Window
 import fr.o80.gamelib.service.i18n.Messages
 import fr.o80.gamelib.text.TextRenderer
-import fr.o80.soulgame.TEXT_FONT
 import fr.o80.soulgame.resource
 
 class CountDownRenderer(
     private val window: Window,
-    private val messages: Messages
+    private val messages: Messages,
+    font: String
 ) {
 
     private val initialTicks: Long = 80
@@ -17,7 +17,7 @@ class CountDownRenderer(
     private var remainingCount: Long = 3
 
     private val textRenderer: TextRenderer = TextRenderer(
-        resource(TEXT_FONT),
+        resource(font),
         fontHeight = 40f
     )
 
