@@ -15,11 +15,11 @@
 
 - [x] i18n-er le jeu
 
-- [ ] Pouvoir varier les paramètres en fonction du niveau
-  - mana de départ / vitesse de consomation de mana
-  - regain/perte de mana par convertion jusqu'au portail
-  - regain/perte de mana par convertion au moment du contact
-  - thème
+- [x] Pouvoir varier les paramètres en fonction du niveau
+  - [x] mana de départ / vitesse de consomation de mana
+  - [x] regain/perte de mana par convertion jusqu'au portail
+  - [x] regain/perte de mana par convertion au moment du contact
+  - [x] thème
       - sprites: characters / doors / walls
       - font
     
