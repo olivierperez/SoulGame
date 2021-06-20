@@ -6,19 +6,17 @@ import fr.o80.gamelib.dsl.Vertex3f
 import fr.o80.gamelib.dsl.draw
 import fr.o80.gamelib.loop.MouseButtonPipeline
 import fr.o80.gamelib.loop.MouseMovePipeline
-import fr.o80.gamelib.menu.renderer.ViewRenderer
+import fr.o80.gamelib.menu.renderer.ButtonViewRenderer
 import fr.o80.gamelib.menu.view.Clickable
 import fr.o80.gamelib.menu.view.MenuView
 import fr.o80.gamelib.menu.view.ViewState
 import fr.o80.gamelib.menu.view.menuview.at
-import fr.o80.gamelib.menu.view.menuview.buildRenderers
 import org.lwjgl.glfw.GLFW
 
-class Menu private constructor(
+class Grid private constructor(
     private val views: List<MenuView>,
     private val background: Vertex3f,
-    private val renderers: List<ViewRenderer>,
-    private var enabled: Boolean
+    private val renderer: ButtonViewRenderer
 ) {
 
     fun update() {
@@ -31,15 +29,16 @@ class Menu private constructor(
             color(1f, 1f, 1f)
 
             views.forEach { view ->
-                renderers
-                    .first { it.canRender(view) }
-                    .render(view)
+                renderer.render(view)
             }
         }
     }
 
+    fun close() {
+         renderer.close()
+    }
+
     private fun handleClick(x: Double, y: Double) {
-        enabled || return
         views.at(x, y)
             ?.let { it as? Clickable }
             ?.onClick()
@@ -55,84 +54,83 @@ class Menu private constructor(
         }
     }
 
-    fun close() {
-        renderers.forEach { renderer -> renderer.close() }
-    }
-
-    fun enable() {
-        enabled = true
-    }
-
-    fun disabled() {
-        enabled = false
-    }
-
-    class MenuBuilder(private val enabled: Boolean = true) {
+    class GridBuilder {
 
         private lateinit var mouseButtonPipeline: MouseButtonPipeline
         private lateinit var mouseMovePipeline: MouseMovePipeline
 
-        private lateinit var layout: MenuLayout
+        private lateinit var layout: GridLayout
         private lateinit var bounds: RectangleD
+        private var cols: Int = -1
+        private var horizontalSpacing: Double = -1.0
+        private var verticalSpacing: Double = -1.0
 
         private lateinit var background: Vertex3f
         private var textResources: TextResources? = null
         private var titleResources: TextResources? = null
 
-        fun of(top: Double, right: Double, bottom: Double, left: Double): MenuBuilder {
-            bounds = RectangleD(top, right, bottom, left)
+        fun of(top: Double, left: Double, right: Double, bottom: Double): GridBuilder {
+            this.bounds = RectangleD(top, right, bottom, left)
             return this
         }
 
-        fun withPipelines(mouseButtonPipeline: MouseButtonPipeline, mouseMovePipeline: MouseMovePipeline): MenuBuilder {
+        fun withDimens(cols: Int, horizontalSpacing: Double, verticalSpacing: Double): GridBuilder {
+            this.cols = cols
+            this.horizontalSpacing = horizontalSpacing
+            this.verticalSpacing = verticalSpacing
+            return this
+        }
+
+        fun withPipelines(mouseButtonPipeline: MouseButtonPipeline, mouseMovePipeline: MouseMovePipeline): GridBuilder {
             this.mouseButtonPipeline = mouseButtonPipeline
             this.mouseMovePipeline = mouseMovePipeline
             return this
         }
 
-        fun andResources(
+        fun withResources(
             background: Vertex3f,
-            textResources: TextResources? = null,
-            titleResources: TextResources? = null
-        ): MenuBuilder {
+            textResources: TextResources,
+            titleResources: TextResources
+        ): GridBuilder {
             this.background = background
             this.textResources = textResources
             this.titleResources = titleResources
             return this
         }
 
-        fun andLayout(layout: MenuLayout.() -> Unit): MenuBuilder {
-            this.layout = MenuLayout(40.0).apply(layout)
+        fun andLayout(layout: GridLayout.() -> Unit): GridBuilder {
+            this.layout = GridLayout().apply(layout)
             return this
         }
 
-        fun build(): Menu {
-            val renderers = buildRenderers(
-                buttonResources = textResources,
-                textResources = textResources,
-                titleResources = titleResources
+        fun build(): Grid {
+            val buttonViewRenderer = textResources?.let { resources ->
+                ButtonViewRenderer(resources).also { it.init() }
+            } ?: error("Text resources must be set when using a Grid.")
+
+            layout.computeBounds(
+                bounds = bounds,
+                cols = cols,
+                horizontalSpacing = horizontalSpacing,
+                verticalSpacing = verticalSpacing,
+                buttonViewRenderer
             )
 
-            layout.computeBounds(bounds, renderers)
-
-            val menu = Menu(
+            val grid = Grid(
                 views = layout.views,
                 background = background,
-                renderers = renderers,
-                enabled = enabled
+                renderer = buttonViewRenderer
             )
 
             mouseButtonPipeline.onButton(GLFW.GLFW_MOUSE_BUTTON_LEFT, GLFW.GLFW_RELEASE) { x, y ->
-                menu.handleClick(x, y)
+                grid.handleClick(x, y)
             }
             mouseMovePipeline.onMove { x, y ->
-                menu.handleMove(x, y)
+                grid.handleMove(x, y)
             }
 
-            return menu
+            return grid
         }
 
     }
-
 }
-

@@ -5,7 +5,7 @@ import fr.o80.gamelib.loop.KeyPipeline
 import fr.o80.gamelib.loop.MouseButtonPipeline
 import fr.o80.gamelib.loop.MouseMovePipeline
 import fr.o80.gamelib.loop.Window
-import fr.o80.gamelib.menu.Menu
+import fr.o80.gamelib.menu.Grid
 import fr.o80.gamelib.menu.TextResources
 import fr.o80.gamelib.service.Services
 import fr.o80.soulgame.MENU_TEXT_FONT
@@ -20,7 +20,7 @@ class LevelSelectorScene(
     private val sceneManager: SoulSceneManager
 ) : Scene {
 
-    private lateinit var menu: Menu
+    private lateinit var grid: Grid
 
     private val system = LevelSelectorSystem()
 
@@ -31,14 +31,23 @@ class LevelSelectorScene(
         mouseButtonPipeline: MouseButtonPipeline,
         mouseMovePipeline: MouseMovePipeline
     ) {
-        menu = Menu.MenuBuilder()
+        grid = Grid.GridBuilder()
             .of(
                 top = .0,
                 left = .0,
                 right = window.width.toDouble(),
                 bottom = window.height.toDouble()
             )
-            .andResources(
+            .withDimens(
+                cols = 7,
+                horizontalSpacing = 40.0,
+                verticalSpacing = 40.0,
+            )
+            .withPipelines(
+                mouseButtonPipeline,
+                mouseMovePipeline
+            )
+            .withResources(
                 background = greenBackground,
                 textResources = TextResources(
                     font = resource(MENU_TEXT_FONT),
@@ -49,17 +58,13 @@ class LevelSelectorScene(
                     fontHeight = MENU_TITLE_SIZE
                 )
             )
-            .withPipelines(
-                mouseButtonPipeline,
-                mouseMovePipeline
-            )
             .andLayout {
                 system.forEachLevel { levelName ->
                     button(levelName) {
                         sceneManager.openLevel(levelName)
                     }
                 }
-                button(services.messages["level_selector.back"]) {
+                mainButton(services.messages["level_selector.back"]) {
                     sceneManager.openMain()
                 }
             }
@@ -67,14 +72,14 @@ class LevelSelectorScene(
     }
 
     override fun close() {
-        menu.close()
+        grid.close()
     }
 
     override suspend fun update() {
-        menu.update()
+        grid.update()
     }
 
     override suspend fun render() {
-        menu.render()
+        grid.render()
     }
 }

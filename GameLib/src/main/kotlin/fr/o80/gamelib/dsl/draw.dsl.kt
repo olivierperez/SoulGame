@@ -235,6 +235,10 @@ class RectangleD(val top: Double, val right: Double, val bottom: Double, val lef
         return Vertex2d(x, y)
     }
 
+    val width: Double get() = right - left
+
+    val height: Double get() = bottom - top
+
     operator fun contains(point: Vertex2d): Boolean {
         return top <= point.y && right >= point.x && bottom >= point.y && left <= point.x
     }

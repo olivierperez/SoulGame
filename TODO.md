@@ -23,7 +23,7 @@
       - sprites: characters / doors / walls
       - font
     
-- [ ] Retravailler l'écran de sélection de niveau sous forme de grille
+- [x] Retravailler l'écran de sélection de niveau sous forme de grille
 
 - [ ] Débloquer un niveau uniquement quand les objectifs du niveau précédent sont validés
     - objectifs
