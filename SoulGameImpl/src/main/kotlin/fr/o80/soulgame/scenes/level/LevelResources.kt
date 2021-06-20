@@ -29,10 +29,10 @@ class LevelResources(
         entitySprite = Sprite(
             image = Image(resourceFile(spritesConfig.characters)),
             unitWidth = 57,
-            unitHeight = 87,
-            marginTop = 4,
+            unitHeight = 91,
+            marginTop = 0,
             horizontalPadding = 21,
-            verticalPadding = 21
+            verticalPadding = 17
         )
         wallsSprite = Sprite(
             image = Image(resourceFile(spritesConfig.walls)),
@@ -41,8 +41,8 @@ class LevelResources(
         )
         extrasSprite = Sprite(
             image = Image(resourceFile(spritesConfig.doors)),
-            unitWidth = 16,
-            unitHeight = 16
+            unitWidth = 70,
+            unitHeight = 70
         )
     }
 
