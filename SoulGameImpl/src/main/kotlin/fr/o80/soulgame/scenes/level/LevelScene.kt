@@ -104,7 +104,7 @@ class LevelScene(
                 ),
                 titleResources = TextResources(
                     font = resource(MENU_TITLE_FONT),
-                    fontHeight = 99f
+                    fontHeight = 80f
                 )
             )
             .withPipelines(
