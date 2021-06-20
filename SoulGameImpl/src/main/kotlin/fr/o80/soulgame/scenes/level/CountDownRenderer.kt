@@ -4,7 +4,7 @@ import fr.o80.gamelib.dsl.draw
 import fr.o80.gamelib.loop.Window
 import fr.o80.gamelib.service.i18n.Messages
 import fr.o80.gamelib.text.TextRenderer
-import fr.o80.soulgame.resource
+import fr.o80.soulgame.resourcePath
 
 class CountDownRenderer(
     private val window: Window,
@@ -17,7 +17,7 @@ class CountDownRenderer(
     private var remainingCount: Long = 3
 
     private val textRenderer: TextRenderer = TextRenderer(
-        resource(font),
+        resourcePath(font),
         fontHeight = 40f
     )
 

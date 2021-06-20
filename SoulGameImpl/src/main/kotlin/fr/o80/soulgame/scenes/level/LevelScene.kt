@@ -12,7 +12,7 @@ import fr.o80.gamelib.service.Services
 import fr.o80.soulgame.MENU_TEXT_FONT
 import fr.o80.soulgame.MENU_TITLE_FONT
 import fr.o80.soulgame.SoulSceneManager
-import fr.o80.soulgame.resource
+import fr.o80.soulgame.resourcePath
 import fr.o80.soulgame.resourceFile
 import fr.o80.soulgame.scenes.greenBackground
 import fr.o80.soulgame.scenes.level.PlayingState.COUNTDOWN
@@ -99,11 +99,11 @@ class LevelScene(
             .andResources(
                 background = greenBackground,
                 textResources = TextResources(
-                    font = resource(MENU_TEXT_FONT),
+                    font = resourcePath(MENU_TEXT_FONT),
                     fontHeight = 50f
                 ),
                 titleResources = TextResources(
-                    font = resource(MENU_TITLE_FONT),
+                    font = resourcePath(MENU_TITLE_FONT),
                     fontHeight = 80f
                 )
             )

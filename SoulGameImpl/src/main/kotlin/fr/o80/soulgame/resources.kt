@@ -3,12 +3,19 @@ package fr.o80.soulgame
 import java.io.File
 
 fun resourceFile(filename: String): File {
-    return File(filename).takeIf { it.exists() }
-           ?: File("./SoulGameImpl/resources/$filename") // TODO Issue#1 https://github.com/olivierperez/SoulGame/issues/1
+    val file = File(filename)
+    if (file.exists()) {
+        return file
+    }
 
+    val resourceFile = File("SoulGameImpl/resources/$filename")
+    if (resourceFile.exists()) {
+        return resourceFile
+    }
+
+    throw IllegalArgumentException("Cannot find file \"${file.name}\"\n\t- at ${file.absolutePath}\n\t- at ${resourceFile.absolutePath}")
 }
 
-fun resource(filename: String): String { // TODO Rename resourcePath
-    return File(filename).takeIf { it.exists() }?.let { filename }
-           ?: "./SoulGameImpl/resources/$filename"
+fun resourcePath(filename: String): String {
+    return resourceFile(filename).path
 }

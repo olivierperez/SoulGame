@@ -14,7 +14,7 @@ import fr.o80.soulgame.MENU_TITLE_FONT
 import fr.o80.soulgame.MENU_TITLE_SIZE
 import fr.o80.soulgame.SoulSceneManager
 import fr.o80.soulgame.data.InFileScoreRepository
-import fr.o80.soulgame.resource
+import fr.o80.soulgame.resourcePath
 import fr.o80.soulgame.scenes.greenBackground
 
 class GameOverScene(
@@ -46,11 +46,11 @@ class GameOverScene(
             .andResources(
                 background = greenBackground,
                 textResources = TextResources(
-                    font = resource(MENU_TEXT_FONT),
+                    font = resourcePath(MENU_TEXT_FONT),
                     fontHeight = MENU_TEXT_SIZE
                 ),
                 titleResources = TextResources(
-                    font = resource(MENU_TITLE_FONT),
+                    font = resourcePath(MENU_TITLE_FONT),
                     fontHeight = MENU_TITLE_SIZE
                 )
             )
