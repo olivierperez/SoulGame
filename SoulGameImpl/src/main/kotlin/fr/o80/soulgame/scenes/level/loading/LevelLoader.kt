@@ -14,7 +14,6 @@ class LevelLoader {
         source.bufferedReader().use { reader ->
             reader.readLines().forEachIndexed { _, line ->
                 if (line.isBlank()) {
-                    println("Fin des headers")
                     readingHeader = false
                     return@forEachIndexed
                 }
