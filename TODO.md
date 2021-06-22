@@ -16,7 +16,7 @@
 - [x] i18n-er le jeu
 
 - [x] Pouvoir varier les paramètres en fonction du niveau
-  - [x] mana de départ / vitesse de consomation de mana
+  - [x] mana de départ / vitesse de consommation de mana
   - [x] regain/perte de mana par convertion jusqu'au portail
   - [x] regain/perte de mana par convertion au moment du contact
   - [x] thème
@@ -24,6 +24,11 @@
       - font
     
 - [x] Retravailler l'écran de sélection de niveau sous forme de grille
+
+- [x] Chaque niveau peut choisir une condition de fin
+  - Par exemple, le niveau 1 s'arrête quand le joueur n'a plus de mana
+  - Mais un autre niveau pourrait se terminer quand le joueur a atteint un certain montant de mana
+  - `EndWhen=[mana]<=0` ou `EndWhen=[mana]>=5000`
 
 - [ ] Débloquer un niveau uniquement quand les objectifs du niveau précédent sont validés
     - objectifs
@@ -44,4 +49,4 @@
     
 - [ ] Corriger l'alignement des éléments des menus
 
-- [ ] Attention au "level_1" codé en dur dans MainScene -> sceneManager.openLevel("level_1")
+- [ ] Attention au "1" codé en dur dans MainScene -> sceneManager.openLevel("1")

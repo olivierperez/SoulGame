@@ -1,6 +1,7 @@
 package fr.o80.soulgame.scenes.level
 
 import fr.o80.gamelib.loop.KeyPipeline
+import fr.o80.gamelib.service.condition.ConditionResolver
 import fr.o80.soulgame.scenes.level.collision.CollisionDetector
 import fr.o80.soulgame.scenes.level.collision.TriggerDetector
 import fr.o80.soulgame.scenes.level.entity.Entity
@@ -22,7 +23,8 @@ class LevelSystem(
     private val level: Level,
     private val tileSize: Float,
     private val resources: LevelResources,
-    private val gameOver: (Long) -> Unit
+    private val gameOver: (Long) -> Unit,
+    private val conditionResolver: ConditionResolver = ConditionResolver()
 ) {
 
     private lateinit var playerCollisionDetector: CollisionDetector
@@ -53,7 +55,7 @@ class LevelSystem(
         }
         playerCollisionDetector.update(state.mob, state)
         val remainingMana = state.mana.update()
-        if (remainingMana <= 0) {
+        if (conditionResolver.resolve(level.settings.endWhen, mapOf("mana" to remainingMana))) {
             gameOver(state.score.value)
         }
     }

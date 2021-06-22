@@ -8,6 +8,7 @@ Font.Path=default/fonts/Reglo-Bold.otf
 Sprite.Characters=default/sprites/characters.png
 Sprite.Doors=default/sprites/doors.png
 Sprite.Walls=default/sprites/walls.png
+EndWhen=[mana]<=0
 
 #######A########
 #:#   #+#    #:#
