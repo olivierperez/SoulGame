@@ -9,7 +9,7 @@ class CollisionDetector(
     private val onCollision: (Entity, LevelState) -> Unit
 ) {
 
-    private val collisionDistance: Float = 20f
+    private val collisionDistance: Float = 25f
 
     fun update(mob: List<Entity>, state: LevelState) {
         mob.filter(::collisionWithEntity)

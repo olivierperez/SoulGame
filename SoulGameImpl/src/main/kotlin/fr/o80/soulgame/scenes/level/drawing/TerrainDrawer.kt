@@ -33,9 +33,7 @@ class TerrainDrawer(
                             tileX = tileX,
                             tileY = tileY,
                             drawingX = x * tileSize,
-                            drawingY = y * tileSize,
-                            drawingZoneHeight = tileSize,
-                            drawingZoneWidth = tileSize
+                            drawingY = y * tileSize
                         )
                     }
 

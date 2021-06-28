@@ -19,12 +19,11 @@ class SpriteDrawer(
         tileX: Int,
         tileY: Int,
         drawingX: Float,
-        drawingY: Float,
-        drawingZoneWidth: Float,
-        drawingZoneHeight: Float
+        drawingY: Float
     ) {
         val (unitTopLeft, unitBottomRight) = sprite.computeUnitSprite(x = tileX, y = tileY)
-        val (outWidth, outHeight) = computeRatio(sprite, drawingZoneWidth, drawingZoneHeight)
+        val outWidth = sprite.unitWidth.toFloat()
+        val outHeight = sprite.unitHeight.toFloat()
 
         doDraw(sprite, unitTopLeft, unitBottomRight, drawingX, drawingY, outWidth, outHeight)
     }
@@ -36,16 +35,14 @@ class SpriteDrawer(
         movement: Movement,
         x: Float,
         y: Float,
-        drawingZoneWidth: Float,
-        drawingZoneHeight: Float,
         ticks: Long
     ) {
         val (unitTopLeft, unitBottomRight) = sprite.computeUnitSprite(
             x = characterIndex * 3 + movement.computeIndex(ticks),
             y = direction.index
         )
-        val (outWidth, outHeight) = computeRatio(sprite, drawingZoneWidth, drawingZoneHeight)
-
+        val outWidth = sprite.unitWidth.toFloat()
+        val outHeight = sprite.unitHeight.toFloat()
         doDraw(sprite, unitTopLeft, unitBottomRight, x - outWidth / 2f, y - outHeight / 2f, outWidth, outHeight)
     }
 
@@ -96,15 +93,4 @@ class SpriteDrawer(
         val delta = ticks / ticksPerFrame
         return this.indices[(delta % this.indices.size).toInt()]
     }
-
-    private fun computeRatio(sprite: Sprite, desiredWidth: Float, desireHeight: Float): Pair<Float, Float> {
-        val imageRatio = sprite.unitWidth.toFloat() / sprite.unitHeight.toFloat()
-
-        return if (imageRatio > 1) {
-            Pair(desiredWidth, desiredWidth / imageRatio)
-        } else {
-            Pair(desireHeight * imageRatio, desireHeight)
-        }
-    }
-
 }

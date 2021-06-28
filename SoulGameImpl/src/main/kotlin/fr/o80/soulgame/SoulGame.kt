@@ -10,8 +10,8 @@ class SoulGame : Game() {
 
     override val windowName: String = "Soul Game"
     override val updatesPerSecond: Int = 30
-    override val width: Int = 1024
-    override val height: Int = 768
+    override val width: Int = 1120
+    override val height: Int = 840
     override val debug: Boolean = false
 
     override fun createSceneManager(gameLoop: GameLoop): SceneManager = SoulSceneManager(gameLoop)

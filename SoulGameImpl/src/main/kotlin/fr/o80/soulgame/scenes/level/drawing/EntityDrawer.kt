@@ -15,8 +15,6 @@ class EntityDrawer(
             movement = entity.movement,
             x = entity.x,
             y = entity.y,
-            drawingZoneWidth = entity.size,
-            drawingZoneHeight = entity.size,
             ticks = ticks
         )
     }

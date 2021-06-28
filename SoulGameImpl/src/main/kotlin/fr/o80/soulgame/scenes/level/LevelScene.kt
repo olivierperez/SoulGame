@@ -24,7 +24,7 @@ import fr.o80.soulgame.scenes.level.level.Level
 import fr.o80.soulgame.scenes.level.loading.LevelLoader
 import org.lwjgl.glfw.GLFW
 
-private const val tileSize = 64f
+private const val tileSize = 70f
 
 class LevelScene(
     private val sceneManager: SoulSceneManager,
@@ -179,7 +179,7 @@ class LevelScene(
         knight = Knight(
             x = knightSpawn.x,
             y = knightSpawn.y,
-            size = 51f,
+            size = 50f,
             speed = 6f
         )
 
@@ -188,7 +188,7 @@ class LevelScene(
             Soul(
                 x = position.x,
                 y = position.y,
-                size = 51f,
+                size = 50f,
                 speed = 4f
             )
         }
