@@ -4,5 +4,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class BestScores(
-    val levels: MutableMap<String, Long> = mutableMapOf()
+    val levels: MutableMap<Int, Long> = mutableMapOf()
 )

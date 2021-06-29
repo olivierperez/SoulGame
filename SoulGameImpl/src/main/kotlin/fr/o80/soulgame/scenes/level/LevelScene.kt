@@ -28,7 +28,7 @@ private const val tileSize = 70f
 
 class LevelScene(
     private val sceneManager: SoulSceneManager,
-    private val levelCode: String
+    private val levelCode: Int
 ) : Scene {
 
     private lateinit var levelState: LevelState

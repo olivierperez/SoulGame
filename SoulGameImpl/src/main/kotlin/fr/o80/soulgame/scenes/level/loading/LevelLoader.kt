@@ -5,7 +5,7 @@ import java.io.InputStream
 
 class LevelLoader {
 
-    fun load(code: String, source: InputStream): Level {
+    fun load(code: Int, source: InputStream): Level {
         val headerReader = LevelHeaderReader(code)
         val terrainReader = LevelTerrainReader()
 

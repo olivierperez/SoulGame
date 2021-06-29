@@ -60,7 +60,7 @@ class LevelSelectorScene(
             )
             .andLayout {
                 system.forEachLevel { levelName ->
-                    button(levelName) {
+                    button(levelName.toString()) {
                         sceneManager.openLevel(levelName)
                     }
                 }

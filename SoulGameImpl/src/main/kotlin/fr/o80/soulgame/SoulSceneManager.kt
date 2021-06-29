@@ -21,9 +21,9 @@ class SoulSceneManager(
         gameLoop.open(MainScene(this))
     }
 
-    fun openLevel(leveName: String) {
+    fun openLevel(levelCode: Int) {
         gameLoop.open(
-            LevelScene(this, leveName)
+            LevelScene(this, levelCode)
         )
     }
 

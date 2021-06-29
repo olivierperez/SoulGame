@@ -10,18 +10,18 @@ class InFileScoreRepository(
     private val storage: Storage<BestScores> = InFileStorage(BestScores.serializer(), FILENAME)
 ) : ScoreRepository {
 
-    override fun updateBestScore(levelName: String, score: Long) {
+    override fun updateBestScore(levelCode: Int, score: Long) {
         synchronized(storage) {
             val gameData = storage.get() ?: BestScores()
-            val bestScore = gameData.levels[levelName]
+            val bestScore = gameData.levels[levelCode]
             if (bestScore == null || bestScore < score) {
-                gameData.levels[levelName] = score
+                gameData.levels[levelCode] = score
                 storage.store(gameData)
             }
         }
     }
 
-    override fun getBestScore(levelName: String): Long {
-        return storage.get()?.levels?.get(levelName) ?: 0
+    override fun getBestScore(levelCode: Int): Long {
+        return storage.get()?.levels?.get(levelCode) ?: 0
     }
 }

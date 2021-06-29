@@ -6,7 +6,7 @@ import fr.o80.soulgame.scenes.level.level.ManaConfig
 import fr.o80.soulgame.scenes.level.level.SpritesConfig
 
 class LevelHeaderReader(
-    private val code: String,
+    private val code: Int,
     private val conditionParser: ConditionParser = ConditionParser()
 ) {
 
