@@ -36,6 +36,9 @@
         - moins de Y convertis
         - jouer au moins X minutes
         - jouer au plus X minutes
+    - idées
+      `Objectif.Score=min(50)`
+      `Objectif.Ticks=min(200)`
 
 - [ ] Avoir des niveaux de dimension différentes (pas que 16 x 12)
 

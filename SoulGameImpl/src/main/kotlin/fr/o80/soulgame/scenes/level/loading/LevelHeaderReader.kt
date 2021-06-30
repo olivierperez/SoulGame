@@ -1,13 +1,16 @@
 package fr.o80.soulgame.scenes.level.loading
 
 import fr.o80.gamelib.service.condition.ConditionParser
+import fr.o80.gamelib.service.goal.GoalParser
+import fr.o80.gamelib.service.goal.Goals
 import fr.o80.soulgame.scenes.level.level.LevelSettings
 import fr.o80.soulgame.scenes.level.level.ManaConfig
 import fr.o80.soulgame.scenes.level.level.SpritesConfig
 
 class LevelHeaderReader(
     private val code: Int,
-    private val conditionParser: ConditionParser = ConditionParser()
+    private val conditionParser: ConditionParser = ConditionParser(),
+    private val goalParser: GoalParser = GoalParser()
 ) {
 
     private var levelName: String? = null
@@ -21,6 +24,9 @@ class LevelHeaderReader(
     private var spriteDoors: String? = null
     private var spriteWalls: String? = null
     private var endWhen: String? = null
+    private var goalMana: String? = null
+    private var goalScore: String? = null
+    private var goalTicks: String? = null
 
     fun read(line: String) {
         val parts = line.trim().split('=', limit = 2)
@@ -36,6 +42,9 @@ class LevelHeaderReader(
             "Sprite.Doors" -> spriteDoors = parts[1]
             "Sprite.Walls" -> spriteWalls = parts[1]
             "EndWhen" -> endWhen = parts[1]
+            "Goal.Mana" -> goalMana = parts[1]
+            "Goal.Score" -> goalScore = parts[1]
+            "Goal.Ticks" -> goalTicks = parts[1]
             else -> throw MalformedLevelFile("Unknown parameter '${parts[0]}'")
         }
     }
@@ -57,7 +66,12 @@ class LevelHeaderReader(
                 doors = requireString(spriteDoors, "Sprite.Doors"),
                 walls = requireString(spriteWalls, "Sprite.Walls"),
             ),
-            endWhen = conditionParser.parse(requireString(endWhen, "EndWhen"))
+            endWhen = conditionParser.parse(requireString(endWhen, "EndWhen")),
+            goals = Goals(
+                mana = goalParser.parse(goalMana),
+                score = goalParser.parse(goalScore),
+                ticks = goalParser.parse(goalTicks)
+            )
         )
     }
 

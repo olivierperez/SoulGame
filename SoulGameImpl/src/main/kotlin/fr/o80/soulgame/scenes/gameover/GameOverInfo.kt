@@ -4,5 +4,7 @@ import fr.o80.soulgame.scenes.level.level.LevelSettings
 
 data class GameOverInfo(
     val levelSettings: LevelSettings,
-    val score: Long
+    val score: Long,
+    val ticks: Long,
+    val remainingMana: Int
 )

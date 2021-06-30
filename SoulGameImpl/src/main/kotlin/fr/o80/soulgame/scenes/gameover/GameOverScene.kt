@@ -13,7 +13,6 @@ import fr.o80.soulgame.MENU_TEXT_SIZE
 import fr.o80.soulgame.MENU_TITLE_FONT
 import fr.o80.soulgame.MENU_TITLE_SIZE
 import fr.o80.soulgame.SoulSceneManager
-import fr.o80.soulgame.data.InFileScoreRepository
 import fr.o80.soulgame.resourcePath
 import fr.o80.soulgame.scenes.greenBackground
 
@@ -33,7 +32,7 @@ class GameOverScene(
         mouseButtonPipeline: MouseButtonPipeline,
         mouseMovePipeline: MouseMovePipeline
     ) {
-        system = GameOverSystem(info, InFileScoreRepository())
+        system = GameOverSystem(info).also { it.save() }
         state = GameOverState()
 
         menu = Menu.MenuBuilder()

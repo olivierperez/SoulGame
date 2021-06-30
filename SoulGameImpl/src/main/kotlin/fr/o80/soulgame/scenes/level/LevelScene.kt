@@ -12,8 +12,9 @@ import fr.o80.gamelib.service.Services
 import fr.o80.soulgame.MENU_TEXT_FONT
 import fr.o80.soulgame.MENU_TITLE_FONT
 import fr.o80.soulgame.SoulSceneManager
-import fr.o80.soulgame.resourcePath
 import fr.o80.soulgame.resourceFile
+import fr.o80.soulgame.resourcePath
+import fr.o80.soulgame.scenes.gameover.GameOverInfo
 import fr.o80.soulgame.scenes.greenBackground
 import fr.o80.soulgame.scenes.level.PlayingState.COUNTDOWN
 import fr.o80.soulgame.scenes.level.PlayingState.PAUSE
@@ -170,7 +171,14 @@ class LevelScene(
     }
 
     private fun gameOver(score: Long) {
-        sceneManager.openGameOver(level.settings, score)
+        sceneManager.openGameOver(
+            GameOverInfo(
+                level.settings,
+                score,
+                system.ticks,
+                levelState.mana.remaining
+            )
+        )
     }
 
     // TODO Move to LevelSystem ?

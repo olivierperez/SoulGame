@@ -33,6 +33,9 @@ class LevelSystem(
     private lateinit var knightMovementCalculator: KnightMovementCalculator
     private lateinit var soulMovementCalculator: SoulMovementCalculator
 
+    var ticks: Long = 0
+        private set
+
     fun open(keyPipeline: KeyPipeline) {
         playerCollisionDetector = CollisionDetector(knight) { entity, state ->
             if (entity is Soul && entity.team != Team.UPPER) {
@@ -46,6 +49,8 @@ class LevelSystem(
     }
 
     fun update(state: LevelState) {
+        ticks++
+
         knightMovementCalculator.update(state.knight)
         state.mob.forEach { soul ->
             soulMovementCalculator.update(soul)
