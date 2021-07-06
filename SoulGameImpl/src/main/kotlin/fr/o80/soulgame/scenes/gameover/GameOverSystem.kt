@@ -1,6 +1,8 @@
 package fr.o80.soulgame.scenes.gameover
 
-import fr.o80.gamelib.service.goal.GoalsChecker
+import fr.o80.gamelib.service.condition.Condition
+import fr.o80.gamelib.service.condition.ConditionResolver
+import fr.o80.gamelib.service.goal.Goal
 import fr.o80.soulgame.data.InFileSavesRepository
 import fr.o80.soulgame.data.SavesRepository
 import fr.o80.soulgame.data.model.LevelSave
@@ -9,7 +11,7 @@ import kotlin.math.min
 class GameOverSystem(
     private val info: GameOverInfo,
     private val repository: SavesRepository = InFileSavesRepository(),
-    private val goalsChecker: GoalsChecker = GoalsChecker()
+    private val conditionResolver: ConditionResolver = ConditionResolver()
 ) {
 
     fun update(state: GameOverState) {
@@ -18,12 +20,13 @@ class GameOverSystem(
     }
 
     fun save() {
-        val levelData = mapOf<String, Any>(
-            "mana" to info.remainingMana,
+        val levelData = mapOf(
+            "mana" to info.remainingMana.toLong(),
             "score" to info.score,
             "ticks" to info.ticks
         )
-        val succeededGoals = goalsChecker.getSucceededGoals(info.levelSettings.goals, levelData)
+
+        val succeededGoals = info.levelSettings.goals.filterSucceededGoals(levelData)
         val levelCode = info.levelSettings.code
 
         repository.update { saves ->
@@ -40,4 +43,8 @@ class GameOverSystem(
             saves.levels[levelCode] = newLevelSave
         }
     }
+
+    private fun List<Goal>.filterSucceededGoals(levelData: Map<String, Long>): List<String> =
+        this.filter { (_, condition: Condition) -> conditionResolver.resolve(condition, levelData) }
+            .map(Goal::name)
 }

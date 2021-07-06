@@ -1,9 +1,11 @@
 package fr.o80.soulgame.scenes.level
 
+import ch.tutteli.atrium.api.fluent.en_GB.contains
+import ch.tutteli.atrium.api.fluent.en_GB.hasSize
 import ch.tutteli.atrium.api.fluent.en_GB.toBe
 import ch.tutteli.atrium.api.verbs.expect
 import fr.o80.gamelib.service.condition.Condition
-import fr.o80.gamelib.service.condition.IntValueOperand
+import fr.o80.gamelib.service.condition.LongValueOperand
 import fr.o80.gamelib.service.condition.Operation
 import fr.o80.gamelib.service.condition.ParamValueOperand
 import fr.o80.soulgame.scenes.level.loading.LevelLoader
@@ -16,7 +18,7 @@ internal class LevelLoaderTest {
 
     private val manaLessOrEqualZero = Condition(
         ParamValueOperand("mana"),
-        IntValueOperand(0),
+        LongValueOperand(0),
         Operation.LTE
     )
 
@@ -36,6 +38,8 @@ internal class LevelLoaderTest {
             |Sprite.Doors=doors.webp
             |Sprite.Walls=walls.webp
             |EndWhen=[mana]<=0
+            |Goal.TheBeast=[score]>=90
+            |Goal.FastFurious=[ticks]<=200
             |
             |#####
             |##A##
@@ -60,5 +64,16 @@ internal class LevelLoaderTest {
         expect(level.settings.sprite.characters).toBe("characters.webp")
         expect(level.settings.sprite.doors).toBe("doors.webp")
         expect(level.settings.sprite.walls).toBe("walls.webp")
+        expect(level.settings.endWhen).toBe(
+            Condition(
+                ParamValueOperand("mana"),
+                LongValueOperand(0L),
+                Operation.LTE
+            )
+        )
+        expect(level.settings.goals.map { it.name })
+            .hasSize(2)
+            .contains("TheBeast")
+            .contains("FastFurious")
     }
 }

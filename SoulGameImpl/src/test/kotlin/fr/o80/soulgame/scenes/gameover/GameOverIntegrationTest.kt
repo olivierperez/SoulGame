@@ -1,21 +1,61 @@
 package fr.o80.soulgame.scenes.gameover
 
+import ch.tutteli.atrium.api.fluent.en_GB.contains
+import ch.tutteli.atrium.api.fluent.en_GB.inAnyOrder
+import ch.tutteli.atrium.api.fluent.en_GB.only
+import ch.tutteli.atrium.api.fluent.en_GB.toBe
+import ch.tutteli.atrium.api.fluent.en_GB.values
+import ch.tutteli.atrium.api.verbs.expect
 import fr.o80.gamelib.service.condition.Condition
-import fr.o80.gamelib.service.condition.IntValueOperand
+import fr.o80.gamelib.service.condition.ConditionResolver
+import fr.o80.gamelib.service.condition.LongValueOperand
 import fr.o80.gamelib.service.condition.Operation
-import fr.o80.gamelib.service.goal.Goals
-import fr.o80.gamelib.service.goal.MaxGoal
-import fr.o80.gamelib.service.goal.MinGoal
+import fr.o80.gamelib.service.condition.ParamValueOperand
+import fr.o80.gamelib.service.goal.Goal
 import fr.o80.soulgame.data.SavesRepository
 import fr.o80.soulgame.data.model.LevelSave
 import fr.o80.soulgame.data.model.Saves
 import fr.o80.soulgame.scenes.level.level.LevelSettings
 import fr.o80.soulgame.scenes.level.level.ManaConfig
 import fr.o80.soulgame.scenes.level.level.SpritesConfig
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+
+private const val manaGoalName = "Mana's goal"
+private const val scoreGoalName = "Score's goal"
+private const val ticksGoalName = "Tick's goal"
+
+private val atMostManaIs26 = Goal(
+    manaGoalName, Condition(
+        ParamValueOperand("mana"),
+        LongValueOperand(26L),
+        Operation.LTE
+    )
+)
+
+private val atLeastScoreIs25 = Goal(
+    scoreGoalName, Condition(
+        ParamValueOperand("score"),
+        LongValueOperand(25L),
+        Operation.GTE
+    )
+)
+
+private val atLeastScoreIs50 = Goal(
+    scoreGoalName, Condition(
+        ParamValueOperand("score"),
+        LongValueOperand(50L),
+        Operation.GTE
+    )
+)
+
+private val atLeastTicksIs200 = Goal(
+    ticksGoalName, Condition(
+        ParamValueOperand("ticks"),
+        LongValueOperand(200L),
+        Operation.GTE
+    )
+)
 
 @DisplayName("GameOverSystem")
 internal class GameOverIntegrationTest {
@@ -25,21 +65,23 @@ internal class GameOverIntegrationTest {
     fun shouldSaveForTheFirstTime() {
         // Given
         val repository = TestRepository(saves = Saves())
+        val conditionResolver = ConditionResolver()
         val gameOverSystem = GameOverSystem(
             GameOverInfo(
                 levelSettings = createLevelSettingsWith(
                     7,
-                    Goals(
-                        mana = MaxGoal(26L),
-                        score = MinGoal(50L),
-                        ticks = MinGoal(200L)
+                    goals = listOf(
+                        atMostManaIs26,
+                        atLeastScoreIs25,
+                        atLeastTicksIs200,
                     )
                 ),
                 remainingMana = 0,
                 score = 54L,
                 ticks = 245L
             ),
-            repository = repository
+            repository = repository,
+            conditionResolver = conditionResolver
         )
 
         // When
@@ -47,38 +89,42 @@ internal class GameOverIntegrationTest {
 
         // Then
         val levelSaved = repository.saves.levels[7]!!
-        assertEquals(54L, levelSaved.highScore)
-        assertEquals(3, levelSaved.completedGoals.size)
-        assertTrue(levelSaved.completedGoals.containsAll(listOf("Score", "Mana", "Ticks")))
+        expect(levelSaved.highScore).toBe(54L)
+        expect(levelSaved.completedGoals)
+            .contains.inAnyOrder.only.values(scoreGoalName, manaGoalName, ticksGoalName)
     }
 
     @Test
     @DisplayName("can update the previous goals")
     fun shouldUpdatePreviousGoals() {
         // Given
-        val repository = TestRepository(saves = Saves(
-            mutableMapOf(
-                8 to LevelSave(
-                    55L,
-                    setOf("goal1")
+        val repository = TestRepository(
+            saves = Saves(
+                mutableMapOf(
+                    8 to LevelSave(
+                        55L,
+                        setOf("goal1")
+                    )
                 )
             )
-        ))
+        )
+        val conditionResolver = ConditionResolver()
         val gameOverSystem = GameOverSystem(
             GameOverInfo(
                 levelSettings = createLevelSettingsWith(
                     8,
-                    Goals(
-                        mana = MaxGoal(26L),
-                        score = MinGoal(50L),
-                        ticks = MinGoal(200L)
+                    goals = listOf(
+                        atMostManaIs26,
+                        atLeastScoreIs50,
+                        atLeastTicksIs200,
                     )
                 ),
                 remainingMana = 100,
                 score = 54L,
                 ticks = 1L
             ),
-            repository = repository
+            repository = repository,
+            conditionResolver = conditionResolver
         )
 
         // When
@@ -86,38 +132,42 @@ internal class GameOverIntegrationTest {
 
         // Then
         val levelSaved = repository.saves.levels[8]!!
-        assertEquals(55L, levelSaved.highScore)
-        assertEquals(2, levelSaved.completedGoals.size)
-        assertTrue(levelSaved.completedGoals.containsAll(listOf("Score", "goal1")))
+        expect(levelSaved.highScore).toBe(55L)
+        expect(levelSaved.completedGoals)
+            .contains.inAnyOrder.only.values(scoreGoalName, "goal1")
     }
 
     @Test
     @DisplayName("can update the high score")
     fun shouldUpdatePreviousHighScore() {
         // Given
-        val repository = TestRepository(saves = Saves(
-            mutableMapOf(
-                9 to LevelSave(
-                    13L,
-                    setOf("Score")
+        val repository = TestRepository(
+            saves = Saves(
+                mutableMapOf(
+                    9 to LevelSave(
+                        13L,
+                        setOf(scoreGoalName)
+                    )
                 )
             )
-        ))
+        )
+        val conditionResolver = ConditionResolver()
         val gameOverSystem = GameOverSystem(
             GameOverInfo(
                 levelSettings = createLevelSettingsWith(
                     9,
-                    Goals(
-                        mana = MaxGoal(26L),
-                        score = MinGoal(50L),
-                        ticks = MinGoal(200L)
+                    goals = listOf(
+                        atMostManaIs26,
+                        atLeastScoreIs50,
+                        atLeastTicksIs200,
                     )
                 ),
                 remainingMana = 100,
                 score = 15L,
                 ticks = 2L
             ),
-            repository = repository
+            repository = repository,
+            conditionResolver = conditionResolver
         )
 
         // When
@@ -125,9 +175,9 @@ internal class GameOverIntegrationTest {
 
         // Then
         val levelSaved = repository.saves.levels[9]!!
-        assertEquals(15L, levelSaved.highScore)
-        assertEquals(1, levelSaved.completedGoals.size)
-        assertTrue(levelSaved.completedGoals.containsAll(listOf("Score")))
+        expect(levelSaved.highScore).toBe(15L)
+        expect(levelSaved.completedGoals)
+            .contains.inAnyOrder.only.values(scoreGoalName)
     }
 }
 
@@ -142,7 +192,7 @@ class TestRepository(val saves: Saves) : SavesRepository {
     }
 }
 
-private fun createLevelSettingsWith(code: Int, goals: Goals): LevelSettings {
+private fun createLevelSettingsWith(code: Int, goals: List<Goal>): LevelSettings {
     return LevelSettings(
         code = code,
         name = "name",
@@ -159,7 +209,7 @@ private fun createLevelSettingsWith(code: Int, goals: Goals): LevelSettings {
             doors = "doors",
             walls = "walls",
         ),
-        endWhen = Condition(IntValueOperand(1), IntValueOperand(2), Operation.LTE),
+        endWhen = Condition(LongValueOperand(1), LongValueOperand(2), Operation.LTE),
         goals = goals
     )
 }

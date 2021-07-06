@@ -60,7 +60,12 @@ class LevelSystem(
         }
         playerCollisionDetector.update(state.mob, state)
         val remainingMana = state.mana.update()
-        if (conditionResolver.resolve(level.settings.endWhen, mapOf("mana" to remainingMana))) {
+        val statesMap = mapOf(
+            "mana" to remainingMana.toLong(),
+            "score" to state.score.value,
+            "ticks" to ticks,
+        )
+        if (conditionResolver.resolve(level.settings.endWhen, statesMap)) {
             gameOver(state.score.value)
         }
     }

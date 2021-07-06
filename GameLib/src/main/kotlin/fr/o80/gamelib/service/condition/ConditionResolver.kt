@@ -2,7 +2,7 @@ package fr.o80.gamelib.service.condition
 
 class ConditionResolver {
 
-    fun resolve(condition: Condition, params: Map<String, Int>) : Boolean {
+    fun resolve(condition: Condition, params: Map<String, Long>) : Boolean {
         val rightValue = condition.right.toValue(params)
         val leftValue = condition.left.toValue(params)
 

@@ -20,8 +20,8 @@ internal class ConditionParserTest {
         // Then
         assertEquals(
             Condition(
-                IntValueOperand(4),
-                IntValueOperand(5),
+                LongValueOperand(4),
+                LongValueOperand(5),
                 Operation.LTE
             ),
             condition
@@ -40,8 +40,8 @@ internal class ConditionParserTest {
         // Then
         assertEquals(
             Condition(
-                IntValueOperand(49),
-                IntValueOperand(-5),
+                LongValueOperand(49),
+                LongValueOperand(-5),
                 Operation.GTE
             ),
             condition
@@ -62,8 +62,8 @@ internal class ConditionParserTest {
         // Then
         assertEquals(
             Condition(
-                IntValueOperand(1),
-                IntValueOperand(0),
+                LongValueOperand(1),
+                LongValueOperand(0),
                 Operation.EQUAL
             ),
             condition1
@@ -85,8 +85,8 @@ internal class ConditionParserTest {
         // Then
         assertEquals(
             Condition(
-                IntValueOperand(1),
-                IntValueOperand(0),
+                LongValueOperand(1),
+                LongValueOperand(0),
                 Operation.DIFFERENT
             ),
             condition1

@@ -1,16 +1,14 @@
 package fr.o80.soulgame.scenes.level.loading
 
 import fr.o80.gamelib.service.condition.ConditionParser
-import fr.o80.gamelib.service.goal.GoalParser
-import fr.o80.gamelib.service.goal.Goals
+import fr.o80.gamelib.service.goal.Goal
 import fr.o80.soulgame.scenes.level.level.LevelSettings
 import fr.o80.soulgame.scenes.level.level.ManaConfig
 import fr.o80.soulgame.scenes.level.level.SpritesConfig
 
 class LevelHeaderReader(
     private val code: Int,
-    private val conditionParser: ConditionParser = ConditionParser(),
-    private val goalParser: GoalParser = GoalParser()
+    private val conditionParser: ConditionParser = ConditionParser()
 ) {
 
     private var levelName: String? = null
@@ -24,27 +22,23 @@ class LevelHeaderReader(
     private var spriteDoors: String? = null
     private var spriteWalls: String? = null
     private var endWhen: String? = null
-    private var goalMana: String? = null
-    private var goalScore: String? = null
-    private var goalTicks: String? = null
+    private val goalsString: MutableMap<String, String> = mutableMapOf()
 
     fun read(line: String) {
         val parts = line.trim().split('=', limit = 2)
-        when (parts[0]) {
-            "Level.Name" -> levelName = parts[1]
-            "Mana.GainAtPortal" -> manaGainAtPortal = parts[1]
-            "Mana.GainAtConversion" -> manaGainAtConversion = parts[1]
-            "Mana.Initial" -> manaInitial = parts[1]
-            "Mana.Loss" -> manaLoss = parts[1]
-            "Mana.Max" -> manaMax = parts[1]
-            "Font.Path" -> font = parts[1]
-            "Sprite.Characters" -> spriteCharacters = parts[1]
-            "Sprite.Doors" -> spriteDoors = parts[1]
-            "Sprite.Walls" -> spriteWalls = parts[1]
-            "EndWhen" -> endWhen = parts[1]
-            "Goal.Mana" -> goalMana = parts[1]
-            "Goal.Score" -> goalScore = parts[1]
-            "Goal.Ticks" -> goalTicks = parts[1]
+        when {
+            parts[0] == "Level.Name" -> levelName = parts[1]
+            parts[0] == "Mana.GainAtPortal" -> manaGainAtPortal = parts[1]
+            parts[0] == "Mana.GainAtConversion" -> manaGainAtConversion = parts[1]
+            parts[0] == "Mana.Initial" -> manaInitial = parts[1]
+            parts[0] == "Mana.Loss" -> manaLoss = parts[1]
+            parts[0] == "Mana.Max" -> manaMax = parts[1]
+            parts[0] == "Font.Path" -> font = parts[1]
+            parts[0] == "Sprite.Characters" -> spriteCharacters = parts[1]
+            parts[0] == "Sprite.Doors" -> spriteDoors = parts[1]
+            parts[0] == "Sprite.Walls" -> spriteWalls = parts[1]
+            parts[0] == "EndWhen" -> endWhen = parts[1]
+            parts[0].startsWith("Goal.") -> goalsString[parts[0].removePrefix("Goal.")] = parts[1]
             else -> throw MalformedLevelFile("Unknown parameter '${parts[0]}'")
         }
     }
@@ -67,19 +61,28 @@ class LevelHeaderReader(
                 walls = requireString(spriteWalls, "Sprite.Walls"),
             ),
             endWhen = conditionParser.parse(requireString(endWhen, "EndWhen")),
-            goals = Goals(
-                mana = goalParser.parse(goalMana),
-                score = goalParser.parse(goalScore),
-                ticks = goalParser.parse(goalTicks)
-            )
+            goals = goalsString.requireNotEmpty("Goal.").toGoals()
         )
     }
 
-    private fun requireString(value: String?, name: String): String {
-        return value ?: throw MalformedLevelFile("$name is not set!")
+    private fun Map<String, String>.toGoals(): List<Goal> {
+        return entries.map { (name, rule) ->
+            Goal(
+                name = name,
+                condition = conditionParser.parse(rule)
+            )
+        }
     }
+}
 
-    private fun requireInt(value: String?, name: String): Int {
-        return value?.toIntOrNull() ?: throw MalformedLevelFile("$name is not set, or not a number!")
-    }
+private fun requireString(value: String?, name: String): String {
+    return value ?: throw MalformedLevelFile("$name is not set!")
+}
+
+private fun requireInt(value: String?, name: String): Int {
+    return value?.toIntOrNull() ?: throw MalformedLevelFile("$name is not set, or not a number!")
+}
+
+private fun <K, V> Map<K, V>.requireNotEmpty(name: String): Map<K, V> {
+    return this.takeIf { it.isNotEmpty() } ?: throw MalformedLevelFile("$name is not set!")
 }

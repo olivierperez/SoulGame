@@ -53,7 +53,7 @@ private fun StringBuilder.toOperand(): Operand {
     val value = this.toString()
 
     if (integerRegex.matches(value)) {
-        return IntValueOperand(value.toInt())
+        return LongValueOperand(value.toLong())
     }
 
     parameterRegex.find(value)?.let {

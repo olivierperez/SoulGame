@@ -1,7 +1,7 @@
 package fr.o80.soulgame.scenes.level.level
 
 import fr.o80.gamelib.service.condition.Condition
-import fr.o80.gamelib.service.goal.Goals
+import fr.o80.gamelib.service.goal.Goal
 import fr.o80.soulgame.scenes.level.entity.Entity
 import kotlin.math.abs
 
@@ -17,7 +17,7 @@ class LevelSettings(
     val font: String,
     val sprite: SpritesConfig,
     val endWhen: Condition,
-    val goals: Goals
+    val goals: List<Goal>
 )
 
 class ManaConfig(

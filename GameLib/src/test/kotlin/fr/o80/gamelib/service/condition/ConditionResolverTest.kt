@@ -43,8 +43,8 @@ internal class ConditionResolverTest {
             Operation.LTE
         )
         val params = mapOf(
-            "Blackazu" to 8,
-            "tinybeak" to 12
+            "Blackazu" to 8L,
+            "tinybeak" to 12L
         )
 
         // When
@@ -62,18 +62,18 @@ internal class ConditionResolverTest {
     ) {
         // Given
         val condition1 = Condition(
-            IntValueOperand(4),
-            IntValueOperand(5),
+            LongValueOperand(4),
+            LongValueOperand(5),
             operation
         )
         val condition2 = Condition(
-            IntValueOperand(8),
-            IntValueOperand(8),
+            LongValueOperand(8),
+            LongValueOperand(8),
             operation
         )
         val condition3 = Condition(
-            IntValueOperand(8),
-            IntValueOperand(7),
+            LongValueOperand(8),
+            LongValueOperand(7),
             operation
         )
 
