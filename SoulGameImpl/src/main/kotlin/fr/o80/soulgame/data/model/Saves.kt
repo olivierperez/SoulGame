@@ -10,9 +10,10 @@ data class Saves(
 @Serializable
 data class LevelSave(
     val highScore: Long,
-    val completedGoals: Set<String>
+    val completedGoals: Set<String>,
+    val unlocked: Boolean
 ) {
     companion object {
-        fun empty(): LevelSave = LevelSave(0L, emptySet())
+        fun empty(unlocked: Boolean = false): LevelSave = LevelSave(0L, emptySet(), unlocked)
     }
 }

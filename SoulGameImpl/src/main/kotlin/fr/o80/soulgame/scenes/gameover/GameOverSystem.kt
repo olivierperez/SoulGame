@@ -6,6 +6,7 @@ import fr.o80.gamelib.service.goal.Goal
 import fr.o80.soulgame.data.InFileSavesRepository
 import fr.o80.soulgame.data.SavesRepository
 import fr.o80.soulgame.data.model.LevelSave
+import fr.o80.soulgame.data.model.Saves
 import kotlin.math.min
 
 class GameOverSystem(
@@ -37,14 +38,29 @@ class GameOverSystem(
 
             val newLevelSave = LevelSave(
                 highScore = newBestScore,
-                completedGoals = newCompletedGoals
+                completedGoals = newCompletedGoals,
+                unlocked = levelSave.unlocked
             )
 
             saves.levels[levelCode] = newLevelSave
+            saves.unlockNextLevel(newCompletedGoals)
         }
     }
 
     private fun List<Goal>.filterSucceededGoals(levelData: Map<String, Long>): List<String> =
         this.filter { (_, condition: Condition) -> conditionResolver.resolve(condition, levelData) }
             .map(Goal::name)
+
+    private fun Saves.unlockNextLevel(newCompletedGoals: Set<String>) {
+        val levelCode = info.levelSettings.code
+        if (newCompletedGoals.size == info.levelSettings.goals.size) {
+            val nextLevelSave =
+                this.levels[levelCode + 1]?.copy(unlocked = true) ?: LevelSave.empty(unlocked = true)
+            this.levels[levelCode + 1] = nextLevelSave
+
+            this.levels.compute(levelCode + 1) { _, value ->
+                value?.copy(unlocked = true) ?: LevelSave.empty(unlocked = true)
+            }
+        }
+    }
 }
