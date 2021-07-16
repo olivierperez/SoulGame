@@ -19,6 +19,7 @@ import fr.o80.soulgame.scenes.greenBackground
 import fr.o80.soulgame.scenes.level.PlayingState.COUNTDOWN
 import fr.o80.soulgame.scenes.level.PlayingState.PAUSE
 import fr.o80.soulgame.scenes.level.PlayingState.PLAYING
+import fr.o80.soulgame.scenes.level.countdown.CountDownRenderer
 import fr.o80.soulgame.scenes.level.entity.Knight
 import fr.o80.soulgame.scenes.level.entity.Soul
 import fr.o80.soulgame.scenes.level.level.Level
@@ -126,7 +127,7 @@ class LevelScene(
             }
             .build()
         darkOverlay = PauseOverlayRenderer(window)
-        countDownRenderer = CountDownRenderer(window, services.messages, level.settings.font)
+        countDownRenderer = CountDownRenderer(window, services.messages, level.settings.goals, level.settings.font)
         countDownRenderer.open()
     }
 

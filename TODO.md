@@ -30,7 +30,7 @@
   - Mais un autre niveau pourrait se terminer quand le joueur a atteint un certain montant de mana
   - `EndWhen=[mana]<=0` ou `EndWhen=[mana]>=5000`
 
-- [ ] Débloquer un niveau uniquement quand les objectifs du niveau précédent sont validés
+- [x] Débloquer un niveau uniquement quand les objectifs du niveau précédent sont validés
     - objectifs
         - plus de X convertis
         - moins de Y convertis
@@ -42,7 +42,7 @@
     - [x] parser les headers
     - [x] mémoriser les objectifs déjà accomplis
     - [x] rendre non-clickable les levels non-débloqués
-    - [ ] afficher quelque part l'objectif à atteindre
+    - [x] afficher quelque part l'objectif à atteindre
 
 - [ ] Avoir des niveaux de dimension différentes (pas que 16 x 12)
 

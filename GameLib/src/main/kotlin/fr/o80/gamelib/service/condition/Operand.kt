@@ -4,7 +4,7 @@ sealed interface Operand {
     fun toValue(params: Map<String, Long>): Long
 }
 
-data class LongValueOperand(private val value: Long): Operand {
+data class LongValueOperand(val value: Long): Operand {
     override fun toValue(params: Map<String, Long>): Long {
         return value
     }
