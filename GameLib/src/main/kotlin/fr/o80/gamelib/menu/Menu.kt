@@ -48,9 +48,9 @@ class Menu private constructor(
     private fun handleMove(x: Double, y: Double) {
         views.forEach { view ->
             if (Vertex2d(x, y) in view.bounds) {
-                view.state = ViewState.HOVER
+                view.onHover()
             } else {
-                view.state = ViewState.NORMAL
+                view.onLeave()
             }
         }
     }

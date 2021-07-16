@@ -41,8 +41,8 @@
       `Objectif.Ticks=min(200)`
     - [x] parser les headers
     - [x] mémoriser les objectifs déjà accomplis
-    - [ ] rendre non-clickable les levels non-débloqués
-    - [ ] afficher quelque part l'objectif à atteindre ???
+    - [x] rendre non-clickable les levels non-débloqués
+    - [ ] afficher quelque part l'objectif à atteindre
 
 - [ ] Avoir des niveaux de dimension différentes (pas que 16 x 12)
 

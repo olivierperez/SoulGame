@@ -103,7 +103,8 @@ internal class GameOverIntegrationTest {
                 mutableMapOf(
                     8 to LevelSave(
                         55L,
-                        setOf("goal1")
+                        setOf("goal1"),
+                        false
                     )
                 )
             )
@@ -146,7 +147,8 @@ internal class GameOverIntegrationTest {
                 mutableMapOf(
                     9 to LevelSave(
                         13L,
-                        setOf(scoreGoalName)
+                        setOf(scoreGoalName),
+                        false
                     )
                 )
             )
@@ -189,6 +191,10 @@ class TestRepository(val saves: Saves) : SavesRepository {
 
     override fun getHighScore(levelCode: Int): Long {
         error("High score should not be called for this tests suite!")
+    }
+
+    override fun isUnlocked(levelCode: Int): Boolean {
+        error("Unlocked should not be called for this tests suite!")
     }
 }
 

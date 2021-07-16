@@ -15,7 +15,7 @@ class MenuLayout(
     val views: MutableList<MenuView> = mutableListOf()
 
     fun button(text: String, onClick: () -> Unit) {
-        views += Button(text, onClick)
+        views += Button(text, true, onClick)
     }
 
     fun text(text: String) {

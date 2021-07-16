@@ -21,4 +21,8 @@ class InFileSavesRepository(
     override fun getHighScore(levelCode: Int): Long {
         return storage.get()?.levels?.get(levelCode)?.highScore ?: 0L
     }
+
+    override fun isUnlocked(levelCode: Int): Boolean {
+        return storage.get()?.levels?.get(levelCode)?.unlocked ?: false
+    }
 }

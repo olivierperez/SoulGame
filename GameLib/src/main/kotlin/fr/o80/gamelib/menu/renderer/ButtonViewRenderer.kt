@@ -58,7 +58,11 @@ class ButtonViewRenderer(
                 button.bounds.top + button.verticalMargin + button.verticalPadding,
                 .0
             )
-            color(1f, 1f, 1f)
+            if (button.state == ViewState.DISABLED) {
+                color(1f, 1f, 1f, .5f)
+            } else {
+                color(1f, 1f, 1f)
+            }
             textRenderer.render(button.text)
         }
     }

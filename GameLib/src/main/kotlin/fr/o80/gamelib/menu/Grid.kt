@@ -40,6 +40,7 @@ class Grid private constructor(
 
     private fun handleClick(x: Double, y: Double) {
         views.at(x, y)
+            ?.takeIf { it.state != ViewState.DISABLED }
             ?.let { it as? Clickable }
             ?.onClick()
     }
@@ -47,9 +48,9 @@ class Grid private constructor(
     private fun handleMove(x: Double, y: Double) {
         views.forEach { view ->
             if (Vertex2d(x, y) in view.bounds) {
-                view.state = ViewState.HOVER
+                view.onHover()
             } else {
-                view.state = ViewState.NORMAL
+                view.onLeave()
             }
         }
     }

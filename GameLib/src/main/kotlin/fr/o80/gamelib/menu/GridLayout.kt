@@ -14,12 +14,12 @@ class GridLayout {
 
     private var mainButton: Button? = null
 
-    fun button(text: String, onClick: () -> Unit) {
-        _views += Button(text, onClick)
+    fun button(text: String, enabled: Boolean, onClick: () -> Unit) {
+        _views += Button(text, enabled, onClick)
     }
 
     fun mainButton(text: String, onClick: () -> Unit) {
-        mainButton = Button(text, onClick)
+        mainButton = Button(text, true, onClick)
     }
 
     fun computeBounds(

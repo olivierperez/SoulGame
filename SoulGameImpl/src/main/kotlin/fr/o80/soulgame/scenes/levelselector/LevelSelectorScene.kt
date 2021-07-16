@@ -59,9 +59,9 @@ class LevelSelectorScene(
                 )
             )
             .andLayout {
-                system.forEachLevel { levelName ->
-                    button(levelName.toString()) {
-                        sceneManager.openLevel(levelName)
+                system.forEachLevel { level ->
+                    button(level.code.toString(), enabled = level.selectable) {
+                        sceneManager.openLevel(level.code)
                     }
                 }
                 mainButton(services.messages["level_selector.back"]) {
