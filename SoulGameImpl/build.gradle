@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'fr.o80.game'
-version '0.7'
+version '0.8'
 
 jar {
     manifest {
