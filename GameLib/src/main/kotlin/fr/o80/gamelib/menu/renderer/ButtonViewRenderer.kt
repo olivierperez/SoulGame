@@ -14,6 +14,8 @@ class ButtonViewRenderer(
     private val drawDebug: Boolean = false
 ) : ViewRenderer {
 
+    private val disabledAlpha = .3f
+
     private val textRenderer: TextRenderer = TextRenderer(
         fontPath = resources.font,
         margin = 0f,
@@ -59,7 +61,7 @@ class ButtonViewRenderer(
                 .0
             )
             if (button.state == ViewState.DISABLED) {
-                color(1f, 1f, 1f, .5f)
+                color(1f, 1f, 1f, disabledAlpha)
             } else {
                 color(1f, 1f, 1f)
             }
@@ -80,14 +82,20 @@ class ButtonViewRenderer(
             }
         }
 
-        color(1f, 1f, 1f)
+        if (button.state == ViewState.DISABLED) {
+            color(1f, 1f, 1f, disabledAlpha)
+        } else {
+            color(1f, 1f, 1f)
+        }
         lineWidth(2f)
-        rect(
-            button.bounds.left,
-            button.bounds.top,
-            button.bounds.right,
-            button.bounds.bottom
-        )
+        alpha {
+            rect(
+                button.bounds.left,
+                button.bounds.top,
+                button.bounds.right,
+                button.bounds.bottom
+            )
+        }
     }
 
 }
