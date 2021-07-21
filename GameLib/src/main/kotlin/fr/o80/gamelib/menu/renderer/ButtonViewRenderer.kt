@@ -55,11 +55,14 @@ class ButtonViewRenderer(
 
     private fun Draw.drawText(button: Button) {
         pushed {
+            val textWidth = textRenderer.getStringWidth(button.text)
+            val textHeight = textRenderer.getStringHeight(button.text)
             translate(
-                button.bounds.left + button.horizontalMargin + button.horizontalPadding,
-                button.bounds.top + button.verticalMargin + button.verticalPadding,
+                button.bounds.left + button.bounds.width / 2 - textWidth / 2,
+                button.bounds.top + button.bounds.height / 2 - textHeight / 2,
                 .0
             )
+
             if (button.state == ViewState.DISABLED) {
                 color(1f, 1f, 1f, disabledAlpha)
             } else {

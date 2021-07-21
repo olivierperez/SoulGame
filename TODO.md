@@ -56,4 +56,4 @@
     
 - [ ] Corriger l'alignement des éléments des menus
 
-- [ ] Attention au "1" codé en dur dans MainScene -> sceneManager.openLevel("1")
+- [ ] Attention au "sceneManager.openLevel(1)" codé en dur dans MainScene -> sceneManager.openLevel("1")
