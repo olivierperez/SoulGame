@@ -10,8 +10,25 @@ class LevelCamera(
 ) {
 
     fun update(levelState: LevelState) {
-        adjustHorizontal(levelState.knight.x)
-        adjustVertical(levelState.knight.y)
+        if (camera.width < levelSize.x) {
+            adjustHorizontal(levelState.knight.x)
+        } else {
+            centerX()
+        }
+
+        if (camera.height < levelSize.y) {
+            adjustVertical(levelState.knight.y)
+        } else {
+            centerY()
+        }
+    }
+
+    private fun centerX() {
+        camera.centerX(levelSize.x / 2)
+    }
+
+    private fun centerY() {
+        camera.centerY(levelSize.y / 2)
     }
 
     private fun adjustHorizontal(knightX: Float) {

@@ -82,7 +82,7 @@ class LevelScene(
         system = LevelSystem(knight, level, tileSize, resources, ::gameOver)
         system.open(keyPipeline)
         levelState = LevelState(level, mob, knight, score, mana, COUNTDOWN)
-        camera = Camera(window.width, window.height)
+        camera = Camera(window.width.toDouble(), window.height.toDouble())
         levelCamera = LevelCamera(
             camera,
             levelSize = Vertex2d(
@@ -168,6 +168,7 @@ class LevelScene(
             }
             COUNTDOWN -> {
                 countDownRenderer.update(levelState)
+                levelCamera.update(levelState)
             }
         }
     }

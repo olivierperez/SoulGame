@@ -4,8 +4,8 @@ import fr.o80.gamelib.dsl.Draw
 import fr.o80.gamelib.dsl.draw
 
 class Camera(
-    private val width: Int,
-    private val height: Int
+    val width: Double,
+    val height: Double
 ) {
 
     private var x: Double = .0
@@ -38,5 +38,13 @@ class Camera(
 
     fun translateY(translation: Double) {
         this.y += translation
+    }
+
+    fun centerX(center: Double) {
+        this.x = center - width / 2
+    }
+
+    fun centerY(center: Double) {
+        this.y = center - height / 2
     }
 }
