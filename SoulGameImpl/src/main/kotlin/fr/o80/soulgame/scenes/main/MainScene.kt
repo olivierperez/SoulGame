@@ -14,6 +14,7 @@ import fr.o80.soulgame.MENU_TITLE_FONT
 import fr.o80.soulgame.MENU_TITLE_SIZE
 import fr.o80.soulgame.SoulCursorManager
 import fr.o80.soulgame.SoulSceneManager
+import fr.o80.soulgame.data.levels.LevelsLister
 import fr.o80.soulgame.resourcePath
 import fr.o80.soulgame.scenes.greenBackground
 
@@ -23,6 +24,8 @@ class MainScene(
 
     private lateinit var menu: Menu
 
+    private val levelLister = LevelsLister()
+
     override fun open(
         window: Window,
         services: Services,
@@ -31,6 +34,11 @@ class MainScene(
         mouseMovePipeline: MouseMovePipeline
     ) {
         services.cursorManager.setCursor(SoulCursorManager.POINTER)
+
+        val lastSelectableLevel = levelLister.levels.lastOrNull { it.selectable }?.code ?: 1
+        val startMessage =
+            if (lastSelectableLevel == 1) services.messages["main.start"]
+            else services.messages["main.continue"]
 
         menu = Menu.MenuBuilder()
             .of(
@@ -56,8 +64,8 @@ class MainScene(
             )
             .andLayout {
                 title("Soul Game", verticalMargin = 50.0)
-                button(services.messages["main.start"]) {
-                    sceneManager.openLevel(1)
+                button(startMessage) {
+                    sceneManager.openLevel(lastSelectableLevel)
                 }
                 button(services.messages["main.select_level"]) {
                     sceneManager.openLevelSelector()
