@@ -44,15 +44,15 @@
     - [x] rendre non-clickable les levels non-débloqués
     - [x] afficher quelque part l'objectif à atteindre
 
-- [ ] Avoir des niveaux de dimension différentes (pas que 16 x 12)
+- [x] Avoir des niveaux de dimension différentes (pas que 16 x 12)
 
-- [ ] Quand on convertit une âme
-    - Jouer un petit son
-    - Afficher des particules ?
-    
-- [ ] Quand une âme convertie passe la porte
-    - Jouer un petit son
-    - Afficher des particules !
+- [ ] Jouer un petit son
+  - Quand on convertit une âme
+  - Quand une âme convertie passe la porte
+
+- [ ] Afficher des particules
+  - Quand on convertit une âme
+  - Quand une âme convertie passe la porte ?
     
 - [ ] Corriger l'alignement des éléments des menus
 

@@ -110,9 +110,7 @@ class GameLoop(
 
         GL.createCapabilities()
 
-        GG.glMatrixMode(GG.GL_PROJECTION)
-
-        ortho(Ortho.TOP_LEFT, GG.GL_PROJECTION)
+        ortho(Ortho.TOP_LEFT, GG.GL_MODELVIEW)
         GG.glBlendFunc(GG.GL_SRC_ALPHA, GG.GL_ONE_MINUS_SRC_ALPHA)
     }
 
@@ -122,16 +120,16 @@ class GameLoop(
 
         when (ortho) {
             Ortho.TOP_LEFT -> {
-                GG.glOrtho(0.0, width, height, 0.0, 0.0, 1.0)
                 GG.glMatrixMode(mode)
+                GG.glOrtho(0.0, width, height, 0.0, 0.0, 1.0)
             }
             Ortho.BOTTOM_CENTER -> {
-                GG.glOrtho(-width / 2, width / 2, 0.0, height, 0.0, 1.0)
                 GG.glMatrixMode(mode)
+                GG.glOrtho(-width / 2, width / 2, 0.0, height, 0.0, 1.0)
             }
             Ortho.CENTER -> {
-                GG.glOrtho(-width / 2, width / 2, -height / 2, height / 2, 0.0, 1.0)
                 GG.glMatrixMode(mode)
+                GG.glOrtho(-width / 2, width / 2, -height / 2, height / 2, 0.0, 1.0)
             }
         }
     }

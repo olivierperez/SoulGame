@@ -2,6 +2,8 @@ package fr.o80.soulgame.scenes.level
 
 import fr.o80.gamelib.Be
 import fr.o80.gamelib.Scene
+import fr.o80.gamelib.camera.Camera
+import fr.o80.gamelib.dsl.Vertex2d
 import fr.o80.gamelib.loop.KeyPipeline
 import fr.o80.gamelib.loop.MouseButtonPipeline
 import fr.o80.gamelib.loop.MouseMovePipeline
@@ -45,6 +47,10 @@ class LevelScene(
     private lateinit var resources: LevelResources
     private lateinit var system: LevelSystem
     private lateinit var renderer: LevelRenderer
+    private lateinit var hud: HUD
+
+    private lateinit var camera: Camera
+    private lateinit var levelCamera: LevelCamera
 
     private lateinit var pauseMenu: Menu
     private lateinit var darkOverlay: PauseOverlayRenderer
@@ -69,11 +75,22 @@ class LevelScene(
         )
         resources = LevelResources(level.settings.sprite)
         resources.open()
-        renderer = LevelRenderer(level, resources, window, services.messages, tileSize)
+        renderer = LevelRenderer(level, resources, tileSize)
         renderer.open()
+        hud = HUD(level.settings, window, services.messages)
+        hud.open()
         system = LevelSystem(knight, level, tileSize, resources, ::gameOver)
         system.open(keyPipeline)
         levelState = LevelState(level, mob, knight, score, mana, COUNTDOWN)
+        camera = Camera(window.width, window.height)
+        levelCamera = LevelCamera(
+            camera,
+            levelSize = Vertex2d(
+                tileSize * level.terrain.width.toDouble(),
+                tileSize * level.terrain.height.toDouble()
+            ),
+            margin = tileSize * 5.0
+        )
 
         keyPipeline.onKey(GLFW.GLFW_KEY_ESCAPE, GLFW.GLFW_PRESS) {
             levelState.playingState = when (levelState.playingState) {
@@ -134,6 +151,7 @@ class LevelScene(
     override fun close() {
         resources.close()
         renderer.close()
+        hud.close()
         pauseMenu.close()
         countDownRenderer.close()
     }
@@ -146,6 +164,7 @@ class LevelScene(
             PLAYING -> {
                 renderer.update()
                 system.update(levelState)
+                levelCamera.update(levelState)
             }
             COUNTDOWN -> {
                 countDownRenderer.update(levelState)
@@ -156,15 +175,23 @@ class LevelScene(
     override suspend fun render() {
         Be exhaustive when (levelState.playingState) {
             PAUSE -> {
-                renderer.render(levelState)
+                camera.render {
+                    renderer.render(levelState)
+                }
                 darkOverlay.render()
                 pauseMenu.render()
             }
             PLAYING -> {
-                renderer.render(levelState)
+                camera.render {
+                    renderer.render(levelState)
+                }
+                hud.render(levelState.score, levelState.mana)
             }
             COUNTDOWN -> {
-                renderer.render(levelState)
+                camera.render {
+                    renderer.render(levelState)
+                }
+                hud.render(levelState.score, levelState.mana)
                 darkOverlay.render()
                 countDownRenderer.render()
             }

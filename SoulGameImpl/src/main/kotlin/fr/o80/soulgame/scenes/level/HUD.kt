@@ -1,18 +1,28 @@
-package fr.o80.soulgame.scenes.level.drawing
+package fr.o80.soulgame.scenes.level
 
 import fr.o80.gamelib.dsl.Draw
 import fr.o80.gamelib.dsl.draw
 import fr.o80.gamelib.loop.Window
 import fr.o80.gamelib.service.i18n.Messages
 import fr.o80.gamelib.text.TextRenderer
-import fr.o80.soulgame.scenes.level.Score
-import fr.o80.soulgame.scenes.level.Mana
+import fr.o80.soulgame.resourcePath
+import fr.o80.soulgame.scenes.level.level.LevelSettings
 
 class HUD(
-    private val textRenderer: TextRenderer,
+    settings: LevelSettings,
     private val window: Window,
     private val messages: Messages
 ) {
+
+    private val textRenderer: TextRenderer = TextRenderer(resourcePath(settings.font))
+
+    fun open() {
+        textRenderer.init()
+    }
+
+    fun close() {
+        textRenderer.close()
+    }
 
     fun render(score: Score, mana: Mana) {
         draw {
